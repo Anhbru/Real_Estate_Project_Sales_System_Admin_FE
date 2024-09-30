@@ -6,10 +6,10 @@ function FooterAdmin() {
         <div>
             <footer id="footer" className="footer">
                 <div className="copyright">
-                    © Bản quyền <strong><span>HandBag Website</span></strong>. Đã đăng ký Bản quyền
+                    © Bản quyền <strong><span>RealEstate Website</span></strong>. Đã đăng ký Bản quyền
                 </div>
                 <div className="credits">
-                    Thiết kế bởi <Link to="#">HandBag Developer Team</Link>
+                    Thiết kế bởi <Link to="#">RealEstate Developer Team</Link>
                 </div>
             </footer>
         </div>

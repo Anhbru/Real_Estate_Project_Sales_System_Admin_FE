@@ -25,105 +25,95 @@ function Login() {
                 sessionStorage.setItem("role", res.data.userRole);
                 alert(`Welcome ${res.data.username} !`);
                 console.log(res.data.userRole);
-                if (res.data.userRole === 'ADMIN') {
-                    window.location.href = '/admin/dashboard';
-                } else {
-                    window.location.href = '/';
-                }
+                window.location.href = '/admin/dashboard';
             })
             .catch((err) => {
                 console.log(err.response.data);
                 alert(`Login failed! ` + err.response.data.message);
-                $('#btnLogin').prop('disabled', false).text('Đng nhập');
+                $('#btnLogin').prop('disabled', false).text('Đăng nhập');
             })
     };
+
+    function toggleIcon() {
+        let class_ = 'bi-eye-slash-fill';
+
+        let password = $('#password');
+        if (password.attr('type') === 'password') {
+            password.attr('type', 'text');
+            $('#content_').text('Hide')
+            $('#icon_hide_').removeClass(class_)
+        } else {
+            password.attr('type', 'password');
+            $('#icon_hide_').addClass(class_)
+            $('#content_').text('Show')
+        }
+    }
+
+    function checkInput() {
+        let is_valid = true;
+
+        let username = $('#username').val();
+        let password = $('#password').val();
+
+        if (username === null || username === '') {
+            is_valid = false;
+        }
+
+        if (password === null || password === '') {
+            is_valid = false;
+        }
+
+        if (is_valid) {
+            $('#btnLogin').removeClass('disabled').attr('type', 'submit')
+        } else {
+            $('#btnLogin').addClass('disabled').attr('type', 'button')
+        }
+    }
 
     return (
         <>
             <Css/>
-            <main>
-                <div className="container">
-                    <section
-                        className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-                        <div className="container">
-                            <div className="row justify-content-center">
-                                <div
-                                    className="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
-                                    <div className="d-flex justify-content-center py-4">
-                                        <a href="/" className="logo d-flex align-items-center w-auto">
-                                            <img src="/assets/admin/img/logo.png" alt=""></img>
-                                            <span className="d-none d-lg-block">HandBag Website</span>
-                                        </a>
-                                    </div>
-
-                                    <div className="card mb-3">
-
-                                        <div className="card-body">
-
-                                            <div className="pt-4 pb-2">
-                                                <h5 className="card-title text-center pb-0 fs-4">Đăng nhập vào tài khoản
-                                                    của bạn</h5>
-                                                <p className="text-center small">Nhập tên người dùng và mật khẩu của bạn
-                                                    để
-                                                    đăng nhập</p>
-                                            </div>
-
-                                            <Form className="row g-3 needs-validation" onFinish={onFinish}>
-                                                <div className="col-12">
-                                                    <label htmlFor="yourUsername" className="form-label">Tên đăng
-                                                        nhập</label>
-                                                    <input className="form-control" id="yourUsername"
-                                                           type="text" placeholder="Enter your username" required/>
-                                                    <div className="invalid-feedback">Vui lòng điền tên đăng nhập.
-                                                    </div>
-                                                </div>
-
-                                                <div className="col-12">
-                                                    <label htmlFor="yourPassword" className="form-label">Mật
-                                                        khẩu</label>
-                                                    <input required className="form-control" id="yourPassword"
-                                                           type="password" placeholder="Enter your password"/>
-                                                    <div className="invalid-feedback">Vui lòng nhập mật khẩu của bạn!
-                                                    </div>
-                                                </div>
-
-                                                <div
-                                                    className="col-12 d-flex justify-content-between align-items-center">
-                                                    <div className="form-check">
-                                                        <input className="form-check-input" type="checkbox"
-                                                               name="remember"
-                                                               value="true" id="rememberMe"></input>
-                                                        <label className="form-check-label" htmlFor="rememberMe">Ghi nhớ
-                                                            đăng nhập</label>
-                                                    </div>
-                                                    <a href="/forgot-password">Quên mật khẩu?</a>
-                                                </div>
-                                                <div className="col-12">
-                                                    <button id="btnLogin" className="btn btn-primary w-100"
-                                                            type="submit">Đăng nhập
-                                                    </button>
-                                                </div>
-                                                <div className="col-12">
-                                                    <p className="small mb-0">Bạn chưa có tài khoản?
-                                                        <a href="/register">Tạo tài khoản ngay</a>
-                                                    </p>
-                                                </div>
-                                            </Form>
-                                        </div>
-                                    </div>
-
-                                    <div className="credits">
-                                        Thiết kế bởi <Link to="#">HandBag Developer Team</Link>
-                                    </div>
-
-                                </div>
+            <main className="main_auth">
+                <section className="row">
+                    <div className="col-md-6">
+                        <img src="/assets/img/bg-auth.png" alt="Background Image" className="image_bg"/>
+                    </div>
+                    <div className="login_content d-flex align-items-center justify-content-start col-md-6">
+                        <Form className="login_form_">
+                            <div className="login_title_">
+                                Sign in
                             </div>
-                        </div>
-
-                    </section>
-
-                </div>
+                            <div className="form_group_">
+                                <label className="label_input_" htmlFor="username">User name or email address</label>
+                                <input type="text" className="form_input_" id="username" name="username"
+                                       onInput={checkInput} placeholder="Nhập username or email" required/>
+                            </div>
+                            <div className="form_group_">
+                                <div className="d-flex justify-content-between align-items-center mt-3">
+                                    <label className="label_input_" htmlFor="password">Your password</label>
+                                    <span className="hide_or_show_" onClick={toggleIcon}>
+                                        <i id="icon_hide_" className="bi bi-eye-fill bi-eye-slash-fill me-2"></i>
+                                        <span id="content_">Show</span>
+                                    </span>
+                                </div>
+                                <input type="password" className="form_input_" id="password" name="password"
+                                       onInput={checkInput} placeholder="Nhập password" required/>
+                            </div>
+                            <p className="d-flex align-items-center justify-content-end">
+                                <a href="#" className="forgot_password">Forget your password</a>
+                            </p>
+                            <button id="btnLogin" className="btn_login disabled" type="button">Sign in</button>
+                            <div className="page_other">OR</div>
+                            <a href="#" className="btn_login_google_">
+                                <img src="/assets/img/icon_google.png" alt="icon logo google"/>Continue with Google
+                            </a>
+                            <div className="col-12">
+                                <p className="dont_account_ mb-0">Don’t have an acount? <a href="#">Sign
+                                    up</a></p>
+                            </div>
+                        </Form>
+                    </div>
+                </section>
             </main>
             <Script/>
         </>
