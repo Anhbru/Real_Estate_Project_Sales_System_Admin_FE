@@ -24,7 +24,7 @@ function Login() {
                 // sessionStorage.setItem("username", res.data.username);
                 // sessionStorage.setItem("role", res.data.userRole);
                 // alert(`Welcome ${res.data.username} !`);
-                window.location.href = '/dashboard';
+                window.location.href = '/admin/dashboard';
             })
             .catch((err) => {
                 console.log(err.response.data);

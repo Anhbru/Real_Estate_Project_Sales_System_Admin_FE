@@ -17,7 +17,7 @@ function Header() {
     }
 
     const login = async () => {
-        if (!tokenUser) {
+        if (tokenUser) {
             navigate("/not-found")
         }
     };

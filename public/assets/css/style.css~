@@ -1017,7 +1017,6 @@ p {
     z-index: 999;
     background-color: #ffffff;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
 }
 
 /*--------------------------------------------------------------

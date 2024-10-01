@@ -11,7 +11,7 @@ function Sidebar() {
                 <ul className="sidebar-nav" id="sidebar-nav">
 
                     <li className="nav-item">
-                        <a className="nav-link collapsed active" href="/dashboard">
+                        <a className="nav-link collapsed" href="/dashboard">
                             <img className="icon_sidebar_" src="/assets/icon/overview_icon.png" alt=""/>
                             <span>Overview</span>
                         </a>
