@@ -19,7 +19,7 @@ function Login() {
         }
         await authService.loginAccount(data)
             .then((res) => {
-                sessionStorage.setItem("accessToken", res.data);
+                sessionStorage.setItem("accessToken", res.data.token);
                 // sessionStorage.setItem("id", res.data.userId);
                 // sessionStorage.setItem("username", res.data.username);
                 // sessionStorage.setItem("role", res.data.userRole);
