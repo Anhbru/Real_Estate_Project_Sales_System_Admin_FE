@@ -36,6 +36,11 @@ function Sidebar() {
             '/properties/detail/',
         ]
 
+        let array_openforsale = ['/opensales/list',
+             '/opensales/create', 
+             '/opensales/update/', 
+             '/opensales/detail/'];
+
         let key = '';
 
         if (array_project.some(route => path_name.startsWith(route))) {
@@ -50,6 +55,10 @@ function Sidebar() {
             key = 'main';
         }
 
+        if (array_openforsale.some(route => path_name.startsWith(route))) {
+            key = 'opensale';
+        }
+
         $('#sidebar-nav .nav-link').removeClass('active');
 
         switch (key) {
@@ -59,9 +68,13 @@ function Sidebar() {
             case "property":
                 $('a[data-key="property"]').addClass('active');
                 break;
+            case "openforsale":
+                $('a[data-key="opensale"]').addClass('active');
+                break;
             default:
                 $('a[data-key="main"]').addClass('active');
                 break;
+                
         }
 
         setLoading(false);
@@ -99,7 +112,7 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link collapsed" href="#">
+                        <a data-key="opensale" className="nav-link collapsed" href="/opensales/list">
                             <img className="icon_sidebar_" src="/assets/icon/open_sale_icon.png" alt=""/>
                             <span>Opening For Sale</span>
                         </a>

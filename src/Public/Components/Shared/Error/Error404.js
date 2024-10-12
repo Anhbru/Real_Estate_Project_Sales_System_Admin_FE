@@ -15,7 +15,7 @@ function NotFound() {
                             className="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
                             <h1>404</h1>
                             <h2>Trang bạn đang tìm kiếm không tồn tại.</h2>
-                            <Link className="btn" to="/">>Quay lại trang chủ</Link>
+                            <Link className="btn" to="/">Quay lại trang chủ</Link>
                             <img src="/assets/admin/img/not-found.svg" className="img-fluid py-5" alt="Page Not Found"/>
                         </section>
                     </div>
