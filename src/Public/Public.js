@@ -14,7 +14,9 @@ import PropertyList from './Components/AdminApp/Properties/PropertyList/Property
 import PropertyDetail from './Components/AdminApp/Properties/PropertyDetail/PropertyDetail';
 import PropertyCreate from './Components/AdminApp/Properties/PropertyCreate/PropertyCreate';
 import PropertyUpdate from './Components/AdminApp/Properties/PropertyUpdate/PropertyUpdate';
-
+/* OpenForSale Page */
+import OpenForSaleList from './Components/AdminApp/OpenForSales/OpenForSaleList/OpenForSaleList';
+import OpenForSaleCreate from './Components/AdminApp/OpenForSales/OpenForSaleCreate/OpenForSaleCreate';
 /* Main Page */
 function Public() {
     return (
@@ -34,6 +36,9 @@ function Public() {
                 <Route path='/properties/detail/:id' element={<PropertyDetail/>}/>
                 <Route path='/properties/create' element={<PropertyCreate/>}/>
                 <Route path='/properties/update/:id' element={<PropertyUpdate/>}/>
+                {/* OpenForSales Page */}
+                <Route path='/opensales/list' element={<OpenForSaleList/>} />
+                <Route path='/opensales/create' element={<OpenForSaleCreate/>} />
             </Routes>
         </div>
     )
