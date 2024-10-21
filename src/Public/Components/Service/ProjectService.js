@@ -48,7 +48,7 @@ class ProjectService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROJECT + id, data, config)
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROJECT + id, data, config)
     };
 
     adminDeleteProject = (id) => {

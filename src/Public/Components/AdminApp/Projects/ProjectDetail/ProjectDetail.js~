@@ -51,7 +51,7 @@ function ProjectDetail() {
                                 <p className="title_">
                                     General information
                                 </p>
-                                <a href={'/projects/update/' + project?.projectID} className="edit_tab_">Edit</a>
+                                <a href="/projects/update/1" className="edit_tab_">Edit</a>
                             </div>
 
                             <div className="content_">

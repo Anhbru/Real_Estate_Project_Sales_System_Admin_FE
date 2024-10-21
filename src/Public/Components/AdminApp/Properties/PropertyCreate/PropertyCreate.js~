@@ -323,7 +323,7 @@ function PropertyCreate() {
                                                         return (
                                                             <option key={unitType.unitTypeID}
                                                                     value={unitType.unitTypeID}>
-                                                                {unitType.propertyTypeName}
+                                                                {unitType.unitTypeName}
                                                             </option>
                                                         )
                                                     })
