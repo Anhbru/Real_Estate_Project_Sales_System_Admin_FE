@@ -34,7 +34,7 @@ class PropertyService {
     adminCreateProperty = (data) => {
         const config = {
             headers: {
-                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
@@ -44,7 +44,7 @@ class PropertyService {
     adminUpdateProperty = (id, data) => {
         const config = {
             headers: {
-                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };

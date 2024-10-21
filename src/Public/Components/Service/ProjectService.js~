@@ -2,65 +2,65 @@ import {BASE_URL_SERVER} from "../config/server";
 import axios from "axios";
 
 const API_ENDPOINT = {
-    ADMIN_LIST_PROPERTY: "/api/propertys",
-    ADMIN_DETAIL_PROPERTY: "/api/propertys/",
-    ADMIN_POST_PROPERTY: "/api/propertys",
-    ADMIN_UPDATE_PROPERTY: "/api/propertys/",
-    ADMIN_DELETE_PROPERTY: "/api/propertys/",
+    ADMIN_LIST_PROJECT: "/api/projects",
+    ADMIN_DETAIL_PROJECT: "/api/projects/",
+    ADMIN_POST_PROJECT: "/api/projects",
+    ADMIN_UPDATE_PROJECT: "/api/projects/",
+    ADMIN_DELETE_PROJECT: "/api/projects/",
 }
 
-class PropertyService {
+class ProjectService {
     // ADMIN
-    adminListProperty = () => {
+    adminListProject = () => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROPERTY, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROJECT, config);
     }
 
-    adminDetailProperty = (id) => {
+    adminDetailProject = (id) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_PROPERTY + id, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_PROJECT + id, config);
     }
 
-    adminCreateProperty = (data) => {
+    adminCreateProject = (data) => {
         const config = {
             headers: {
-                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_PROPERTY, data, config);
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_PROJECT, data, config);
     };
 
-    adminUpdateProperty = (id, data) => {
+    adminUpdateProject = (id, data) => {
         const config = {
             headers: {
-                'content-type': 'application/json',
+                'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROPERTY + id, data, config)
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROJECT + id, data, config)
     };
 
-    adminDeleteProperty = (id) => {
+    adminDeleteProject = (id) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_PROPERTY + id, config);
+        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_PROJECT + id, config);
     }
 }
 
-const propertyService = new PropertyService();
-export default propertyService;
+const projectService = new ProjectService();
+export default projectService;

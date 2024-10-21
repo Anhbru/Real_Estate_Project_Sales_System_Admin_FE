@@ -1,25 +1,115 @@
-import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Form, message} from 'antd';
 import projectService from '../../../Service/ProjectService';
+import propertyTypeService from '../../../Service/PropertyTypeService';
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import propertyService from "../../../Service/PropertyService";
 
 function PropertyUpdate() {
+    const [projects, setProjects] = useState([]);
+    const [propertyTypes, setPropertyTypes] = useState([]);
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
+    const [property, setProperty] = useState([]);
+    const {id} = useParams();
+    const [form] = Form.useForm();
+
+    const detailProperty = async () => {
+        await propertyService.adminDetailProperty(id)
+            .then((res) => {
+                console.log("detail property", res.data);
+                setProperty(res.data.data)
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
+
+    const getListProject = async () => {
+        await projectService.adminListProject()
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    setProjects(res.data)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+
+    }
+
+    const getListPropertyType = async () => {
+        await propertyTypeService.adminListProperty()
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    setPropertyTypes(res.data)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    }
+
+    const updateProperty = async () => {
+        $('#btnUpdate').prop('disabled', true).text('Đang lưu...');
+
+        let inputs = $('#formUpdate input, #formUpdate textarea, #formUpdate select');
+        for (let i = 0; i < inputs.length; i++) {
+            if (!$(inputs[i]).val() && $(inputs[i]).attr('type') !== 'file') {
+                let text = $(inputs[i]).prev().text();
+                alert(text + ' không được bỏ trống!');
+                $('#btnUpdate').prop('disabled', false).text('Lưu thay đổi');
+                return
+            }
+        }
+
+        const formData = new FormData($('#formUpdate')[0]);
+
+        await propertyService.adminUpdateProperty(id, formData)
+            .then((res) => {
+                message.success("Thay đổi thành công")
+                navigate("/properties/list")
+            })
+            .catch((err) => {
+                console.log(err)
+                message.error(err.response.data.message)
+                $('#btnUpdate').prop('disabled', false).text('Lưu thay đổi');
+            })
+    };
+
 
     const preUploadImage = () => {
-        $('input#image').click();
+        $('input#Image').click();
     }
 
     const getImage = () => {
-        let src = $('input#image').val();
+        let src = $('input#Image').val();
         if (src) {
             let file_name = src.split('\\').pop();
             $('#content_image_').text(file_name);
         }
     }
+
+    useEffect(() => {
+        detailProperty();
+        getListProject();
+        getListPropertyType();
+    }, [loading, form, id]);
 
     return (
         <>
@@ -37,55 +127,60 @@ function PropertyUpdate() {
                 {/* End Page Title */}
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formCreate" className="form_create_custom_">
+                        <Form id="formUpdate" className="form_create_custom_" onFinish={updateProperty}>
                             <div className="form_area_">
                                 <div className="title_form_">General Information</div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="property_name">Property Name</label>
-                                            <input type="text" className="form-control" name="property_name"
-                                                   id="property_name"
+                                            <label htmlFor="PropertyName">Property Name</label>
+                                            <input type="text" className="form-control" name="PropertyName"
+                                                   id="PropertyName" defaultValue={property?.propertyName}
                                                    placeholder="Enter your Property Name"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="block">Block</label>
-                                            <input type="text" className="form-control" name="block"
-                                                   id="block" placeholder="Enter your Block"/>
+                                            <label htmlFor="Block">Block</label>
+                                            <input type="text" className="form-control" name="Block"
+                                                   defaultValue={property?.block}
+                                                   id="Block" placeholder="Enter your Block"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="floor">Floor</label>
-                                            <input type="text" className="form-control" name="floor"
-                                                   id="floor" placeholder="Enter your Floor"/>
+                                            <label htmlFor="Floor">Floor</label>
+                                            <input type="number" className="form-control" name="Floor"
+                                                   defaultValue={property?.floor}
+                                                   id="Floor" placeholder="Enter your Floor"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="size_area">Size Area</label>
-                                            <input type="text" className="form-control" name="size_area"
-                                                   id="size_area" placeholder="Enter your Size Area"/>
+                                            <label htmlFor="SizeArea">Size Area</label>
+                                            <input type="number" className="form-control" name="SizeArea"
+                                                   defaultValue={property?.sizeArea}
+                                                   id="SizeArea" placeholder="Enter your Size Area"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="bed_room">Bed Room</label>
-                                            <input type="text" className="form-control" name="bed_room" id="bed_room"
+                                            <label htmlFor="BedRoom">Bed Room</label>
+                                            <input type="number" className="form-control" name="BedRoom" id="BedRoom"
+                                                   defaultValue={property?.bedRoom}
                                                    placeholder="Enter your Bed Room"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="bad_room">Bad Room</label>
-                                            <input type="text" className="form-control" name="bad_room" id="bad_room"
+                                            <label htmlFor="BathRoom">Bad Room</label>
+                                            <input type="number" className="form-control" name="BathRoom" id="BathRoom"
+                                                   defaultValue={property?.badRoom}
                                                    placeholder="Enter your Bad Room"/>
                                         </div>
                                     </div>
@@ -93,64 +188,71 @@ function PropertyUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="living_room">Living Room</label>
-                                            <input type="text" className="form-control" name="living_room"
-                                                   id="living_room"
+                                            <label htmlFor="LivingRoom">Living Room</label>
+                                            <input type="number" className="form-control" name="LivingRoom"
+                                                   id="LivingRoom" defaultValue={property?.livingRoom}
                                                    placeholder="Enter your Living Room"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="view">View</label>
-                                            <input type="text" className="form-control" name="view"
-                                                   id="view" placeholder="Enter your View"/>
+                                            <label htmlFor="View">View</label>
+                                            <input type="number" className="form-control" name="View"
+                                                   defaultValue={property?.view}
+                                                   id="View" placeholder="Enter your View"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="initial_price">Initial Price</label>
-                                            <input type="text" className="form-control" name="initial_price"
-                                                   id="initial_price" placeholder="Enter your Initial Price"/>
+                                            <label htmlFor="InitialPrice">Initial Price</label>
+                                            <input type="number" className="form-control" name="InitialPrice"
+                                                   defaultValue={property?.initialPrice}
+                                                   id="InitialPrice" placeholder="Enter your Initial Price"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="discount">Discount</label>
-                                            <input type="text" className="form-control" name="discount"
-                                                   id="discount" placeholder="Enter your Discount"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="money_tax">Money Tax</label>
-                                            <input type="text" className="form-control" name="money_tax"
-                                                   id="money_tax" placeholder="Enter your Money Tax"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="maintenance_cost">Maintenance Cost</label>
-                                            <input type="text" className="form-control" name="maintenance_cost"
-                                                   id="maintenance_cost" placeholder="Enter your Maintenance Cost"/>
+                                            <label htmlFor="Discount">Discount</label>
+                                            <input type="number" className="form-control" name="Discount"
+                                                   defaultValue={property?.discount}
+                                                   id="Discount" placeholder="Enter your Discount"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="total_price">Total Price</label>
-                                            <input type="text" className="form-control" name="total_price"
-                                                   id="total_price" placeholder="Enter your Total Price"/>
+                                            <label htmlFor="MoneyTax">Money Tax</label>
+                                            <input type="number" className="form-control" name="MoneyTax"
+                                                   defaultValue={property?.moneyTax}
+                                                   id="MoneyTax" placeholder="Enter your Money Tax"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="status">Status</label>
-                                            <input type="text" className="form-control" name="status" id="status"
+                                            <label htmlFor="MaintenanceCost">Maintenance Cost</label>
+                                            <input type="number" className="form-control" name="MaintenanceCost"
+                                                   defaultValue={property?.maintenanceCost}
+                                                   id="MaintenanceCost" placeholder="Enter your Maintenance Cost"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="TotalPrice">Total Price</label>
+                                            <input type="number" className="form-control" name="TotalPrice"
+                                                   defaultValue={property?.totalPrice}
+                                                   id="TotalPrice" placeholder="Enter your Total Price"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Status">Status</label>
+                                            <input type="text" className="form-control" name="Status" id="Status"
+                                                   defaultValue={property?.status}
                                                    placeholder="Enter your Stauts"/>
                                         </div>
                                     </div>
@@ -158,14 +260,54 @@ function PropertyUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="image">Image: <button className="btn_upload_"
+                                            <label htmlFor="PropertyTypeID">PropertyType</label>
+                                            <select name="PropertyTypeID" id="PropertyTypeID" className="form-control">
+                                                {
+                                                    propertyTypes.map((propertyType) => {
+                                                        return (
+                                                            <option
+                                                                selected={propertyType.propertyTypeID === property?.propertyTypeID}
+                                                                key={propertyType.propertyTypeID}
+                                                                value={propertyType.propertyTypeID}>
+                                                                {propertyType.propertyTypeName}
+                                                            </option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="ProjectID">Project</label>
+                                            <select name="ProjectID" id="ProjectID" className="form-control">
+                                                {
+                                                    projects.map((project) => {
+                                                        return (
+                                                            <option selected={property?.projectID === project.projectID}
+                                                                    key={project.projectID} value={project.projectID}>
+                                                                {project.projectName}
+                                                            </option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Image">Image: <button className="btn_upload_"
                                                                                   onClick={preUploadImage}
                                                                                   type="button">Choose Image</button>
                                                 <span id="content_image_">No Image Chosen</span>
                                             </label>
-                                            <input type="file" onChange={getImage} className="d-none" name="image"
-                                                   id="image"
+                                            <input type="file" onChange={getImage} className="d-none" name="Image"
+                                                   id="Image" defaultValue={property?.image}
                                                    placeholder=""/>
+
+                                            <img src={property?.image} className="img_upload_" alt=""/>
                                         </div>
                                     </div>
                                 </div>
@@ -174,7 +316,7 @@ function PropertyUpdate() {
 
                             <div className="footer_form_">
                                 <button className="btn_back" type="button">Back</button>
-                                <button className="btn_create" type="button">Save</button>
+                                <button id="btnUpdate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>
                     </div>

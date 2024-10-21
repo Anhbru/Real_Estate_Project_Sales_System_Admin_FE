@@ -1,13 +1,35 @@
-import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
 import {Form, message} from 'antd';
-import projectService from '../../../Service/ProjectService';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import propertyService from '../../../Service/PropertyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
 function PropertyDetail() {
+    const [property, setProperty] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {id} = useParams();
+    const [form] = Form.useForm();
+
+    const detailProperty = async () => {
+        await propertyService.adminDetailProperty(id)
+            .then((res) => {
+                console.log("detail property", res.data);
+                setProperty(res.data)
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
+
+    useEffect(() => {
+        detailProperty();
+    }, [form, id, loading])
+
 
     return (
         <>
@@ -37,71 +59,61 @@ function PropertyDetail() {
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Property Name: </p>
-                                        <p className="val_ text-truncate">A01.01</p>
+                                        <p className="val_ text-truncate">{property.propertyCode}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Block: </p>
-                                        <p className="val_ text-truncate">A</p>
+                                        <p className="val_ text-truncate">{property.blockName}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Floor: </p>
-                                        <p className="val_ text-truncate">1</p>
+                                        <p className="val_ text-truncate">{property.numberFloor}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Size Area: </p>
-                                        <p className="val_ text-truncate">130.84</p>
+                                        <p className="key_">Zone: </p>
+                                        <p className="val_ text-truncate">{property.zoneName}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Bed Room: </p>
-                                        <p className="val_ text-truncate">3 phòng</p>
+                                        <p className="val_ text-truncate">{property.bedRoom} phòng</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Bath Room: </p>
-                                        <p className="val_ text-truncate">2 phòng</p>
+                                        <p className="val_ text-truncate">{property.bathRoom} phòng</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Living Room: </p>
-                                        <p className="val_ text-truncate">1 phòng</p>
+                                        <p className="val_ text-truncate">{property.livingRoom} phòng</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">View: </p>
-                                        <p className="val_ text-truncate">View ngắm biển và mặt trời</p>
+                                        <p className="val_ text-truncate">{property.view}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Initial Price: </p>
-                                        <p className="val_ text-truncate">2000000000</p>
+                                        <p className="key_">NetFloorArea: </p>
+                                        <p className="val_ text-truncate">{property.netFloorArea}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Discount: </p>
-                                        <p className="val_ text-truncate">0</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Money Tax: </p>
-                                        <p className="val_ text-truncate">10000000</p>
-                                    </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Maintenance Cost: </p>
-                                        <p className="val_ text-truncate">2000000</p>
+                                        <p className="key_">GrossFloorArea: </p>
+                                        <p className="val_ text-truncate">{property.grossFloorArea}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Total Price: </p>
-                                        <p className="val_ text-truncate">2012000000</p>
+                                        <p className="key_">PriceSold: </p>
+                                        <p className="val_ text-truncate">{property.priceSold}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Status: </p>
-                                        <p className="val_ text-truncate">Đang mở bán</p>
+                                        <p className="val_ text-truncate">{property.status}</p>
                                     </div>
                                 </div>
                             </div>

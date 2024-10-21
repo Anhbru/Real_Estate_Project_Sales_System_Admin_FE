@@ -1,23 +1,23 @@
+import {Form, message} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Form, message} from 'antd';
-import projectService from '../../../Service/ProjectService';
+import propertyService from '../../../Service/PropertyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
-function ProjectDetail() {
-    const [project, setProject] = useState([]);
+function PropertyDetail() {
+    const [property, setProperty] = useState([]);
     const [loading, setLoading] = useState(true);
     const {id} = useParams();
     const [form] = Form.useForm();
 
-    const detailProject = async () => {
-        await projectService.adminDetailProject(id)
+    const detailProperty = async () => {
+        await propertyService.adminDetailProperty(id)
             .then((res) => {
-                console.log("detail project", res.data);
-                setProject(res.data)
+                console.log("detail property", res.data);
+                setProperty(res.data)
                 setLoading(false)
             })
             .catch((err) => {
@@ -27,8 +27,9 @@ function ProjectDetail() {
     };
 
     useEffect(() => {
-        detailProject();
+        detailProperty();
     }, [form, id, loading])
+
 
     return (
         <>
@@ -36,12 +37,12 @@ function ProjectDetail() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/projects/list" className="back__url_">
-                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to project list
+                    <Link to="/properties/list" className="back__url_">
+                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to property list
                     </Link>
                 </div>
                 <div className="pagetitle">
-                    <h1>{project?.projectName}</h1>
+                    <h1>A01.01</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section detail_page_">
@@ -51,74 +52,68 @@ function ProjectDetail() {
                                 <p className="title_">
                                     General information
                                 </p>
-                                <a href={'/projects/update/' + project?.projectID} className="edit_tab_">Edit</a>
+                                <a href="/projects/update/1" className="edit_tab_">Edit</a>
                             </div>
 
                             <div className="content_">
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Project Name: </p>
-                                        <p className="val_ text-truncate">{project?.projectName}</p>
+                                        <p className="key_">Property Name: </p>
+                                        <p className="val_ text-truncate">{property.propertyCode}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Location: </p>
-                                        <p className="val_ text-truncate">{project?.location}</p>
+                                        <p className="key_">Block: </p>
+                                        <p className="val_ text-truncate">{property.blockName}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Investor: </p>
-                                        <p className="val_ text-truncate">{project?.investor}</p>
+                                        <p className="key_">Floor: </p>
+                                        <p className="val_ text-truncate">{property.numberFloor}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">GeneralContractor: </p>
-                                        <p className="val_ text-truncate">{project?.generalContractor}</p>
+                                        <p className="key_">Zone: </p>
+                                        <p className="val_ text-truncate">{property.zoneName}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">DesignUnit: </p>
-                                        <p className="val_ text-truncate">{project?.designUnit}</p>
+                                        <p className="key_">Bed Room: </p>
+                                        <p className="val_ text-truncate">{property.bedRoom} phòng</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">TotalArea: </p>
-                                        <p className="val_ text-truncate">{project?.totalArea}</p>
+                                        <p className="key_">Bath Room: </p>
+                                        <p className="val_ text-truncate">{property.bathRoom} phòng</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Scale: </p>
-                                        <p className="val_ text-truncate">{project?.scale}</p>
+                                        <p className="key_">Living Room: </p>
+                                        <p className="val_ text-truncate">{property.livingRoom} phòng</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">BuildingDensity: </p>
-                                        <p className="val_ text-truncate">{project?.buildingDensity}</p>
+                                        <p className="key_">View: </p>
+                                        <p className="val_ text-truncate">{property.view}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">TotalNumberOfApartment: </p>
-                                        <p className="val_ text-truncate">{project?.totalNumberOfApartment}</p>
+                                        <p className="key_">NetFloorArea: </p>
+                                        <p className="val_ text-truncate">{property.netFloorArea}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">LegalStatus: </p>
-                                        <p className="val_ text-truncate">{project?.legalStatus}</p>
+                                        <p className="key_">PriceSold: </p>
+                                        <p className="val_ text-truncate">{property.priceSold}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">HandOver: </p>
-                                        <p className="val_ text-truncate">{project?.handOver}</p>
+                                        <p className="key_">Total Price: </p>
+                                        <p className="val_ text-truncate">{property.totalPrice}</p>
                                     </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Convenience: </p>
-                                        <p className="val_ text-truncate">{project?.convenience}</p>
-                                    </div>
-                                </div>
-                                <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Status: </p>
-                                        <p className="val_ text-truncate">{project?.status}</p>
+                                        <p className="val_ text-truncate">{property.status}</p>
                                     </div>
                                 </div>
                             </div>
@@ -141,21 +136,20 @@ function ProjectDetail() {
                             </div>
                             <div className="table_content_">
                                 <table className="table datatable">
-                                    <colgroup>
-                                        <col width="5%"/>
-                                        <col width="12%"/>
-                                        <col width="31%"/>
-                                        <col width="10%"/>
-                                        <col width="32%"/>
-                                        <col width="10%"/>
-                                    </colgroup>
                                     <thead>
                                     <tr>
-                                        <th scope="col">STT</th>
-                                        <th scope="col">Ngày thao tác</th>
-                                        <th scope="col">Nhân viên</th>
-                                        <th scope="col">Đã duyệt</th>
-                                        <th scope="col">Diễn giải</th>
+                                        <th scope="col">Đợt</th>
+                                        <th scope="col">Ngày thực hiện</th>
+                                        <th scope="col">Tỉ lệ</th>
+                                        <th scope="col">Kiểu TT</th>
+                                        <th scope="col">Tương ứng</th>
+                                        <th scope="col">Thế VAT</th>
+                                        <th scope="col">Đã thu</th>
+                                        <th scope="col">Còn lại</th>
+                                        <th scope="col">Số ngày chậm</th>
+                                        <th scope="col">Lãi suất</th>
+                                        <th scope="col">Lãi nộp chậm</th>
+                                        <th scope="col">Còn phải nộp</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                     </thead>
@@ -163,42 +157,16 @@ function ProjectDetail() {
                                     <tr>
                                         <th>1</th>
                                         <td>29/01/2023</td>
-                                        <td>Nguyễn Tiến An</td>
-                                        <td>
-                                            <p className="success_btn_">Active</p>
-                                        </td>
-                                        <td>
-                                            Thanh toán theo hình
-                                            thức nhận tiền mặt
-                                        </td>
-                                        <td>
-                                            <p className="nav-item dropdown">
-                                                <a className="nav-link" data-bs-toggle="dropdown" href="#"
-                                                   role="button" aria-expanded="false"><img
-                                                    src="/assets/icon/more_icon.png"
-                                                    alt=""/></a>
-                                                <ul className="dropdown-menu">
-                                                    <li><a className="dropdown-item" href="#">Edit</a></li>
-                                                    <li>
-                                                        <hr className="dropdown-divider"/>
-                                                    </li>
-                                                    <li><a className="dropdown-item" href="#">Create</a>
-                                                    </li>
-                                                </ul>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>2</th>
-                                        <td>29/01/2023</td>
-                                        <td>Nguyễn Tiến An</td>
-                                        <td>
-                                            <p className="danger_btn_">Inactive</p>
-                                        </td>
-                                        <td>
-                                            Thanh toán theo hình
-                                            thức nhận tiền mặt
-                                        </td>
+                                        <td>10%</td>
+                                        <td>Tiền mặt</td>
+                                        <td>500.000.000 VND</td>
+                                        <td>1%</td>
+                                        <td>0</td>
+                                        <td>500.000.000 VND</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
                                         <td>
                                             <p className="nav-item dropdown">
                                                 <a className="nav-link" data-bs-toggle="dropdown" href="#"
@@ -250,4 +218,4 @@ function ProjectDetail() {
     )
 }
 
-export default ProjectDetail
+export default PropertyDetail

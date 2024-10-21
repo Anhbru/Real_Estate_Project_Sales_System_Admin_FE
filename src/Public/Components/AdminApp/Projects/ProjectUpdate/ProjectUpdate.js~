@@ -58,7 +58,7 @@ function ProjectUpdate() {
         await projectService.adminUpdateProject(id, formData)
             .then((res) => {
                 message.success("Thay đổi thành công")
-                navigate("/projects/list")
+                navigate("/properties/list")
             })
             .catch((err) => {
                 console.log(err)

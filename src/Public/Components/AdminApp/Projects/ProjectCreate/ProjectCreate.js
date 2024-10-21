@@ -11,11 +11,11 @@ function ProjectCreate() {
     const navigate = useNavigate();
 
     const preUploadImage = () => {
-        $('input#image').click();
+        $('input#Images').click();
     }
 
     const getImage = () => {
-        let src = $('input#image').val();
+        let src = $('input#Images').val();
         if (src) {
             let file_name = src.split('\\').pop();
             $('#content_image_').text(file_name);
@@ -72,134 +72,134 @@ function ProjectCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="project_name">Project Name</label>
-                                            <input type="text" className="form-control" name="project_name"
-                                                   id="project_name"
+                                            <label htmlFor="ProjectName">Project Name</label>
+                                            <input type="text" className="form-control" name="ProjectName"
+                                                   id="ProjectName"
                                                    placeholder="Enter your Project Name"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="commerical_name">Commerical Name</label>
-                                            <input type="text" className="form-control" name="commerical_name"
-                                                   id="commerical_name"
-                                                   placeholder="Enter your Commerical Name"/>
+                                            <label htmlFor="Location">Location</label>
+                                            <input type="text" className="form-control" name="Location"
+                                                   id="Location"
+                                                   placeholder="Enter your Location"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="short_name">Short Name</label>
-                                            <input type="text" className="form-control" name="short_name"
-                                                   id="short_name"
-                                                   placeholder="Enter your Short Name"/>
+                                            <label htmlFor="Investor">Investor</label>
+                                            <input type="text" className="form-control" name="Investor"
+                                                   id="Investor"
+                                                   placeholder="Enter your Investor"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="type_of_project">Type Of Project</label>
-                                            <input type="text" className="form-control" name="type_of_project"
-                                                   id="type_of_project"
-                                                   placeholder="Enter your Type Of Project"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="address">Address</label>
-                                            <input type="text" className="form-control" name="address" id="address"
-                                                   placeholder="Enter your Address"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="commune">Commune</label>
-                                            <input type="text" className="form-control" name="commune" id="commune"
-                                                   placeholder="Enter your Commune"/>
+                                            <label htmlFor="GeneralContractor">GeneralContractor</label>
+                                            <input type="text" className="form-control" name="GeneralContractor"
+                                                   id="GeneralContractor"
+                                                   placeholder="Enter your General Contractor"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="district">District</label>
-                                            <input type="text" className="form-control" name="district" id="district"
-                                                   placeholder="Enter your District"/>
+                                            <label htmlFor="DesignUnit">DesignUnit</label>
+                                            <input type="text" className="form-control" name="DesignUnit" id="DesignUnit"
+                                                   placeholder="Enter your DesignUnit"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="deposit_price">Deposit Price</label>
-                                            <input type="text" className="form-control" name="deposit_price"
-                                                   id="deposit_price"
-                                                   placeholder="Enter your Deposit Price"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="license_no">License No</label>
-                                            <input type="text" className="form-control" name="license_no"
-                                                   id="license_no"
-                                                   placeholder="Enter your License No"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="date_of_issue">Date Of Issue</label>
-                                            <input type="text" className="form-control" name="date_of_issue"
-                                                   id="date_of_issue"
-                                                   placeholder="Enter your Date Of Issue"/>
+                                            <label htmlFor="TotalArea">TotalArea</label>
+                                            <input type="text" className="form-control" name="TotalArea" id="TotalArea"
+                                                   placeholder="Enter your TotalArea"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="campus_area">Campus Area</label>
-                                            <input type="text" className="form-control" name="campus_area"
-                                                   id="campus_area"
-                                                   placeholder="Enter your Campus Area"/>
+                                            <label htmlFor="Scale">Scale</label>
+                                            <input type="text" className="form-control" name="Scale" id="Scale"
+                                                   placeholder="Enter your Scale"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="place_of_issue">Place of Issue</label>
-                                            <input type="text" className="form-control" name="place_of_issue"
-                                                   id="place_of_issue"
-                                                   placeholder="Enter your Date Of Issue"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="code">Code</label>
-                                            <input type="text" className="form-control" name="code" id="code"
-                                                   placeholder="Enter your Code"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="summary">Summary</label>
-                                            <input type="text" className="form-control" name="summary" id="summary"
-                                                   placeholder="Enter your Summary"/>
+                                            <label htmlFor="BuildingDensity">BuildingDensity</label>
+                                            <input type="text" className="form-control" name="BuildingDensity"
+                                                   id="BuildingDensity"
+                                                   placeholder="Enter your Building Density"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="image">Image: <button className="btn_upload_"
+                                            <label htmlFor="TotalNumberOfApartment">TotalNumberOfApartment</label>
+                                            <input type="text" className="form-control" name="TotalNumberOfApartment"
+                                                   id="TotalNumberOfApartment"
+                                                   placeholder="Enter your TotalNumberOfApartment"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="LegalStatus">LegalStatus</label>
+                                            <input type="text" className="form-control" name="LegalStatus"
+                                                   id="LegalStatus"
+                                                   placeholder="Enter your LegalStatus"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="HandOver">HandOver</label>
+                                            <input type="text" className="form-control" name="HandOver"
+                                                   id="HandOver"
+                                                   placeholder="Enter your HandOver"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Convenience">Convenience</label>
+                                            <input type="text" className="form-control" name="Convenience"
+                                                   id="Convenience"
+                                                   placeholder="Enter your Convenience"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/*<div className="d-flex justify-content-between align-items-center form_el mt-3">*/}
+                                {/*    <div className="col-md-5">*/}
+                                {/*        <div className="form-group">*/}
+                                {/*            <label htmlFor="code">Code</label>*/}
+                                {/*            <input type="text" className="form-control" name="code" id="code"*/}
+                                {/*                   placeholder="Enter your Code"/>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="col-md-5">*/}
+                                {/*        <div className="form-group">*/}
+                                {/*            <label htmlFor="summary">Summary</label>*/}
+                                {/*            <input type="text" className="form-control" name="summary" id="summary"*/}
+                                {/*                   placeholder="Enter your Summary"/>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Images">Image: <button className="btn_upload_"
                                                                                   onClick={preUploadImage}
                                                                                   type="button">Choose Image</button>
                                                 <span id="content_image_">No Image Chosen</span>
                                             </label>
-                                            <input type="file" onChange={getImage} className="d-none" name="image"
-                                                   id="image"
+                                            <input type="file" onChange={getImage} className="d-none" name="Images"
+                                                   id="Images"
                                                    placeholder=""/>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@ function ProjectCreate() {
 
                             <div className="footer_form_">
                                 <button className="btn_back" type="button">Back</button>
-                                <button className="btn_create" type="button">Save</button>
+                                <button className="btn_create" id="btnCreate" type="submit">Save</button>
                             </div>
                         </Form>
                     </div>

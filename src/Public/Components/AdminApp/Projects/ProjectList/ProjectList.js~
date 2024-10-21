@@ -81,7 +81,7 @@ function ProjectList() {
                                 <th scope="col">designUnit</th>
                                 <th scope="col">TotalArea</th>
                                 <th scope="col">Địa chỉ</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Đã duyệt</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
