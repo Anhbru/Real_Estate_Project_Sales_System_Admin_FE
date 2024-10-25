@@ -26,12 +26,12 @@ function PropertyCreate() {
         $('input#Image').click();
     }
 
-    const getListProject = async () => {
-        await projectService.adminListProject()
+    const getListProject = async (page) => {
+        await projectService.adminListProject(page)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setProjects(res.data)
+                    setProjects(res.data.projects)
                     setLoading(false)
                 } else {
                     setLoading(false)

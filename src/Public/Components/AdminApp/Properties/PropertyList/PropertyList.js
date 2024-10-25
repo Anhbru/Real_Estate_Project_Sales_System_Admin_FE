@@ -7,19 +7,21 @@ import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import projectService from "../../../Service/ProjectService";
+import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function PropertyList() {
     const [data, setData] = useState([]);
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(false);
-    const {project} = useParams();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const getListProject = async () => {
-        await projectService.adminListProject()
+    const getListProject = async (page) => {
+        await projectService.adminListProject(page)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setProjects(res.data)
+                    setProjects(res.data.projects)
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -32,12 +34,20 @@ function PropertyList() {
 
     }
 
-    const getListProperty = async () => {
-        await propertyService.adminListProperty()
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const getListProperty = async (page) => {
+        setLoading(true)
+        await propertyService.adminListProperty(page)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setData(res.data)
+                    setData(res.data.propertys)
+                    setTotalPages(res.data.totalPages);
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -50,10 +60,9 @@ function PropertyList() {
     }
 
     useEffect(() => {
-        getListProperty();
-        getListProject();
-    }, [loading]);
-
+        getListProperty(currentPage);
+        getListProject(1);
+    }, [currentPage]);
     return (
         <>
             <Header/>
@@ -132,7 +141,8 @@ function PropertyList() {
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item" href={'/properties/update/' + item.propertyID}>Update
+                                                        <li><a className="dropdown-item"
+                                                               href={'/properties/update/' + item.propertyID}>Update
                                                             property</a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
@@ -148,6 +158,13 @@ function PropertyList() {
                             }
                             </tbody>
                         </table>
+                        <div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </section>
             </main>

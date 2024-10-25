@@ -37,6 +37,16 @@ function ProjectCreate() {
 
         const formData = new FormData($('#formCreate')[0]);
 
+        // let filedata = document.getElementById("ImagesProperty");
+        // let i = 0, len = filedata.files.length, img, reader, file;
+        //
+        // if (len > 0) {
+        //     for (i; i < len; i++) {
+        //         file = filedata.files[i];
+        //         formData.append('Images[]', file);
+        //     }
+        // }
+
         await projectService.adminCreateProject(formData)
             .then((res) => {
                 console.log("create project", res.data)
@@ -199,7 +209,7 @@ function ProjectCreate() {
                                                 <span id="content_image_">No Image Chosen</span>
                                             </label>
                                             <input type="file" onChange={getImage} className="d-none" name="Images"
-                                                   id="Images"
+                                                   id="Images" multiple
                                                    placeholder=""/>
                                         </div>
                                     </div>

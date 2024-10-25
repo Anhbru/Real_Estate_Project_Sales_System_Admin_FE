@@ -6,9 +6,15 @@ import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import {Pagination} from 'swiper/modules';
 
 function ProjectDetail() {
     const [project, setProject] = useState([]);
+    const [projectImages, setProjectImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const {id} = useParams();
     const [form] = Form.useForm();
@@ -17,7 +23,9 @@ function ProjectDetail() {
         await projectService.adminDetailProject(id)
             .then((res) => {
                 console.log("detail project", res.data);
-                setProject(res.data)
+                setProject(res.data);
+                let proImages = res.data.images;
+                setProjectImages(proImages);
                 setLoading(false)
             })
             .catch((err) => {
@@ -121,6 +129,11 @@ function ProjectDetail() {
                                         <p className="val_ text-truncate">{project?.status}</p>
                                     </div>
                                 </div>
+
+                                <button type="button" className="btn btn-primary mt-3" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Xem hình ảnh
+                                </button>
                             </div>
                         </div>
                         <div className="table_data_area_">
@@ -223,6 +236,42 @@ function ProjectDetail() {
                     </div>
                 </section>
             </main>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="row">
+                                    <Swiper
+                                        slidesPerView={1}
+                                        pagination={{
+                                            clickable: true,
+                                        }}
+                                        modules={[Pagination]}
+                                        className="mySwiper"
+                                    >
+                                        {projectImages.map((img, index) => (
+                                            <SwiperSlide key={index}>
+                                                <img src={img} alt="" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div className="modal fade" id="modalCustomer" tabIndex="-1" aria-labelledby="modalCustomerLabel"
                  aria-hidden="true">
