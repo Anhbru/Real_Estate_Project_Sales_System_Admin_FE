@@ -8,29 +8,30 @@ import Script from '../../Shared/Admin/Lib/Script';
 
 function Login() {
     const onFinish = async () => {
-        let login_request = document.getElementById('login_request').value;
-        let password = document.getElementById('password').value;
+        const login_request = document.getElementById('login_request').value;
+        const password = document.getElementById('password').value;
+
+        if (!login_request || !password) {
+            alert('Please enter both email/phone and password.');
+            return;
+        }
 
         $('#btnLogin').prop('disabled', true).text('Logging...');
 
-        let data = {
+        const data = {
             emailOrPhone: login_request,
             password: password
+        };
+
+        try {
+            const res = await authService.loginAccount(data);
+            sessionStorage.setItem("accessToken", res.data.token);
+            window.location.href = '/dashboard';
+        } catch (err) {
+            console.log(err.response);
+            $('#btnLogin').prop('disabled', false).text('Sign in');
+            alert('Login failed. Please check your credentials.');
         }
-        await authService.loginAccount(data)
-            .then((res) => {
-                sessionStorage.setItem("accessToken", res.data.token);
-                // sessionStorage.setItem("id", res.data.userId);
-                // sessionStorage.setItem("username", res.data.username);
-                // sessionStorage.setItem("role", res.data.userRole);
-                // alert(`Welcome ${res.data.username} !`);
-                window.location.href = '/dashboard';
-            })
-            .catch((err) => {
-                console.log(err.response.data);
-                alert(err.response.data.message);
-                $('#btnLogin').prop('disabled', false).text('Sign in');
-            })
     };
 
     function toggleIcon() {

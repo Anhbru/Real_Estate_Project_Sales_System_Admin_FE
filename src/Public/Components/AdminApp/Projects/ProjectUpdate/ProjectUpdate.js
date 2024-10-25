@@ -87,7 +87,7 @@ function ProjectUpdate() {
                 {/* End Page Title */}
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formCreate" className="form_create_custom_" onFinish={updateProject}>
+                        <Form id="formUpdate" className="form_create_custom_" onFinish={updateProject}>
                             <div className="form_area_">
                                 <div className="title_form_">General Information</div>
 
@@ -200,7 +200,7 @@ function ProjectUpdate() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                <div className="d-flex justify-content-between align-items-start form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="Images">Image: <button className="btn_upload_"
@@ -217,7 +217,7 @@ function ProjectUpdate() {
                                                     images?.map((image, index) => {
                                                         return (
                                                             <div className="image_item" key={index}>
-                                                                <img src={image} alt=""/>
+                                                                <img style={{ width: '200px', height: '150px'}} src={image} alt=""/>
                                                             </div>
                                                         )
                                                     })

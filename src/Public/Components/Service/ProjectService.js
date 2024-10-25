@@ -11,14 +11,14 @@ const API_ENDPOINT = {
 
 class ProjectService {
     // ADMIN
-    adminListProject = () => {
+    adminListProject = (page) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROJECT, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROJECT + '?page=' + page, config);
     }
 
     adminDetailProject = (id) => {
