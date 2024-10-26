@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Routes} from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 /* Auth Page */
 import Login from './Components/Auth/Login/Login';
 /* Dashboard Page */
@@ -17,28 +17,40 @@ import PropertyUpdate from './Components/AdminApp/Properties/PropertyUpdate/Prop
 /* OpenForSale Page */
 import OpenForSaleList from './Components/AdminApp/OpenForSales/OpenForSaleList/OpenForSaleList';
 import OpenForSaleCreate from './Components/AdminApp/OpenForSales/OpenForSaleCreate/OpenForSaleCreate';
+/*Promotion*/
+import PromotionList from './Components/AdminApp/Promotions/PromotionsList/PromotionList';
+import PromotionCreate from './Components/AdminApp/Promotions/PromotionsCreate/PromotionCreate';
+
+import SalePoliciesList from './Components/AdminApp/SalePolicies/SalePoliciesList/SalePolicList';
+
+
 /* Main Page */
 function Public() {
     return (
         <div>
             <Routes>
                 {/* Auth Page */}
-                <Route path='/login' element={<Login/>}/>
+                <Route path='/login' element={<Login />} />
                 {/* Dashboard Page */}
-                <Route path='/dashboard' element={<Dashboard/>}/>
+                <Route path='/dashboard' element={<Dashboard />} />
                 {/* Projects Page */}
-                <Route path='/projects/list' element={<ProjectList/>}/>
-                <Route path='/projects/detail/:id' element={<ProjectDetail/>}/>
-                <Route path='/projects/create' element={<ProjectCreate/>}/>
-                <Route path='/projects/update/:id' element={<ProjectUpdate/>}/>
+                <Route path='/projects/list' element={<ProjectList />} />
+                <Route path='/projects/detail/:id' element={<ProjectDetail />} />
+                <Route path='/projects/create' element={<ProjectCreate />} />
+                <Route path='/projects/update/:id' element={<ProjectUpdate />} />
                 {/* Properties Page */}
-                <Route path='/properties/list' element={<PropertyList/>}/>
-                <Route path='/properties/detail/:id' element={<PropertyDetail/>}/>
-                <Route path='/properties/create' element={<PropertyCreate/>}/>
-                <Route path='/properties/update/:id' element={<PropertyUpdate/>}/>
+                <Route path='/properties/list' element={<PropertyList />} />
+                <Route path='/properties/detail/:id' element={<PropertyDetail />} />
+                <Route path='/properties/create' element={<PropertyCreate />} />
+                <Route path='/properties/update/:id' element={<PropertyUpdate />} />
                 {/* OpenForSales Page */}
-                <Route path='/opensales/list' element={<OpenForSaleList/>} />
-                <Route path='/opensales/create' element={<OpenForSaleCreate/>} />
+                <Route path='/opensales/list' element={<OpenForSaleList />} />
+                <Route path='/opensales/create' element={<OpenForSaleCreate />} />
+                {/* Promotions Page */}
+                <Route path="/promotions/list" element={<PromotionList/>} />
+                <Route path="/promotions/create" element={<PromotionCreate/>}/>
+
+                <Route path="/salepolicy/list" element={<SalePoliciesList/>} />
             </Routes>
         </div>
     )

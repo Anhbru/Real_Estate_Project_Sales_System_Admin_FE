@@ -1,14 +1,14 @@
-import {Form, message} from 'antd';
-import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import { Form, message } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import $ from 'jquery';
 
 
 function Sidebar() {
-    const {id} = useParams();
+    const { id } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -36,10 +36,25 @@ function Sidebar() {
             '/properties/detail/',
         ]
 
+        let array_promotion = [
+            '/promotion/list',
+            '/promotion/create',
+            '/promotion/update/',
+            '/promotion/detail/',
+        ]
+
+        let array_salepolicy = [
+            '/salepolicy/list',
+            '/salepolicy/create',
+            '/salepolicy/update/',
+            '/salepolicy/detail/',
+        ]
+
+
         let array_openforsale = ['/opensales/list',
-             '/opensales/create', 
-             '/opensales/update/', 
-             '/opensales/detail/'];
+            '/opensales/create',
+            '/opensales/update/',
+            '/opensales/detail/'];
 
         let key = '';
 
@@ -58,6 +73,12 @@ function Sidebar() {
         if (array_openforsale.some(route => path_name.startsWith(route))) {
             key = 'opensale';
         }
+        if (array_promotion.some(route => path_name.startsWith(route))) {
+            key = 'promtion';
+        }
+        if (array_salepolicy.some(route => path_name.startsWith(route))) {
+            key = 'salepolicy';
+        }
 
         $('#sidebar-nav .nav-link').removeClass('active');
 
@@ -71,10 +92,16 @@ function Sidebar() {
             case "openforsale":
                 $('a[data-key="opensale"]').addClass('active');
                 break;
+            case "promtion":
+                $('a[data-key="promtion"]').addClass('active');
+                break;
+            case "salepolicy":
+                $('a[data-key="salepolicy"]').addClass('active');
+                break;
             default:
                 $('a[data-key="main"]').addClass('active');
                 break;
-                
+
         }
 
         setLoading(false);
@@ -92,92 +119,92 @@ function Sidebar() {
 
                     <li className="nav-item">
                         <a data-key="main" className="nav-link collapsed" href="/dashboard">
-                            <img className="icon_sidebar_" src="/assets/icon/overview_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/overview_icon.png" alt="" />
                             <span>Overview</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a data-key="project" id='project_tab' className="nav-link collapsed" href="/projects/list">
-                            <img className="icon_sidebar_" src="/assets/icon/project_icon.png" alt=""/>
+                        <a data-key="salepolicy" id='project_tab' className="nav-link collapsed" href="/projects/list">
+                            <img className="icon_sidebar_" src="/assets/icon/project_icon.png" alt="" />
                             <span>Project</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a data-key="property" className="nav-link collapsed" href="/properties/list">
-                            <img className="icon_sidebar_" src="/assets/icon/house_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/house_icon.png" alt="" />
                             <span>Property</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a data-key="opensale" className="nav-link collapsed" href="/opensales/list">
-                            <img className="icon_sidebar_" src="/assets/icon/open_sale_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/open_sale_icon.png" alt="" />
                             <span>Opening For Sale</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/sale_icon.png" alt=""/>
+                        <a data-key="promotion" className="nav-link collapsed" href="/salepolicy/list">
+                            <img className="icon_sidebar_" src="/assets/icon/sale_icon.png" alt="" />
                             <span>Sales policy</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/promotion_icon.png" alt=""/>
+                        <a data-key="promotion" className="nav-link collapsed" href="/promotions/list">
+                            <img className="icon_sidebar_" src="/assets/icon/promotion_icon.png" alt="" />
                             <span>Promotion</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/report_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/report_icon.png" alt="" />
                             <span>Report</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/customer_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/customer_icon.png" alt="" />
                             <span>Customer</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/employee_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/employee_icon.png" alt="" />
                             <span>Employee</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/payment_report_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/payment_report_icon.png" alt="" />
                             <span>Payment Process</span>
                         </a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/comment_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/comment_icon.png" alt="" />
                             <span>Comment</span>
                         </a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
                             <span>Booking</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse"
-                           href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/contact_icon.png" alt=""/>
+                            href="#">
+                            <img className="icon_sidebar_" src="/assets/icon/contact_icon.png" alt="" />
                             <span>Contract</span><i
-                            className="bi bi-chevron-down ms-auto"></i>
+                                className="bi bi-chevron-down ms-auto"></i>
                         </a>
                         <ul id="users-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                             <li>
@@ -199,14 +226,14 @@ function Sidebar() {
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/setting_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/setting_icon.png" alt="" />
                             <span>Settings</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
                         <a className="nav-link collapsed" href="#">
-                            <img className="icon_sidebar_" src="/assets/icon/logout_icon.png" alt=""/>
+                            <img className="icon_sidebar_" src="/assets/icon/logout_icon.png" alt="" />
                             <span>Logout</span>
                         </a>
                     </li>
