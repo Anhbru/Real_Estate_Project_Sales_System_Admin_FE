@@ -6,17 +6,22 @@ import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import Pagination from "../../../Shared/Admin/Utils/Pagination"
 
 function ProjectList() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const getListProject = async () => {
-        await projectService.adminListProject()
+    const getListProject = async (page) => {
+        setLoading(true);
+        await projectService.adminListProject(page)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setData(res.data)
+                    setData(res.data.projects)
+                    setTotalPages(res.data.totalPages);
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -36,12 +41,17 @@ function ProjectList() {
         }
     }
 
-    useEffect(() => {
-        getListProject();
-    }, [loading]);
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
 
-    return (
-        <>
+    useEffect(() => {
+        getListProject(currentPage);
+    }, [currentPage]);
+
+    return (<>
             <Header/>
             <Sidebar/>
             <main id="main" className="main">
@@ -77,67 +87,69 @@ function ProjectList() {
                                     <input type="checkbox" id="checkAll" onClick={checkAll}/>
                                 </th>
                                 <th scope="col">STT</th>
-                                <th scope="col">Ngày đăng</th>
+                                <th scope="col">Investor</th>
                                 <th scope="col">Tên dự án</th>
-                                <th scope="col">Loại dự án</th>
+                                <th scope="col">designUnit</th>
+                                <th scope="col">TotalArea</th>
                                 <th scope="col">Địa chỉ</th>
-                                <th scope="col">Staff</th>
-                                <th scope="col">Đã duyệt</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {
-                                data.map((item, index) => {
-                                    return (
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" className="checkbox_item_"
-                                                       value={item.projectID}/>
-                                            </td>
-                                            <th>{index + 1}</th>
-                                            <td>{item.created_at ?? Date.now()}</td>
-                                            <td>{item.projectName}</td>
-                                            <td></td>
-                                            <td>{item.location}</td>
-                                            <td>{item.generalContractor}</td>
-                                            <td>
-                                                <span className="success_btn_">{item.status}</span>
-                                            </td>
-                                            <td>
-                                                <p className="nav-item dropdown">
-                                                    <a className="nav-link" data-bs-toggle="dropdown" href="#"
-                                                       role="button" aria-expanded="false"><img
-                                                        src="/assets/icon/more_icon.png" alt=""/></a>
-                                                    <ul className="dropdown-menu">
-                                                        <li><a className="dropdown-item"
-                                                               href={'/projects/detail/' + item.projectID}>Detail
-                                                            project</a></li>
-                                                        <li>
-                                                            <hr className="dropdown-divider"/>
-                                                        </li>
-                                                        <li><a className="dropdown-item"
-                                                               href={'/projects/update/' + item.projectID}>Update
-                                                            project</a></li>
-                                                        <li>
-                                                            <hr className="dropdown-divider"/>
-                                                        </li>
-                                                        <li><a className="dropdown-item" href="/projects/create">Create
-                                                            project</a></li>
-                                                    </ul>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    )
-                                })
-                            }
+                            {data.map((item, index) => {
+                                return (<tr>
+                                    <td>
+                                        <input type="checkbox" className="checkbox_item_"
+                                               value={item.projectID}/>
+                                    </td>
+                                    <th>{index + 1}</th>
+                                    <td>{item.investor}</td>
+                                    <td>{item.projectName}</td>
+                                    <td>{item.designUnit}</td>
+                                    <td>{item.totalArea}</td>
+                                    <td>{item.location}</td>
+                                    <td>
+                                        <span className="success_btn_ text-nowrap">{item.status}</span>
+                                    </td>
+                                    <td>
+                                        <p className="nav-item dropdown">
+                                            <a className="nav-link" data-bs-toggle="dropdown" href="#"
+                                               role="button" aria-expanded="false"><img
+                                                src="/assets/icon/more_icon.png" alt=""/></a>
+                                            <ul className="dropdown-menu">
+                                                <li><a className="dropdown-item"
+                                                       href={'/projects/detail/' + item.projectID}>Detail
+                                                    project</a></li>
+                                                <li>
+                                                    <hr className="dropdown-divider"/>
+                                                </li>
+                                                <li><a className="dropdown-item"
+                                                       href={'/projects/update/' + item.projectID}>Update
+                                                    project</a></li>
+                                                <li>
+                                                    <hr className="dropdown-divider"/>
+                                                </li>
+                                                <li><a className="dropdown-item" href="/projects/create">Create
+                                                    project</a></li>
+                                            </ul>
+                                        </p>
+                                    </td>
+                                </tr>)
+                            })}
                             </tbody>
                         </table>
+                        <div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </section>
             </main>
-        </>
-    )
+    </>)
 }
 
 export default ProjectList

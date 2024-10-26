@@ -11,14 +11,14 @@ const API_ENDPOINT = {
 
 class ProjectService {
     // ADMIN
-    adminListProject = () => {
+    adminListProject = (page) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROJECT, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROJECT + '?page=' + page, config);
     }
 
     adminDetailProject = (id) => {
@@ -48,7 +48,7 @@ class ProjectService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROJECT + id, data, config)
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROJECT + id, data, config)
     };
 
     adminDeleteProject = (id) => {

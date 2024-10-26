@@ -1,14 +1,68 @@
-import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Form, message} from 'antd';
-import projectService from '../../../Service/ProjectService';
+import propertyService from '../../../Service/PropertyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import projectService from "../../../Service/ProjectService";
+import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function PropertyList() {
+    const [data, setData] = useState([]);
+    const [projects, setProjects] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
+    const getListProject = async (page) => {
+        await projectService.adminListProject(page)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    setProjects(res.data.projects)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+
+    }
+
+    const handlePageChange = (page) => {
+        if (page > 0 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
+    const getListProperty = async (page) => {
+        setLoading(true)
+        await propertyService.adminListProperty(page)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    setData(res.data.propertys)
+                    setTotalPages(res.data.totalPages);
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        getListProperty(currentPage);
+        getListProject(1);
+    }, [currentPage]);
     return (
         <>
             <Header/>
@@ -20,9 +74,15 @@ function PropertyList() {
                     <div className="form-group d-flex gap-3 w-25 mt-3 align-items-center">
                         <label htmlFor="project_">Project: </label>
                         <select className="form-select" name="project_" id="project_">
-                            <option value="1">---Select Project---</option>
-                            <option value="2">Hancorp Plaza</option>
-                            <option value="3">Hancorp Plaza 2</option>
+                            <option value="">---Select Project---</option>
+                            {
+                                projects.map((project) => {
+                                    return (
+                                        <option selected={project.projectID === project}
+                                                value={project.projectID}>{project.projectName}</option>
+                                    )
+                                })
+                            }
                         </select>
                     </div>
                 </div>
@@ -38,90 +98,73 @@ function PropertyList() {
 
                     <div className="content_ table_list_">
                         <table className="table datatable">
-                            <colgroup>
-                                <col width="50px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                                <col width="100px"/>
-                            </colgroup>
-
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">Dự án</th>
                                 <th scope="col">Mã căn hộ</th>
-                                <th scope="col">Loại căn hộ</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Khu/Block</th>
                                 <th scope="col">Tầng</th>
                                 <th scope="col">Phòng ngủ</th>
                                 <th scope="col">Phòng tắm</th>
-                                <th scope="col">Thuế VAT</th>
                                 <th scope="col">Phí bảo trì</th>
                                 <th scope="col">Tổng giá trị</th>
                                 <th scope="col">Trạng thái</th>
-                                <th scope="col">Hợp đồng có hiệu lực</th>
-                                <th scope="col">Chính sách</th>
-                                <th scope="col">Khách hàng</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <th>1</th>
-                                <td>Hancorp Plaza</td>
-                                <td>A000</td>
-                                <td>Căn hộ chung cư</td>
-                                <td>File</td>
-                                <td>A</td>
-                                <td>01</td>
-                                <td>02</td>
-                                <td>03</td>
-                                <td>99.000.000VND</td>
-                                <td>19.000.000VND</td>
-                                <td>1.990.000.000VND</td>
-                                <td>Mở bán</td>
-                                <td>
-                                    <span className="success_btn_">Active</span>
-                                </td>
-                                <td>CBS-2022-01</td>
-                                <td>Nguyen Hai An</td>
-                                <td>
-                                    <p className="nav-item dropdown">
-                                        <a className="nav-link" data-bs-toggle="dropdown" href="#"
-                                           role="button" aria-expanded="false"><img src="/assets/icon/more_icon.png"
-                                                                                    alt=""/></a>
-                                        <ul className="dropdown-menu">
-                                            <li><a className="dropdown-item" href="/properties/detail/1">Detail
-                                                property</a></li>
-                                            <li>
-                                                <hr className="dropdown-divider"/>
-                                            </li>
-                                            <li><a className="dropdown-item" href="/properties/update/1">Update
-                                                property</a></li>
-                                            <li>
-                                                <hr className="dropdown-divider"/>
-                                            </li>
-                                            <li><a className="dropdown-item" href="/properties/create/1">Create
-                                                property</a></li>
-                                        </ul>
-                                    </p>
-                                </td>
-                            </tr>
+                            {
+                                data.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.propertyCode}</td>
+                                            <td>{item.imageUnitType}</td>
+                                            <td>{item.blockName}</td>
+                                            <td>{item.numberFloor}</td>
+                                            <td>{item.bedRoom}</td>
+                                            <td>{item.bathRoom}</td>
+                                            <td>{item.priceSold}</td>
+                                            <td>{item.netFloorArea}</td>
+                                            <td>{item.status}</td>
+                                            <td>
+                                                <p className="nav-item dropdown">
+                                                    <a className="nav-link" data-bs-toggle="dropdown" href="#"
+                                                       role="button" aria-expanded="false"><img
+                                                        src="/assets/icon/more_icon.png"
+                                                        alt=""/></a>
+                                                    <ul className="dropdown-menu">
+                                                        <li><a className="dropdown-item"
+                                                               href={'/properties/detail/' + item.propertyID}>Detail
+                                                            property</a></li>
+                                                        <li>
+                                                            <hr className="dropdown-divider"/>
+                                                        </li>
+                                                        <li><a className="dropdown-item"
+                                                               href={'/properties/update/' + item.propertyID}>Update
+                                                            property</a></li>
+                                                        <li>
+                                                            <hr className="dropdown-divider"/>
+                                                        </li>
+                                                        <li><a className="dropdown-item" href="/properties/create">Create
+                                                            property</a></li>
+                                                    </ul>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
                             </tbody>
                         </table>
+                        <div>
+                            <Pagination
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </section>
             </main>

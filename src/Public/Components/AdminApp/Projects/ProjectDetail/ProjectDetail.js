@@ -1,13 +1,42 @@
-import React from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Form, message} from 'antd';
 import projectService from '../../../Service/ProjectService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import {Pagination} from 'swiper/modules';
 
 function ProjectDetail() {
+    const [project, setProject] = useState([]);
+    const [projectImages, setProjectImages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const {id} = useParams();
+    const [form] = Form.useForm();
+
+    const detailProject = async () => {
+        await projectService.adminDetailProject(id)
+            .then((res) => {
+                console.log("detail project", res.data);
+                setProject(res.data);
+                let proImages = res.data.images;
+                setProjectImages(proImages);
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
+
+    useEffect(() => {
+        detailProject();
+    }, [form, id, loading])
 
     return (
         <>
@@ -20,7 +49,7 @@ function ProjectDetail() {
                     </Link>
                 </div>
                 <div className="pagetitle">
-                    <h1>Hancorp Plaza</h1>
+                    <h1>{project?.projectName}</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section detail_page_">
@@ -30,80 +59,81 @@ function ProjectDetail() {
                                 <p className="title_">
                                     General information
                                 </p>
-                                <a href="/projects/update/1" className="edit_tab_">Edit</a>
+                                <a href={'/projects/update/' + project?.projectID} className="edit_tab_">Edit</a>
                             </div>
 
                             <div className="content_">
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Project Name: </p>
-                                        <p className="val_ text-truncate">Hancorp Plaza</p>
+                                        <p className="val_ text-truncate">{project?.projectName}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Commerical Name: </p>
-                                        <p className="val_ text-truncate">Khu phức hợp Hancorp Plaza</p>
+                                        <p className="key_">Location: </p>
+                                        <p className="val_ text-truncate">{project?.location}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Short Name: </p>
-                                        <p className="val_ text-truncate">Plaza</p>
+                                        <p className="key_">Investor: </p>
+                                        <p className="val_ text-truncate">{project?.investor}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Type Of Project: </p>
-                                        <p className="val_ text-truncate">Văn phòng và chung cư nhà ở</p>
+                                        <p className="key_">GeneralContractor: </p>
+                                        <p className="val_ text-truncate">{project?.generalContractor}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Address: </p>
-                                        <p className="val_ text-truncate">Đường Trần Đăng Ninh.</p>
+                                        <p className="key_">DesignUnit: </p>
+                                        <p className="val_ text-truncate">{project?.designUnit}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Commune: </p>
-                                        <p className="val_ text-truncate">Phường Dịch Vọng</p>
+                                        <p className="key_">TotalArea: </p>
+                                        <p className="val_ text-truncate">{project?.totalArea}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">District: </p>
-                                        <p className="val_ text-truncate">Quận Cầu Giấy</p>
+                                        <p className="key_">Scale: </p>
+                                        <p className="val_ text-truncate">{project?.scale}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Deposit Price: </p>
-                                        <p className="val_ text-truncate">1000000 VNĐ</p>
+                                        <p className="key_">BuildingDensity: </p>
+                                        <p className="val_ text-truncate">{project?.buildingDensity}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">License No: </p>
-                                        <p className="val_ text-truncate">Hancorp Plaza</p>
+                                        <p className="key_">TotalNumberOfApartment: </p>
+                                        <p className="val_ text-truncate">{project?.totalNumberOfApartment}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Date Of Issue: </p>
-                                        <p className="val_ text-truncate">2023-07-01</p>
+                                        <p className="key_">LegalStatus: </p>
+                                        <p className="val_ text-truncate">{project?.legalStatus}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Campus Area: </p>
-                                        <p className="val_ text-truncate">Khuôn viên 5000 m2</p>
+                                        <p className="key_">HandOver: </p>
+                                        <p className="val_ text-truncate">{project?.handOver}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Place of Issue: </p>
-                                        <p className="val_ text-truncate">2023-07-01</p>
+                                        <p className="key_">Convenience: </p>
+                                        <p className="val_ text-truncate">{project?.convenience}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Code: </p>
-                                        <p className="val_ text-truncate">DA-0001</p>
-                                    </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Summary: </p>
-                                        <p className="val_ text-truncate">là tổ hợp nhà ở</p>
+                                        <p className="key_">Status: </p>
+                                        <p className="val_ text-truncate">{project?.status}</p>
                                     </div>
                                 </div>
+
+                                <button type="button" className="btn btn-primary mt-3" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                    Xem hình ảnh
+                                </button>
                             </div>
                         </div>
                         <div className="table_data_area_">
@@ -206,6 +236,42 @@ function ProjectDetail() {
                     </div>
                 </section>
             </main>
+
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="row">
+                                    <Swiper
+                                        slidesPerView={1}
+                                        pagination={{
+                                            clickable: true,
+                                        }}
+                                        modules={[Pagination]}
+                                        className="mySwiper"
+                                    >
+                                        {projectImages.map((img, index) => (
+                                            <SwiperSlide key={index}>
+                                                <img src={img} alt="" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                                            </SwiperSlide>
+                                        ))}
+                                    </Swiper>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div className="modal fade" id="modalCustomer" tabIndex="-1" aria-labelledby="modalCustomerLabel"
                  aria-hidden="true">

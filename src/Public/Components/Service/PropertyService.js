@@ -2,23 +2,23 @@ import {BASE_URL_SERVER} from "../config/server";
 import axios from "axios";
 
 const API_ENDPOINT = {
-    ADMIN_LIST_PROPERTY: "/api/admin/properties/list",
-    ADMIN_DETAIL_PROPERTY: "/api/admin/properties/detail/",
-    ADMIN_POST_PROPERTY: "/api/admin/properties/create",
-    ADMIN_UPDATE_PROPERTY: "/api/admin/properties/update/",
-    ADMIN_DELETE_PROPERTY: "/api/admin/properties/delete/",
+    ADMIN_LIST_PROPERTY: "/api/propertys",
+    ADMIN_DETAIL_PROPERTY: "/api/propertys/",
+    ADMIN_POST_PROPERTY: "/api/propertys",
+    ADMIN_UPDATE_PROPERTY: "/api/propertys/",
+    ADMIN_DELETE_PROPERTY: "/api/propertys/",
 }
 
 class PropertyService {
     // ADMIN
-    adminListProperty = () => {
+    adminListProperty = (page) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROPERTY, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_PROPERTY + '?page=' + page, config);
     }
 
     adminDetailProperty = (id) => {
@@ -34,7 +34,7 @@ class PropertyService {
     adminCreateProperty = (data) => {
         const config = {
             headers: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
@@ -44,7 +44,7 @@ class PropertyService {
     adminUpdateProperty = (id, data) => {
         const config = {
             headers: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };

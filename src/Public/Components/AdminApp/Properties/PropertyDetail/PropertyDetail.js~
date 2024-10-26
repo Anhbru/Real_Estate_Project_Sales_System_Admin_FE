@@ -102,14 +102,14 @@ function PropertyDetail() {
                                         <p className="val_ text-truncate">{property.netFloorArea}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">GrossFloorArea: </p>
-                                        <p className="val_ text-truncate">{property.grossFloorArea}</p>
+                                        <p className="key_">PriceSold: </p>
+                                        <p className="val_ text-truncate">{property.priceSold}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">PriceSold: </p>
-                                        <p className="val_ text-truncate">{property.priceSold}</p>
+                                        <p className="key_">Total Price: </p>
+                                        <p className="val_ text-truncate">{property.totalPrice}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Status: </p>
