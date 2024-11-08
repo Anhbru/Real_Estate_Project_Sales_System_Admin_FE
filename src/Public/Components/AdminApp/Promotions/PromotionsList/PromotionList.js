@@ -106,12 +106,14 @@ function PromotionsList() {
                                                     <td>{item.description}</td>
                                                     <td>{item.startDate}</td>
                                                     <td>{item.endDate}</td>
-                                                    <td>{item.status ? 'Active' : 'Inactive'}</td>
+                                                    <td style={{ color: item.status ? 'green' : 'red' }}>
+                                                        {item.status ? 'Active' : 'Inactive'}
+                                                    </td>
                                                     <td>{item.salesPolicyType}</td>
                                                     <td>
                                                         <p className="nav-item dropdown">
                                                             <a className="nav-link" data-bs-toggle="dropdown" href="#"
-                                                               role="button" aria-expanded="false">
+                                                                role="button" aria-expanded="false">
                                                                 <img src="/assets/icon/more_icon.png" alt="" />
                                                             </a>
                                                             <ul className="dropdown-menu">

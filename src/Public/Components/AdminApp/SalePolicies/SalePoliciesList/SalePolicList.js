@@ -46,14 +46,16 @@ function SalesPolicyList() {
             const values = await form.validateFields();
             const formattedValues = {
                 ...values,
-                expressTime: values.expressTime ? values.expressTime : undefined, // Ensure expressTime format if needed
+                expressTime: values.expressTime ? values.expressTime : undefined, 
             };
-            
+    
+            console.log("Submitting values:", formattedValues); 
+    
             if (editingPolicy) {
-                await salesPolicyService.adminUpdateSalesPolicy(editingPolicy.salesPolicyID, formattedValues);
+                const response = await salesPolicyService.adminUpdateSalesPolicy(editingPolicy.salesPolicyID, formattedValues);
                 message.success("Sales policy updated successfully");
             } else {
-                await salesPolicyService.adminCreateSalesPolicy(formattedValues);
+                const response = await salesPolicyService.adminCreateSalesPolicy(formattedValues);
                 message.success("Sales policy created successfully");
             }
     
@@ -63,6 +65,7 @@ function SalesPolicyList() {
             message.error("Error: " + error.message);
         }
     };
+    
 
     const handleDelete = async (salesPolicyID) => {
         await salesPolicyService.adminDeleteSalesPolicy(salesPolicyID);
@@ -86,11 +89,13 @@ function SalesPolicyList() {
         {
             title: 'Status',
             dataIndex: 'status',
+            render: (text, record) => (
+                <span style={{ color: record.status ? 'green' : 'red' }}>
+                    {record.status ? 'Active' : 'Inactive'}
+                </span>
+            ),
         },
-        {
-            title: 'Project ID',
-            dataIndex: 'projectID',
-        },
+
         {
             title: 'Project Name',
             dataIndex: 'projectName',
@@ -148,6 +153,7 @@ function SalesPolicyList() {
                         >
                             <Input />
                         </Form.Item>
+
                         <Form.Item
                             name="status"
                             id="status"

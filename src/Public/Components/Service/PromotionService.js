@@ -1,13 +1,13 @@
-import {BASE_URL_SERVER} from "../config/server";
+import { BASE_URL_SERVER } from "../config/server";
 import axios from "axios";
 
 const API_ENDPOINT = {
     ADMIN_LIST_PROMOTIONS: "/api/promotions",
-    ADMIN_DETAIL_PROMOTION: "/api/promotions",
+    ADMIN_DETAIL_PROMOTION: "/api/promotions/",  
     ADMIN_POST_PROMOTION: "/api/promotions",
-    ADMIN_UPDATE_PROMOTION: "/api/promotions",
-    ADMIN_DELETE_PROMOTION: "/api/promotions",
-}
+    ADMIN_UPDATE_PROMOTION: "/api/promotions/",  
+    ADMIN_DELETE_PROMOTION: "/api/promotions/",  
+};
 
 class PromotionService {
     // ADMIN
@@ -34,7 +34,7 @@ class PromotionService {
     adminCreatePromotion = (data) => {
         const config = {
             headers: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
@@ -48,7 +48,7 @@ class PromotionService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROMOTION + id, data, config);
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROMOTION + id, data, config); 
     };
 
     adminDeletePromotion = (id) => {

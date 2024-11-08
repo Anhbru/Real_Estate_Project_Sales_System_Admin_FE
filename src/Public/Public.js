@@ -17,9 +17,14 @@ import PropertyUpdate from './Components/AdminApp/Properties/PropertyUpdate/Prop
 /* OpenForSale Page */
 import OpenForSaleList from './Components/AdminApp/OpenForSales/OpenForSaleList/OpenForSaleList';
 import OpenForSaleCreate from './Components/AdminApp/OpenForSales/OpenForSaleCreate/OpenForSaleCreate';
+import OpenForSaleUpdate from './Components/AdminApp/OpenForSales/OpenForSaleUpdate/OpenForSaleUpdate';
+import OpenForSaleDetail from './Components/AdminApp/OpenForSales/OpenForSaleDetails/OpenForSaleDetails';
+
 /*Promotion*/
 import PromotionList from './Components/AdminApp/Promotions/PromotionsList/PromotionList';
 import PromotionCreate from './Components/AdminApp/Promotions/PromotionsCreate/PromotionCreate';
+import PromotionDetail from './Components/AdminApp/Promotions/PromotionsDetails/PromotionDetails';
+import PromotionUpdate from './Components/AdminApp/Promotions/PromotionsUpdate/PromotionsUpdate';
 
 import SalePoliciesList from './Components/AdminApp/SalePolicies/SalePoliciesList/SalePolicList';
 
@@ -44,11 +49,15 @@ function Public() {
                 <Route path='/properties/create' element={<PropertyCreate />} />
                 <Route path='/properties/update/:id' element={<PropertyUpdate />} />
                 {/* OpenForSales Page */}
-                <Route path='/opensales/list' element={<OpenForSaleList />} />
-                <Route path='/opensales/create' element={<OpenForSaleCreate />} />
+                <Route path='/openforsales/list' element={<OpenForSaleList />} />
+                <Route path='/openforsales/create' element={<OpenForSaleCreate />} />
+                <Route path='/openforsales/update/:id' element={<OpenForSaleUpdate />} />
+                <Route path='/openforsales/detail/:id' element={<OpenForSaleDetail />} />
                 {/* Promotions Page */}
-                <Route path="/promotions/list" element={<PromotionList/>} />
-                <Route path="/promotions/create" element={<PromotionCreate/>}/>
+                <Route path="/promotions/list" element={<PromotionList />} />
+                <Route path="/promotions/create" element={<PromotionCreate />}/>
+                <Route path='/promotions/detail/:id' element={<PromotionDetail />} />
+                <Route path='/promotions/update/:id' element={<PromotionUpdate />} />
 
                 <Route path="/salepolicy/list" element={<SalePoliciesList/>} />
             </Routes>

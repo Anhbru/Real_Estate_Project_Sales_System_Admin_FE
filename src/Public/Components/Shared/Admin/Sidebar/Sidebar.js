@@ -37,10 +37,10 @@ function Sidebar() {
         ]
 
         let array_promotion = [
-            '/promotion/list',
-            '/promotion/create',
-            '/promotion/update/',
-            '/promotion/detail/',
+            '/promotions/list',
+            '/promotions/create',
+            '/promotions/update/',
+            '/promotions/detail/',
         ]
 
         let array_salepolicy = [
@@ -51,10 +51,11 @@ function Sidebar() {
         ]
 
 
-        let array_openforsale = ['/opensales/list',
-            '/opensales/create',
-            '/opensales/update/',
-            '/opensales/detail/'];
+        let array_openforsale = [
+            '/openforsales/list',
+            '/openforsales/create',
+            '/openforsales/update/',
+            '/openforsales/detail/'];
 
         let key = '';
 
@@ -71,13 +72,13 @@ function Sidebar() {
         }
 
         if (array_openforsale.some(route => path_name.startsWith(route))) {
-            key = 'opensale';
+            key = 'openforsales';
         }
         if (array_promotion.some(route => path_name.startsWith(route))) {
-            key = 'promtion';
+            key = 'promotions';
         }
         if (array_salepolicy.some(route => path_name.startsWith(route))) {
-            key = 'salepolicy';
+            key = 'salepolicys';
         }
 
         $('#sidebar-nav .nav-link').removeClass('active');
@@ -89,14 +90,14 @@ function Sidebar() {
             case "property":
                 $('a[data-key="property"]').addClass('active');
                 break;
-            case "openforsale":
-                $('a[data-key="opensale"]').addClass('active');
+            case "opensales":
+                $('a[data-key="openforsales"]').addClass('active');
                 break;
-            case "promtion":
-                $('a[data-key="promtion"]').addClass('active');
+            case "promotions":
+                $('a[data-key="promotions"]').addClass('active');
                 break;
-            case "salepolicy":
-                $('a[data-key="salepolicy"]').addClass('active');
+            case "salepolicys":
+                $('a[data-key="salepolicys"]').addClass('active');
                 break;
             default:
                 $('a[data-key="main"]').addClass('active');
@@ -139,21 +140,21 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
-                        <a data-key="opensale" className="nav-link collapsed" href="/opensales/list">
+                        <a data-key="openforsales" className="nav-link collapsed" href="/openforsales/list">
                             <img className="icon_sidebar_" src="/assets/icon/open_sale_icon.png" alt="" />
                             <span>Opening For Sale</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a data-key="promotion" className="nav-link collapsed" href="/salepolicy/list">
+                        <a data-key="salepolicys" className="nav-link collapsed" href="/salepolicy/list">
                             <img className="icon_sidebar_" src="/assets/icon/sale_icon.png" alt="" />
                             <span>Sales policy</span>
                         </a>
                     </li>
 
                     <li className="nav-item">
-                        <a data-key="promotion" className="nav-link collapsed" href="/promotions/list">
+                        <a data-key="promotions" className="nav-link collapsed" href="/promotions/list">
                             <img className="icon_sidebar_" src="/assets/icon/promotion_icon.png" alt="" />
                             <span>Promotion</span>
                         </a>
