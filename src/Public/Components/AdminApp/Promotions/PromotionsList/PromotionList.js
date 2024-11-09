@@ -1,61 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import openSaleService from '../../../Service/OpenForSaleService';
+import promotionService from '../../../Service/PromotionService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
-function OpenForSaleList() {
+function PromotionsList() {
 
     const [data, setData] = useState([]);
-
     const [loading, setLoading] = useState(false);
-
     const [error, setError] = useState(null);
-    const formatDateTime = (date) => {
-        const d = new Date(date);
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const hh = String(d.getHours()).padStart(2, '0');
-        const min = String(d.getMinutes()).padStart(2, '0');
-        const ss = String(d.getSeconds()).padStart(2, '0');
 
-        return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
-    };
-
-
-    const getListOpenSales = async () => {
-
+    const getListPromotions = async () => {
         setLoading(true);
-
         setError(null);
         try {
-            const res = await openSaleService.adminListOpenSales();
-            console.log("Open Sales Response:", res.data);
+            const res = await promotionService.adminListPromotions();
+            console.log("Promotions Response:", res.data);
             if (res.status === 200) {
                 setData(Array.isArray(res.data) ? res.data : []);
             } else {
-                setError("Failed to fetch open sales.");
+                setError("Failed to fetch promotions.");
             }
         } catch (err) {
-            setError("Error fetching open sales: " + err.message);
-            console.error("Error fetching open sales:", err);
+            setError("Error fetching promotions: " + err.message);
+            console.error("Error fetching promotions:", err);
         } finally {
             setLoading(false);
         }
     };
 
     const checkAll = () => {
-
         if ($('#checkAll').is(":checked")) {
             $('.checkbox_item_').prop('checked', true);
         } else {
             $('.checkbox_item_').prop('checked', false);
         }
-    };
+    }
 
     useEffect(() => {
-        getListOpenSales();
+        getListPromotions();
     }, []);
 
     return (
@@ -64,12 +47,12 @@ function OpenForSaleList() {
             <Sidebar />
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Open For Sale List</h1>
+                    <h1>Promotions List</h1>
                 </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search open sales" />
-                        <a href="/openforsales/create" className="btn_go_">
+                        <input type="text" className="input_search" placeholder="Search promotions" />
+                        <a href="/promotions/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
                         </a>
                     </div>
@@ -82,47 +65,51 @@ function OpenForSaleList() {
                         ) : (
                             <>
                                 {data.length === 0 ? (
-                                    <p>No open sales found.</p>
+                                    <p>No promotions found.</p>
                                 ) : (
                                     <table className="table datatable">
                                         <colgroup>
-                                            
+                                            <col width="5%" />
                                             <col width="5%" />
                                             <col width="15%" />
                                             <col width="15%" />
-                                            <col width="20%" />
-                                            <col width="20%" />
-                                            <col width="20%" />
+                                            <col width="10%" />
+                                            <col width="10%" />
+                                            <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
                                         </colgroup>
                                         <thead>
                                             <tr>
-                                              
+                                                <th scope="col">
+                                                    <input type="checkbox" id="checkAll" onClick={checkAll} />
+                                                </th>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Decision Name</th>
+                                                <th scope="col">Promotion Name</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Start Date</th>
                                                 <th scope="col">End Date</th>
-                                                <th scope="col">Check-in Date</th>
-                                                <th scope="col">Sale Type</th>
-                                                <th scope="col">Reservation Price</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Sales Policy Type</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {data.map((item, index) => (
-                                                <tr key={item.openingForSaleID}>
-                                                
+                                                <tr key={item.promotionID}>
+                                                    <td>
+                                                        <input type="checkbox" className="checkbox_item_" value={item.promotionID} />
+                                                    </td>
                                                     <th>{index + 1}</th>
-                                                    <td>{item.decisionName}</td>
+                                                    <td>{item.promotionName}</td>
                                                     <td>{item.description}</td>
-                                                    <td>{formatDateTime(item.startDate)}</td>
-                                                    <td>{formatDateTime(item.endDate)}</td>
-                                                    <td>{formatDateTime(item.checkinDate)}</td>
-                                                    <td>{item.saleType}</td>
-                                                    <td>{item.reservationPrice}</td>
+                                                    <td>{item.startDate}</td>
+                                                    <td>{item.endDate}</td>
+                                                    <td style={{ color: item.status ? 'green' : 'red' }}>
+                                                        {item.status ? 'Active' : 'Inactive'}
+                                                    </td>
+                                                    <td>{item.salesPolicyType}</td>
                                                     <td>
                                                         <p className="nav-item dropdown">
                                                             <a className="nav-link" data-bs-toggle="dropdown" href="#"
@@ -130,11 +117,11 @@ function OpenForSaleList() {
                                                                 <img src="/assets/icon/more_icon.png" alt="" />
                                                             </a>
                                                             <ul className="dropdown-menu">
-                                                                <li><a className="dropdown-item" href={'/openforsales/detail/' + item.openingForSaleID}>Detail</a></li>
+                                                                <li><a className="dropdown-item" href={'/promotions/detail/' + item.promotionID}>Detail</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
-                                                                <li><a className="dropdown-item" href={'/openforsales/update/' + item.openingForSaleID}>Update</a></li>
+                                                                <li><a className="dropdown-item" href={'/promotions/update/' + item.promotionID}>Update</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
-                                                                <li><a className="dropdown-item" href="/openforsales/create">Create</a></li>
+                                                                <li><a className="dropdown-item" href="/promotions/create">Create</a></li>
                                                             </ul>
                                                         </p>
                                                     </td>
@@ -152,4 +139,4 @@ function OpenForSaleList() {
     );
 }
 
-export default OpenForSaleList;
+export default PromotionsList;

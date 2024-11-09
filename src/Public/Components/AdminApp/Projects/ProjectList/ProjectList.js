@@ -73,12 +73,12 @@ function ProjectList() {
                             <colgroup>
                                 <col width="5%"/>
                                 <col width="5%"/>
-                                <col width="8%"/>
+                                <col width="10%"/>
                                 <col width="12%"/>
                                 <col width="12%"/>
                                 <col width="x"/>
                                 <col width="12%"/>
-                                <col width="8%"/>
+                                <col width="10%"/>
                                 <col width="8%"/>
                             </colgroup>
                             <thead>

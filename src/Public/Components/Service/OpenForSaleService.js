@@ -2,11 +2,11 @@ import axios from 'axios';
 import { BASE_URL_SERVER } from '../config/server';
 
 const API_ENDPOINT = {
-    ADMIN_LIST_OPENSALES: "/api/open-for-sales",
-    ADMIN_DETAIL_OPENSALE: "/api/open-for-sales",
-    ADMIN_POST_OPENSALE: "/api/open-for-sales",
-    ADMIN_UPDATE_OPENSALE: "/api/open-for-sales",
-    ADMIN_DELETE_OPENSALE: "/api/open-for-sales"
+    ADMIN_LIST_OPENFORSALES: "/api/open-for-sales/",
+    ADMIN_DETAIL_OPENFORSALE: "/api/open-for-sales/",
+    ADMIN_POST_OPENFORSALES: "/api/open-for-sales/",
+    ADMIN_UPDATE_OPENFORSALES: "/api/open-for-sales/",
+    ADMIN_DELETE_OPENFORSALES: "/api/open-for-sales/"
 };
 
 class OpenSaleService {
@@ -17,7 +17,7 @@ class OpenSaleService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_OPENSALES, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_OPENFORSALES, config);
     };
 
     adminDetailOpenSale = (id) => {
@@ -27,18 +27,19 @@ class OpenSaleService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_OPENSALE + id, config);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_OPENFORSALE + id, config);
     };
 
     adminCreateOpenSale = (data) => {
         const config = {
             headers: {
-                'content-type': 'multipart/form-data',
+                'content-type': 'application/json', 
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_OPENSALE, data, config);
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_OPENFORSALES, data, config);
     };
+    
 
     adminUpdateOpenSale = (id, data) => {
         const config = {
@@ -47,7 +48,7 @@ class OpenSaleService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_OPENSALE + id, data, config);
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_OPENFORSALES + id, data, config);
     };
 
     adminDeleteOpenSale = (id) => {
@@ -57,7 +58,7 @@ class OpenSaleService {
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_OPENSALE + id, config);
+        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_OPENFORSALES + id, config);
     };
 }
 
