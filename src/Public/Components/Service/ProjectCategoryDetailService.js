@@ -1,0 +1,62 @@
+import axios from "axios";
+import { BASE_URL_SERVER } from "../config/server";
+
+const API_ENDPOINT = {
+  LIST: "/api/project-category-details",
+  CREATE: "/api/project-category-details",
+  UPDATE: "/api/project-category-details/",
+  DELETE: "/api/project-category-details/",
+  DETAIL: "/api/project-category-details/",
+};
+
+export const configTokenApi = {
+  headers: {
+    "content-type": "application/json",
+    Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+  },
+};
+
+class ProjectCategoryDetailService {
+  getList = async () => {
+    return await axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST, configTokenApi);
+  };
+
+  create = async (data) => {
+    return await axios.post(
+      BASE_URL_SERVER + API_ENDPOINT.CREATE,
+      data,
+      configTokenApi
+    );
+  };
+
+  getDetail = async (id) => {
+    return await axios.get(
+      BASE_URL_SERVER + API_ENDPOINT.DETAIL + id,
+      configTokenApi
+    );
+  };
+
+  update = async (data, id) => {
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    };
+    return await axios.put(
+      BASE_URL_SERVER + API_ENDPOINT.UPDATE + id,
+      data,
+      config
+    );
+  };
+
+  delete = async (id) => {
+    return await axios.delete(
+      BASE_URL_SERVER + API_ENDPOINT.DELETE + id,
+      configTokenApi
+    );
+  };
+}
+
+const projectCategoryDetailService = new ProjectCategoryDetailService();
+export default projectCategoryDetailService;
