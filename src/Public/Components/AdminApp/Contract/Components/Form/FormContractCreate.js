@@ -19,6 +19,7 @@ import promotionDetailService from "../../../../Service/PromotionDetailService";
 import contractService from "../../../../Service/ContractService";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function FormContractCreate() {
   const [documentTemplateData, setDocumentTemplateData] = useState([]);
@@ -35,7 +36,7 @@ function FormContractCreate() {
     contractType: yup.string().required("Vui lòng nhập thông tin"),
     totalPrice: yup.string().required("Vui lòng nhập thông tin"),
     documentTemplateID: yup.string().required("Vui lòng nhập thông tin"),
-    promotionDetailID: yup.string().required("Vui lòng nhập thông tin"),
+    promotionDetailID: yup.string().notRequired("Vui lòng nhập thông tin"),
     paymentProcessID: yup.string().required("Vui lòng nhập thông tin"),
     bookingID: yup.string().required("Vui lòng nhập thông tin"),
     description: yup.string().required("Vui lòng nhập thông tin"),
@@ -66,86 +67,63 @@ function FormContractCreate() {
   } = methods;
 
   const getListBooking = async () => {
-    await bookingService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
+    try {
+      const fetchAndSetData = async (service, mapper, setter) => {
+        const res = await service();
+        const data = res.data.map(mapper);
+        setter(data);
+      };
+
+      await Promise.all([
+        fetchAndSetData(
+          bookingService.getList,
+          (item) => ({
             id: item.bookingID,
             label: item.projectName,
             value: item.bookingID,
-          };
-        });
-        setBookingData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await customerService
-      .getList()
-      .then((res) => {
-        console.log(res.data);
-        const data = res.data.map((item) => {
-          return {
+          }),
+          setBookingData
+        ),
+        fetchAndSetData(
+          customerService.getList,
+          (item) => ({
             id: item.customerID,
             label: item.fullName,
             value: item.customerID,
-          };
-        });
-        setCustomerData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await paymentProcessService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
+          }),
+          setCustomerData
+        ),
+        fetchAndSetData(
+          paymentProcessService.getList,
+          (item) => ({
             id: item.paymentProcessID,
             label: item.paymentProcessName,
             value: item.paymentProcessID,
-          };
-        });
-        setPaymentProcessData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await promotionDetailService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
+          }),
+          setPaymentProcessData
+        ),
+        fetchAndSetData(
+          promotionDetailService.getList,
+          (item) => ({
             id: item.promotionDetaiID,
             label: item.promotionName,
             value: item.promotionDetaiID,
-          };
-        });
-        setPromotionDetailData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await documentTemplateService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
+          }),
+          setPromotionDetailData
+        ),
+        fetchAndSetData(
+          documentTemplateService.getList,
+          (item) => ({
             id: item.documentTemplateID,
             label: item.documentName,
             value: item.documentTemplateID,
-          };
-        });
-        setDocumentTemplateData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          }),
+          setDocumentTemplateData
+        ),
+      ]);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   useEffect(() => {
@@ -158,6 +136,8 @@ function FormContractCreate() {
       setFileName(file.name);
     }
   };
+
+  const navigate = useNavigate();
 
   const onSubmitForm = async (values) => {
     const data = {
@@ -172,11 +152,13 @@ function FormContractCreate() {
       customerID: values.customerID,
       paymentProcessID: values.paymentProcessID,
       promotionDetailID: values.promotionDetailID,
+      createdTime: new Date(),
     };
 
     await contractService
       .create(data)
       .then(() => {
+        navigate("/contract");
         toast.success("Thêm mới hợp đồng thành công!");
       })
       .catch((err) => {
@@ -186,7 +168,7 @@ function FormContractCreate() {
   };
 
   return (
-    <div>
+    <>
       <Header />
       <Sidebar />
       <Box
@@ -224,6 +206,7 @@ function FormContractCreate() {
                   register={register}
                   name="totalPrice"
                   label="Giá"
+                  type="number"
                   errors={errors.totalPrice}
                 />
               </Grid>
@@ -335,7 +318,7 @@ function FormContractCreate() {
           </CardJs>
         </FormProviderJs>
       </Box>
-    </div>
+    </>
   );
 }
 

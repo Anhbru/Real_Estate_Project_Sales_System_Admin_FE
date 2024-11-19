@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../../Shared/Admin/Sidebar/Sidebar";
 import CardJs from "../../../../../Utils/Card";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Skeleton, Typography } from "@mui/material";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -19,7 +19,7 @@ import promotionDetailService from "../../../../Service/PromotionDetailService";
 import contractService from "../../../../Service/ContractService";
 import CircularProgress from "@mui/material/CircularProgress";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function FormContractUpdate() {
   const [documentTemplateData, setDocumentTemplateData] = useState([]);
@@ -28,7 +28,6 @@ export default function FormContractUpdate() {
   const [paymentProcessData, setPaymentProcessData] = useState([]);
   const [promotionDetailData, setPromotionDetailData] = useState([]);
   const [fileName, setFileName] = useState("");
-
   const { id } = useParams();
 
   const SchemaCreate = yup.object({
@@ -38,7 +37,7 @@ export default function FormContractUpdate() {
     contractType: yup.string().required("Vui lòng nhập thông tin"),
     totalPrice: yup.string().required("Vui lòng nhập thông tin"),
     documentTemplateID: yup.string().required("Vui lòng nhập thông tin"),
-    promotionDetailID: yup.string().required("Vui lòng nhập thông tin"),
+    promotionDetailID: yup.string().notRequired("Vui lòng nhập thông tin"),
     paymentProcessID: yup.string().required("Vui lòng nhập thông tin"),
     bookingID: yup.string().required("Vui lòng nhập thông tin"),
     description: yup.string().required("Vui lòng nhập thông tin"),
@@ -70,86 +69,81 @@ export default function FormContractUpdate() {
     formState: { isSubmitting, errors },
   } = methods;
 
+  const [loading, setLoading] = useState(false);
+
   const getListBooking = async () => {
-    await bookingService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
-            id: item.bookingID,
-            label: item.projectName,
-            value: item.bookingID,
-          };
-        });
-        setBookingData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      setLoading(true);
+      const apiCalls = [
+        {
+          service: bookingService.getList,
+          handler: (res) =>
+            res.data.map((item) => ({
+              id: item.bookingID,
+              label: item.projectName,
+              value: item.bookingID,
+            })),
+          setter: setBookingData,
+        },
+        {
+          service: customerService.getList,
+          handler: (res) =>
+            res.data.map((item) => ({
+              id: item.customerID,
+              label: item.fullName,
+              value: item.customerID,
+            })),
+          setter: setCustomerData,
+        },
+        {
+          service: paymentProcessService.getList,
+          handler: (res) =>
+            res.data.map((item) => ({
+              id: item.paymentProcessID,
+              label: item.paymentProcessName,
+              value: item.paymentProcessID,
+            })),
+          setter: setPaymentProcessData,
+        },
+        {
+          service: promotionDetailService.getList,
+          handler: (res) =>
+            res.data.map((item) => ({
+              id: item.promotionDetaiID,
+              label: item.promotionName,
+              value: item.promotionDetaiID,
+            })),
+          setter: setPromotionDetailData,
+        },
+        {
+          service: documentTemplateService.getList,
+          handler: (res) =>
+            res.data.map((item) => ({
+              id: item.documentTemplateID,
+              label: item.documentName,
+              value: item.documentTemplateID,
+            })),
+          setter: setDocumentTemplateData,
+        },
+      ];
 
-    await customerService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
-            id: item.customerID,
-            label: item.fullName,
-            value: item.customerID,
-          };
-        });
-        setCustomerData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      const results = await Promise.all(
+        apiCalls.map((api) =>
+          api
+            .service()
+            .then((res) => ({ data: api.handler(res), setter: api.setter }))
+        )
+      );
 
-    await paymentProcessService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
-            id: item.paymentProcessID,
-            label: item.paymentProcessName,
-            value: item.paymentProcessID,
-          };
-        });
-        setPaymentProcessData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      results.forEach(({ data, setter }) => setter(data));
 
-    await promotionDetailService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
-            id: item.promotionDetaiID,
-            label: item.promotionName,
-            value: item.promotionDetaiID,
-          };
-        });
-        setPromotionDetailData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await documentTemplateService
-      .getList()
-      .then((res) => {
-        const data = res.data.map((item) => {
-          return {
-            id: item.documentTemplateID,
-            label: item.documentName,
-            value: item.documentTemplateID,
-          };
-        });
-        setDocumentTemplateData(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      const contractDetail = await contractService.getDetail(id);
+      reset(contractDetail.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -163,6 +157,8 @@ export default function FormContractUpdate() {
     }
   };
 
+  const navigate = useNavigate();
+
   const onSubmitForm = async (values) => {
     const data = {
       contractCode: values.contractCode,
@@ -175,34 +171,21 @@ export default function FormContractUpdate() {
       bookingID: values.bookingID,
       customerID: values.customerID,
       paymentProcessID: values.paymentProcessID,
-      promotionDetailID: values.promotionDetailID,
+      // promotionDetailID: values.promotionDetailID,
+      updatedTime: new Date(),
     };
 
     await contractService
       .update(data, id)
       .then(() => {
-        toast.success("Thêm mới hợp đồng thành công!");
+        toast.success("Cập nhật hợp đồng thành công!");
+        navigate("/contract");
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Thêm mới hợp đồng thất bại!");
+        toast.error("Cập nhật hợp đồng thất bại!");
       });
   };
-
-  const getDetail = async () => {
-    await contractService
-      .getDetail(id)
-      .then((res) => {
-        reset(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    getDetail();
-  }, [id]);
 
   return (
     <div>
@@ -220,136 +203,263 @@ export default function FormContractUpdate() {
           handleSubmit={handleSubmit(onSubmitForm)}
         >
           <CardJs>
-            <Typography variant="h6">Cập nhật hợp đồng</Typography>
+            <Typography variant="h6">
+              {loading ? (
+                <Skeleton width="10%" sx={{ borderRadius: "8px" }} />
+              ) : (
+                "Cập nhật hợp đồng"
+              )}
+            </Typography>
             <Grid container item xs={12} spacing={2} sx={{ mt: 2 }}>
               <Grid item xs={3}>
-                <InputField
-                  register={register}
-                  name="contractCode"
-                  label="Mã hợp đồng"
-                  errors={errors.contractCode}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <InputField
+                    register={register}
+                    name="contractCode"
+                    label="Mã hợp đồng"
+                    errors={errors.contractCode}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <InputField
-                  register={register}
-                  name="contractType"
-                  label="Loại hợp đồng"
-                  errors={errors.contractType}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <InputField
+                    register={register}
+                    name="contractType"
+                    label="Loại hợp đồng"
+                    errors={errors.contractType}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <InputField
-                  register={register}
-                  name="totalPrice"
-                  label="Giá"
-                  errors={errors.totalPrice}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <InputField
+                    register={register}
+                    name="totalPrice"
+                    label="Giá"
+                    errors={errors.totalPrice}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <SelectJs
-                  control={control}
-                  arrayValue={documentTemplateData}
-                  name="documentTemplateID"
-                  label="Mẫu tài liệu"
-                  errors={errors.documentTemplateID}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <SelectJs
+                    control={control}
+                    arrayValue={documentTemplateData}
+                    name="documentTemplateID"
+                    label="Mẫu tài liệu"
+                    errors={errors.documentTemplateID}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <SelectJs
-                  control={control}
-                  arrayValue={paymentProcessData}
-                  register={register}
-                  name="paymentProcessID"
-                  label="Quy trình thanh toán"
-                  errors={errors.paymentProcessID}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <SelectJs
+                    control={control}
+                    arrayValue={paymentProcessData}
+                    register={register}
+                    name="paymentProcessID"
+                    label="Quy trình thanh toán"
+                    errors={errors.paymentProcessID}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <SelectJs
-                  control={control}
-                  arrayValue={bookingData}
-                  register={register}
-                  name="bookingID"
-                  label="Đặt chỗ"
-                  errors={errors.bookingID}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <SelectJs
+                    control={control}
+                    arrayValue={bookingData}
+                    register={register}
+                    name="bookingID"
+                    label="Đặt chỗ"
+                    errors={errors.bookingID}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <SelectJs
-                  control={control}
-                  arrayValue={customerData}
-                  register={register}
-                  name="customerID"
-                  label="khách hàng"
-                  errors={errors.customerID}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <SelectJs
+                    control={control}
+                    arrayValue={customerData}
+                    register={register}
+                    name="customerID"
+                    label="khách hàng"
+                    errors={errors.customerID}
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <SelectJs
-                  control={control}
-                  arrayValue={promotionDetailData}
-                  register={register}
-                  name="promotionDetailID"
-                  label="khuyến mãi"
-                  errors={errors.promotionDetailID}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <SelectJs
+                    control={control}
+                    arrayValue={promotionDetailData}
+                    register={register}
+                    name="promotionDetailID"
+                    label="khuyến mãi"
+                    errors={errors.promotionDetailID}
+                  />
+                )}
               </Grid>
 
               <Grid item xs={3}>
-                <DatePickerJs
-                  register={register}
-                  errors={errors.expiredTime}
-                  name="expiredTime"
-                  label="Thời gian hết hạn"
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <DatePickerJs
+                    register={register}
+                    errors={errors.expiredTime}
+                    name="expiredTime"
+                    label="Thời gian hết hạn"
+                  />
+                )}
               </Grid>
               <Grid item xs={3}>
-                <input
-                  accept="image/*"
-                  id="file-upload"
-                  type="file"
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-                <label htmlFor="file-upload">
-                  <Button variant="contained" color="primary" component="span">
-                    Upload File
-                  </Button>
-                </label>
-                {fileName && (
-                  <Typography variant="body1" color="text.secondary">
-                    Selected File: {fileName}
-                  </Typography>
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={56}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <InputField
+                    register={register}
+                    name="file"
+                    label="File"
+                    errors={errors.file}
+                    type="file"
+                    onChange={handleFileChange}
+                  />
                 )}
               </Grid>
               <Grid item xs={12}>
-                <InputField
-                  multiline
-                  rows={5}
-                  register={register}
-                  name="description"
-                  label="Mô tả"
-                  errors={errors.description}
-                />
+                {loading ? (
+                  <Skeleton
+                    width="100%"
+                    variant="rectangular"
+                    height={150}
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                  />
+                ) : (
+                  <InputField
+                    multiline
+                    rows={5}
+                    register={register}
+                    name="description"
+                    label="Mô tả"
+                    errors={errors.description}
+                  />
+                )}
               </Grid>
             </Grid>
             <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
-              <ButtonJs
-                title="submit"
-                type="submit"
-                disabled={isSubmitting}
-                icon={
-                  <CircularProgress
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      color: "white",
-                    }}
-                  />
-                }
-                leftIcon={isSubmitting}
-              />
+              {loading ? (
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ borderRadius: "8px" }}
+                  width={100}
+                  height={40}
+                />
+              ) : (
+                <ButtonJs
+                  title="submit"
+                  type="submit"
+                  disabled={isSubmitting}
+                  icon={
+                    <CircularProgress
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        color: "white",
+                      }}
+                    />
+                  }
+                  leftIcon={isSubmitting}
+                />
+              )}
             </Box>
           </CardJs>
         </FormProviderJs>

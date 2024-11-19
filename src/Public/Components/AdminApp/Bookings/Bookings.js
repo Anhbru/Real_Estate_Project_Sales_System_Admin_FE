@@ -14,7 +14,6 @@ import SelectJs from "../../../Utils/Select";
 import projectCategoryDetailService from "../../Service/ProjectCategoryDetailService";
 import bookingService from "../../Service/BookingService";
 import { toast } from "react-toastify";
-import LoadingSpinner from "../../../Utils/LoadingSpinner";
 
 function Bookings() {
   const [data, setData] = useState([]);
@@ -50,20 +49,21 @@ function Bookings() {
       categoryDetailId: values.categoryDetailId,
       customerId: values.customerId,
     };
-    console.log("🚀 ~ onSubmitForm ~ data:", data);
 
     await bookingService
       .create(data)
       .then(() => {
         toast.success("Tạo mới thành công!");
+        setOpenDialog(false);
       })
       .catch((err) => {
         console.log(err);
         toast.error(err.response.data.message);
+        setOpenDialog(false);
       });
   };
 
-  const getListCustomer = async () => {
+  const getListBooking = async () => {
     setLoading(true);
     await bookingService
       .getList()
@@ -74,7 +74,9 @@ function Bookings() {
       .catch((err) => {
         console.log(err);
       });
+  };
 
+  const getListCustomer = async () => {
     await customerService
       .getList()
       .then((res) => {
@@ -110,6 +112,7 @@ function Bookings() {
 
   useEffect(() => {
     getListCustomer();
+    getListBooking();
   }, []);
 
   return (
@@ -141,20 +144,20 @@ function Bookings() {
           onClick={() => setOpenDialog(true)}
         />
       </Box>
-      {loading ? (
-        <LoadingSpinner open />
-      ) : (
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "2rem",
-          }}
-        >
-          <BookingsTable data={data} />
-        </Box>
-      )}
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "2rem",
+        }}
+      >
+        <BookingsTable
+          data={data}
+          loading={loading}
+          getListBooking={getListBooking}
+        />
+      </Box>
 
       <DialogJs
         onSubmit={handleSubmit(onSubmitForm)}

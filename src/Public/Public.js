@@ -36,6 +36,8 @@ import FormContractCreate from "./Components/AdminApp/Contract/Components/Form/F
 // Bookings
 import Bookings from "./Components/AdminApp/Bookings/Bookings";
 import FormContractUpdate from "./Components/AdminApp/Contract/Components/Form/FormContractUpdate";
+import FormUpdateBookings from "./Components/AdminApp/Bookings/Form/FormUpdateBookings";
+import LoginV2 from "./Components/Auth/LoginV2/LoginV2";
 
 /* Main Page */
 
@@ -51,7 +53,7 @@ function Public() {
   return (
     <Routes>
       {/* Auth Page */}
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<LoginV2 />} />
       {/* Dashboard Page */}
       <Route path="/dashboard" element={<Dashboard />} />
       {/* Projects Page */}
@@ -88,6 +90,7 @@ function Public() {
 
       {/* Bookings */}
       <Route path="/bookings" element={<Bookings />} />
+      <Route path="/bookings/edit/:id" element={<FormUpdateBookings />} />
     </Routes>
   );
 }
