@@ -6,14 +6,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Chip, Grid } from "@mui/material";
+import { Chip, Grid, Skeleton, Typography } from "@mui/material";
 import ButtonJs from "../../../../../Utils/Button";
 import ContractTableHeader from "./ContractTableHeader";
 import contractService from "../../../../Service/ContractService";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LoadingSpinner from "../../../../../Utils/LoadingSpinner";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import DialogJs from "../../../../../Utils/Dialog";
+import { toast } from "react-toastify";
 
 export default function ContractTable() {
   const [data, setData] = useState([]);
@@ -55,33 +57,94 @@ export default function ContractTable() {
     navigate(`edit/${id}`);
   };
 
+  const [openDialog, setOpenDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOpenDialog = (id) => {
+    setOpenDialog(true);
+    navigate(`?id=${id}`);
+  };
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    await contractService
+      .delete(id)
+      .then(() => {
+        setIsLoading(false);
+        setOpenDialog(false);
+        getListData();
+        toast.success("Xóa bản ghi thành công!");
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+        toast.error("Xóa bản ghi thất bại!");
+      });
+  };
+
   return (
     <>
-      {loading ? (
-        <LoadingSpinner open />
-      ) : (
-        <Paper
-          sx={{
-            mb: 2,
-            width: "100rem",
-            marginLeft: "15rem",
-            borderRadius: "16px",
-            backgroundColor: "rgb(255, 255, 255)",
-            color: "rgb(33, 43, 54)",
-            boxShadow:
-              "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px",
-          }}
-        >
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size="medium"
-            >
-              <ContractTableHeader />
-              <TableBody>
-                {data.map((row, index) => {
-                  return (
+      <Paper
+        sx={{
+          mb: 2,
+          width: "100rem",
+          marginLeft: "15rem",
+          borderRadius: "16px",
+          backgroundColor: "rgb(255, 255, 255)",
+          color: "rgb(33, 43, 54)",
+          boxShadow:
+            "rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px",
+        }}
+      >
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size="medium"
+          >
+            <ContractTableHeader />
+            <TableBody>
+              {loading
+                ? Array.from({ length: 10 }).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell sx={{ display: "flex", gap: 2 }}>
+                        <Skeleton width="120px" height="50px" />
+                        <Skeleton width="120px" height="50px" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : data.map((row, index) => (
                     <TableRow
                       key={row.contractID}
                       sx={{
@@ -121,37 +184,56 @@ export default function ContractTable() {
                               type="button"
                               color="ERROR"
                               leftIcon
+                              onClick={() => handleOpenDialog(row.contractID)}
                               icon={<DeleteIcon />}
                             />
                           </Grid>
                         </Grid>
                       </TableCell>
                     </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow
-                    style={{
-                      height: 53 * emptyRows,
-                    }}
-                  >
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Paper>
-      )}
+                  ))}
+
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: 53 * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+      <DialogJs
+        title="Xóa hợp đồng"
+        fullWidth
+        maxWidth="xs"
+        onClickSubmit={handleDelete}
+        loading={isLoading}
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        footerAction
+        closeButton
+        closeText="Close"
+        submitButton
+        submitText="Delete"
+        color="ERROR"
+      >
+        <Typography variant="subtitle1">
+          Bạn có chắc chắn muốn xóa hợp đồng này không?
+        </Typography>
+      </DialogJs>
     </>
   );
 }

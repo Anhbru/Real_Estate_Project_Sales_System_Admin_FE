@@ -43,10 +43,16 @@ class ContractService {
   };
 
   update = async (data, id) => {
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    };
     return await axios.put(
       BASE_URL_SERVER + API_ENDPOINT.UPDATE + id,
       data,
-      configTokenApi
+      config
     );
   };
 

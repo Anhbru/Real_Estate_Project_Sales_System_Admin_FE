@@ -14,7 +14,6 @@ import projectService from "../../Service/ProjectService";
 import propertyCategoryService from "../../Service/PropertyCategoryService";
 import projectCategoryDetailService from "../../Service/ProjectCategoryDetailService";
 import { toast } from "react-toastify";
-import LoadingSpinner from "../../../Utils/LoadingSpinner";
 
 function ProjectCategoryDetail() {
   const [openDialog, setOpenDialog] = useState(false);
@@ -143,25 +142,22 @@ function ProjectCategoryDetail() {
           onClick={() => setOpenDialog(true)}
         />
       </Box>
-      {loading ? (
-        <LoadingSpinner open />
-      ) : (
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: "2rem",
-          }}
-        >
-          <ProjectCategoryTable
-            data={dataTable}
-            getListProjectDataTable={getListProjectDataTable}
-            dataProject={dataProject}
-            dataProperty={dataProperty}
-          />
-        </Box>
-      )}
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "2rem",
+        }}
+      >
+        <ProjectCategoryTable
+          data={dataTable}
+          getListProjectDataTable={getListProjectDataTable}
+          dataProject={dataProject}
+          dataProperty={dataProperty}
+          loading={loading}
+        />
+      </Box>
 
       <DialogJs
         dialogSubmit

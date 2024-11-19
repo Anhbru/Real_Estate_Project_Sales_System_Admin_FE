@@ -7,7 +7,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TableHeader from "./TableHeader";
-import { Box, Chip, Grid, Typography } from "@mui/material";
+import { Box, Chip, Grid, Skeleton, Typography } from "@mui/material";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ButtonJs from "../../../../../Utils/Button";
@@ -25,6 +25,7 @@ function ProjectCategoryTable({
   getListProjectDataTable,
   dataProject,
   dataProperty,
+  loading,
 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -129,7 +130,7 @@ function ProjectCategoryTable({
       })
       .catch((err) => {
         console.log(err);
-        toast.error("Xóa bản ghi thất bại!");
+        toast.error(err.response.data.message);
         setIsLoading(false);
         setOpenDialogConfirm(false);
       });
@@ -157,54 +158,73 @@ function ProjectCategoryTable({
           >
             <TableHeader />
             <TableBody>
-              {data.map((row, index) => {
-                return (
-                  <TableRow
-                    key={row.projectCategoryDetailID}
-                    sx={{
-                      ":hover": {
-                        backgroundColor: "#f1f5f9",
-                        cursor: "pointer",
-                      },
-                    }}
-                  >
-                    <TableCell align="left">{index + 1}</TableCell>
-                    <TableCell align="left">{row.projectName}</TableCell>
-                    <TableCell align="left">
-                      {row.propertyCategoryName}
-                    </TableCell>
-                    <TableCell align="left">
-                      <Chip label={row.openForSale} />
-                    </TableCell>
-                    <TableCell align="left">
-                      <Grid container spacing={2}>
-                        <Grid item>
-                          <ButtonJs
-                            title="edit"
-                            type="button"
-                            leftIcon
-                            icon={<EditIcon />}
-                            onClick={() =>
-                              handleClickEdit(row.projectCategoryDetailID)
-                            }
-                          />
+              {loading
+                ? Array.from({ length: 10 }).map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <Skeleton width="100%" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton width="100%" height="30px" />
+                      </TableCell>
+                      <TableCell sx={{ display: "flex", gap: 2 }}>
+                        <Skeleton width="100%" height="50px" />
+                        <Skeleton width="100%" height="50px" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : data.map((row, index) => (
+                    <TableRow
+                      key={row.projectCategoryDetailID}
+                      sx={{
+                        ":hover": {
+                          backgroundColor: "#f1f5f9",
+                          cursor: "pointer",
+                        },
+                      }}
+                    >
+                      <TableCell align="left">{index + 1}</TableCell>
+                      <TableCell align="left">{row.projectName}</TableCell>
+                      <TableCell align="left">
+                        {row.propertyCategoryName}
+                      </TableCell>
+                      <TableCell align="left">
+                        <Chip label={row.openForSale} />
+                      </TableCell>
+                      <TableCell align="left">
+                        <Grid container spacing={2}>
+                          <Grid item>
+                            <ButtonJs
+                              title="edit"
+                              type="button"
+                              leftIcon
+                              icon={<EditIcon />}
+                              onClick={() =>
+                                handleClickEdit(row.projectCategoryDetailID)
+                              }
+                            />
+                          </Grid>
+                          <Grid item>
+                            <ButtonJs
+                              title="delete"
+                              color="ERROR"
+                              leftIcon
+                              icon={<DeleteIcon />}
+                              onClick={() =>
+                                handleClickDelete(row.projectCategoryDetailID)
+                              }
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item>
-                          <ButtonJs
-                            title="delete"
-                            color="ERROR"
-                            leftIcon
-                            icon={<DeleteIcon />}
-                            onClick={() =>
-                              handleClickDelete(row.projectCategoryDetailID)
-                            }
-                          />
-                        </Grid>
-                      </Grid>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               {emptyRows > 0 && (
                 <TableRow
                   style={{
