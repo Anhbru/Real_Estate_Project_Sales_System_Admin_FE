@@ -95,7 +95,7 @@ export default function InputField({
         placeholder={placeholder}
         name={name}
         fullWidth
-        label={label}
+        label={type === "file" ? "" : label}
       />
     </ThemeProvider>
   );

@@ -109,9 +109,9 @@ export default function FormContractUpdate() {
           service: promotionDetailService.getList,
           handler: (res) =>
             res.data.map((item) => ({
-              id: item.promotionDetaiID,
+              id: item.promotionDetailID,
               label: item.promotionName,
-              value: item.promotionDetaiID,
+              value: item.promotionDetailID,
             })),
           setter: setPromotionDetailData,
         },
@@ -435,7 +435,30 @@ export default function FormContractUpdate() {
                 )}
               </Grid>
             </Grid>
-            <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                mt: 4,
+                gap: 2,
+              }}
+            >
+              {loading ? (
+                <Skeleton
+                  variant="rectangular"
+                  sx={{ borderRadius: "8px" }}
+                  width={100}
+                  height={40}
+                />
+              ) : (
+                <ButtonJs
+                  title="Cancel"
+                  variant="outlined"
+                  type="button"
+                  onClick={() => navigate("/contract")}
+                />
+              )}
+
               {loading ? (
                 <Skeleton
                   variant="rectangular"
