@@ -42,11 +42,11 @@ function FormUpdateBookings() {
   const SchemaUpdate = yup.object({
     status: yup.string().required("Vui lòng nhập thông tin"),
     documentTemplateID: yup.string().required("Vui lòng chọn thông tin"),
-    staffId: yup.string().required("Vui lòng chọn thông tin"),
+    staffId: yup.string().notRequired("Vui lòng chọn thông tin"),
     openingForSaleID: yup.string().required("Vui lòng chọn thông tin"),
     customerID: yup.string().required("Vui lòng chọn thông tin"),
     projectCategoryDetailID: yup.string().required("Vui lòng chọn thông tin"),
-    note: yup.string().required("Vui lòng chọn thông tin"),
+    note: yup.string().notRequired("Vui lòng chọn thông tin"),
   });
 
   const defaultValues = {
@@ -160,6 +160,39 @@ function FormUpdateBookings() {
     getListSelect();
   }, []);
 
+  const arrayStatus = [
+    {
+      id: 1,
+      label: "Chưa thanh toán tiền giữ chỗ",
+      value: "Chưa thanh toán tiền giữ chỗ",
+    },
+    {
+      id: 2,
+      label: "Đã đặt chỗ",
+      value: "Đã đặt chỗ",
+    },
+    {
+      id: 3,
+      label: "Đã check in",
+      value: "Đã check in",
+    },
+    {
+      id: 4,
+      label: "Đã chọn sản phẩm",
+      value: "Đã chọn sản phẩm",
+    },
+    {
+      id: 5,
+      label: "Đa ký thỏa thuận đặt cọc",
+      value: "Đa ký thỏa thuận đặt cọc",
+    },
+    {
+      id: 6,
+      label: "Đã hủy",
+      value: "Đã hủy",
+    },
+  ];
+
   return (
     <>
       <Header />
@@ -193,8 +226,15 @@ function FormUpdateBookings() {
                     height={56}
                   />
                 ) : (
-                  <InputField
-                    register={register}
+                  // <InputField
+                  //   register={register}
+                  //   name="status"
+                  //   label="Trạng thái"
+                  //   errors={errors.status}
+                  // />
+                  <SelectJs
+                    control={control}
+                    arrayValue={arrayStatus}
                     name="status"
                     label="Trạng thái"
                     errors={errors.status}
