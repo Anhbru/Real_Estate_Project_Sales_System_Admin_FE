@@ -1,315 +1,447 @@
-import { Form, message } from "antd";
-import React, { useEffect, useState } from "react";
+import {Form, message} from "antd";
+import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
+import {useLocation, Link, useNavigate, useParams} from "react-router-dom";
 import $ from "jquery";
 
 function Sidebar() {
-  const { id } = useParams();
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const location = useLocation();
+    const {id} = useParams();
+    const [form] = Form.useForm();
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const location = useLocation();
 
-  const loadingPage = () => {
-    let current_url = window.location.href;
-    let path_name = location.pathname;
+    const loadingPage = () => {
+        let current_url = window.location.href;
+        let path_name = location.pathname;
 
-    let array_main = ["/dashboard"];
+        let array_main = ["/dashboard"];
 
-    let array_project = [
-      "/projects/list",
-      "/projects/create",
-      "/projects/update/",
-      "/projects/detail/",
-    ];
+        let array_project = [
+            "/projects/list",
+            "/projects/create",
+            "/projects/update/",
+            "/projects/detail/",
+        ];
 
-    let array_property = [
-      "/properties/list",
-      "/properties/create",
-      "/properties/update/",
-      "/properties/detail/",
-    ];
+        let array_property = [
+            "/properties/list",
+            "/properties/create",
+            "/properties/update/",
+            "/properties/detail/",
+        ];
 
-    let array_promotion = [
-      "/promotions/list",
-      "/promotions/create",
-      "/promotions/update/",
-      "/promotions/detail/",
-    ];
+        let array_promotion = [
+            "/promotions/list",
+            "/promotions/create",
+            "/promotions/update/",
+            "/promotions/detail/",
+        ];
 
-    let array_salepolicy = [
-      "/salepolicy/list",
-      "/salepolicy/create",
-      "/salepolicy/update/",
-      "/salepolicy/detail/",
-    ];
+        let array_salepolicy = [
+            "/salepolicy/list",
+            "/salepolicy/create",
+            "/salepolicy/update/",
+            "/salepolicy/detail/",
+        ];
 
-    let array_openforsale = [
-      "/openforsales/list",
-      "/openforsales/create",
-      "/openforsales/update/",
-      "/openforsales/detail/",
-    ];
+        let array_openforsale = [
+            "/openforsales/list",
+            "/openforsales/create",
+            "/openforsales/update/",
+            "/openforsales/detail/",
+        ]
 
-    let key = "";
+        let array_blocks = [
+            "/blocks/list",
+            "/blocks/create",
+            "/blocks/update/",
+            "/blocks/detail/",
+        ];
 
-    if (array_project.some((route) => path_name.startsWith(route))) {
-      key = "project";
-    }
+        let array_zones = [
+            "/zones/list",
+            "/zones/create",
+            "/zones/update/",
+            "/zones/detail/",
+        ];
 
-    if (array_property.some((route) => path_name.startsWith(route))) {
-      key = "property";
-    }
+        let array_floors = [
+            "/floors/list",
+            "/floors/create",
+            "/floors/update/",
+            "/floors/detail/",
+        ];
 
-    if (array_main.some((route) => path_name.startsWith(route))) {
-      key = "main";
-    }
+        let array_unittypes = [
+            "/unittypes/list",
+            "/unittypes/create",
+            "/unittypes/update/",
+            "/unittypes/detail/",
+        ];
 
-    if (array_openforsale.some((route) => path_name.startsWith(route))) {
-      key = "openforsales";
-    }
-    if (array_promotion.some((route) => path_name.startsWith(route))) {
-      key = "promotions";
-    }
-    if (array_salepolicy.some((route) => path_name.startsWith(route))) {
-      key = "salepolicys";
-    }
+        let array_project_category = [
+            "/project-category-detail",
+        ];
 
-    $("#sidebar-nav .nav-link").removeClass("active");
+        let array_contract = [
+            "/contract/create",
+            "/contract/edit",
+            "/contract",
+        ];
 
-    switch (key) {
-      case "project":
-        $('a[data-key="project"]').addClass("active");
-        break;
-      case "property":
-        $('a[data-key="property"]').addClass("active");
-        break;
-      case "opensales":
-        $('a[data-key="openforsales"]').addClass("active");
-        break;
-      case "promotions":
-        $('a[data-key="promotions"]').addClass("active");
-        break;
-      case "salepolicys":
-        $('a[data-key="salepolicys"]').addClass("active");
-        break;
-      default:
-        $('a[data-key="main"]').addClass("active");
-        break;
-    }
+        let array_bookings = [
+            "/bookings",
+            "/bookings/edit",
+        ];
 
-    setLoading(false);
-  };
+        let key = "";
 
-  useEffect(() => {
-    loadingPage();
-  }, [form, id, loading]);
+        if (array_project.some((route) => path_name.startsWith(route))) {
+            key = "project";
+        }
 
-  return (
-    <aside id="sidebar" className="sidebar">
-      <ul className="sidebar-nav" id="sidebar-nav">
-        <li className="nav-item">
-          <a data-key="main" className="nav-link collapsed" href="/dashboard">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/overview_icon.png"
-              alt=""
-            />
-            <span>Overview</span>
-          </a>
-        </li>
+        if (array_property.some((route) => path_name.startsWith(route))) {
+            key = "property";
+        }
 
-        <li className="nav-item">
-          <a
-            data-key="salepolicy"
-            id="project_tab"
-            className="nav-link collapsed"
-            href="/projects/list"
-          >
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/project_icon.png"
-              alt=""
-            />
-            <span>Project</span>
-          </a>
-        </li>
+        if (array_main.some((route) => path_name.startsWith(route))) {
+            key = "main";
+        }
 
-        <li className="nav-item">
-          <a
-            data-key="property"
-            className="nav-link collapsed"
-            href="/properties/list"
-          >
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/house_icon.png"
-              alt=""
-            />
-            <span>Property</span>
-          </a>
-        </li>
+        if (array_openforsale.some((route) => path_name.startsWith(route))) {
+            key = "openforsales";
+        }
+        if (array_promotion.some((route) => path_name.startsWith(route))) {
+            key = "promotions";
+        }
+        if (array_salepolicy.some((route) => path_name.startsWith(route))) {
+            key = "salepolicys";
+        }
 
-        <li className="nav-item">
-          <a
-            data-key="openforsales"
-            className="nav-link collapsed"
-            href="/openforsales/list"
-          >
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/open_sale_icon.png"
-              alt=""
-            />
-            <span>Opening For Sale</span>
-          </a>
-        </li>
+        if (array_blocks.some((route) => path_name.startsWith(route))) {
+            key = "blocks";
+        }
 
-        <li className="nav-item">
-          <a
-            data-key="salepolicys"
-            className="nav-link collapsed"
-            href="/salepolicy/list"
-          >
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/sale_icon.png"
-              alt=""
-            />
-            <span>Sales policy</span>
-          </a>
-        </li>
+        if (array_zones.some((route) => path_name.startsWith(route))) {
+            key = "zones";
+        }
 
-        <li className="nav-item">
-          <a
-            data-key="promotions"
-            className="nav-link collapsed"
-            href="/promotions/list"
-          >
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/promotion_icon.png"
-              alt=""
-            />
-            <span>Promotion</span>
-          </a>
-        </li>
+        if (array_floors.some((route) => path_name.startsWith(route))) {
+            key = "floors";
+        }
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/report_icon.png"
-              alt=""
-            />
-            <span>Report</span>
-          </a>
-        </li>
+        if (array_unittypes.some((route) => path_name.startsWith(route))) {
+            key = "unittypes";
+        }
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/customer_icon.png"
-              alt=""
-            />
-            <span>Customer</span>
-          </a>
-        </li>
+        if (array_project_category.some((route) => path_name.startsWith(route))) {
+            key = "project_category";
+        }
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/employee_icon.png"
-              alt=""
-            />
-            <span>Employee</span>
-          </a>
-        </li>
+        if (array_contract.some((route) => path_name.startsWith(route))) {
+            key = "contract";
+        }
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/payment_report_icon.png"
-              alt=""
-            />
-            <span>Payment Process</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/comment_icon.png"
-              alt=""
-            />
-            <span>Comment</span>
-          </a>
-        </li>
-        <li className="nav-item">
-          <Link to="/bookings" className="nav-link collapsed">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/booking_icon.png"
-              alt=""
-            />
-            <span>Booking</span>
-          </Link>
-        </li>
+        if (array_bookings.some((route) => path_name.startsWith(route))) {
+            key = "bookings";
+        }
 
-        <li className="nav-item">
-          <Link to="/contract" className="nav-link collapsed">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/contact_icon.png"
-              alt=""
-            />
-            <span>Contract</span>
-          </Link>
-        </li>
-        <li className="nav-item">
-          <Link to="/project-category-detail" className="nav-link collapsed">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/contact_icon.png"
-              alt=""
-            />
-            <span>Project Category Detail</span>
-          </Link>
-        </li>
+        $("#sidebar-nav .nav-link").removeClass("active");
 
-        <li>
-          <p className="nav-divider"></p>
-        </li>
+        switch (key) {
+            case "project":
+                $('a[data-key="project"]').addClass("active");
+                break;
+            case "property":
+                $('a[data-key="property"]').addClass("active");
+                break;
+            case "opensales":
+                $('a[data-key="openforsales"]').addClass("active");
+                break;
+            case "promotions":
+                $('a[data-key="promotions"]').addClass("active");
+                break;
+            case "salepolicys":
+                $('a[data-key="salepolicys"]').addClass("active");
+                break;
+            case "floors":
+                $('a[data-key="floors"]').addClass("active");
+                break;
+            case "blocks":
+                $('a[data-key="blocks"]').addClass("active");
+                break;
+            case "zones":
+                $('a[data-key="zones"]').addClass("active");
+                break;
+            case "unittypes":
+                $('a[data-key="unittypes"]').addClass("active");
+                break;
+            case "project_category":
+                $('a[data-key="project_category"]').addClass("active");
+                break;
+            case "contract":
+                $('a[data-key="contract"]').addClass("active");
+                break;
+            case "bookings":
+                $('a[data-key="bookings"]').addClass("active");
+                break;
+            default:
+                $('a[data-key="main"]').addClass("active");
+                break;
+        }
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/setting_icon.png"
-              alt=""
-            />
-            <span>Settings</span>
-          </a>
-        </li>
+        setLoading(false);
+    };
 
-        <li className="nav-item">
-          <a className="nav-link collapsed" href="#">
-            <img
-              className="icon_sidebar_"
-              src="/assets/icon/logout_icon.png"
-              alt=""
-            />
-            <span>Logout</span>
-          </a>
-        </li>
-      </ul>
-    </aside>
-  );
+    useEffect(() => {
+        loadingPage();
+    }, [form, id, loading]);
+
+    return (
+        <aside id="sidebar" className="sidebar">
+            <ul className="sidebar-nav" id="sidebar-nav">
+                <li className="nav-item">
+                    <a data-key="main" className="nav-link collapsed" href="/dashboard">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/overview_icon.png"
+                            alt=""
+                        />
+                        <span>Overview</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="salepolicy"
+                        id="project_tab"
+                        className="nav-link collapsed"
+                        href="/projects/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/project_icon.png"
+                            alt=""
+                        />
+                        <span>Project</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="property"
+                        className="nav-link collapsed"
+                        href="/properties/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/house_icon.png"
+                            alt=""
+                        />
+                        <span>Property</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="openforsales"
+                        className="nav-link collapsed"
+                        href="/openforsales/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/open_sale_icon.png"
+                            alt=""
+                        />
+                        <span>Opening For Sale</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="salepolicys"
+                        className="nav-link collapsed"
+                        href="/salepolicy/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/sale_icon.png"
+                            alt=""
+                        />
+                        <span>Sales policy</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="promotions"
+                        className="nav-link collapsed"
+                        href="/promotions/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/promotion_icon.png"
+                            alt=""
+                        />
+                        <span>Promotion</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/report_icon.png"
+                            alt=""
+                        />
+                        <span>Report</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/customer_icon.png"
+                            alt=""
+                        />
+                        <span>Customer</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/employee_icon.png"
+                            alt=""
+                        />
+                        <span>Employee</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/payment_report_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Process</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/comment_icon.png"
+                            alt=""
+                        />
+                        <span>Comment</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="bookings" href="/bookings" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/booking_icon.png"
+                            alt=""
+                        />
+                        <span>Booking</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a data-key="contract" href="/contract" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Contract</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Project Category Detail</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="blocks" href="/blocks/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Block</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="floors" href="/floors/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Floors</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="zones" href="/zones/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Zones</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="unittypes" href="/unittypes/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>UnitType</span>
+                    </a>
+                </li>
+
+                <li>
+                    <p className="nav-divider"></p>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/setting_icon.png"
+                            alt=""
+                        />
+                        <span>Settings</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="#">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/logout_icon.png"
+                            alt=""
+                        />
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+    );
 }
 
 export default Sidebar;
