@@ -1,13 +1,35 @@
-import React, { useState } from 'react';
-import { Form, Input, DatePicker, Button, message } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Form, Input, DatePicker, Button, Select, message } from 'antd';
 import openSaleService from '../../../Service/OpenForSaleService';
+import projectCategoryService from '../../../Service/ProjectCategoryService'; 
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Header from "../../../Shared/Admin/Header/Header";
 import { Link, useNavigate } from 'react-router-dom';
+
+const { Option } = Select;
+
 const OpenForSaleCreate = () => {
     const [loading, setLoading] = useState(false);
+    const [projectCategories, setProjectCategories] = useState([]); 
     const navigate = useNavigate();
+
+    
+    useEffect(() => {
+        const fetchProjectCategories = async () => {
+            try {
+                const response = await projectCategoryService.adminListProjectCategory(); 
+                const filteredCategories = response.data.filter(
+                    (category) => category.existOpen === false
+                );
+                setProjectCategories(filteredCategories); 
+            } catch (error) {
+                message.error('Failed to load project categories');
+            }
+        };
+        fetchProjectCategories();
+    }, []);
+
     const onFinish = async (values) => {
         setLoading(true);
         const data = {
@@ -38,7 +60,7 @@ const OpenForSaleCreate = () => {
                 <section className="section">
                     <div className="content_page_">
                         <Form layout="vertical" onFinish={onFinish}>
-                            <Form.Item label="Decision Name" name="decisionName" rules={[{ required: true, message: 'Please enter decision name' }]}>
+                            <Form.Item label="Decision Name" name="decisionName" rules={[{ required: true, message: 'Please enter decision name' }]} >
                                 <Input />
                             </Form.Item>
                             <Form.Item label="Start Date" name="startDate" rules={[{ required: true, message: 'Please select start date' }]}>
@@ -59,8 +81,18 @@ const OpenForSaleCreate = () => {
                             <Form.Item label="Description" name="description">
                                 <Input.TextArea />
                             </Form.Item>
-                            <Form.Item label="Project Category Detail ID" name="projectCategoryDetailID">
-                                <Input />
+                            <Form.Item 
+                                label="Project Name" 
+                                name="projectCategoryDetailID" 
+                                rules={[{ required: true, message: 'Please select a project category' }]}
+                            >
+                                <Select placeholder="Select a project category">
+                                    {projectCategories.map((category) => (
+                                        <Option key={category.projectCategoryDetailID} value={category.projectCategoryDetailID}>
+                                            {`${category.projectName} - ${category.propertyCategoryName}`}
+                                        </Option>
+                                    ))}
+                                </Select>
                             </Form.Item>
                             <Form.Item>
                                 <Button type="primary" htmlType="submit" loading={loading}>

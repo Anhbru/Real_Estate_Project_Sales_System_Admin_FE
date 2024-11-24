@@ -54,8 +54,34 @@ function Sidebar() {
         let array_openforsale = [
             '/openforsales/list',
             '/openforsales/create',
+
             '/openforsales/update/',
             '/openforsales/detail/'];
+
+        let array_openforsaledetail = [
+            '/openforsaledetails/list/',
+            '/openforsaledetails/create',
+            '/openforsaledetails/update/',
+            '/openforsaledetails/detail/'];
+
+        let array_customer = [
+            '/customers/list',
+            '/customers/create',
+            '/customers/update/',
+            '/customers/detail/'];
+
+        let array_staff = [
+            '/staff/list',
+            '/staff/create',
+            '/staff/detail/',
+            '/staff/propertylist/'];
+
+        let array_contractpaymentdetail = [
+            '/contractpaymentdetail/list',
+            '/contractpaymentdetail/create',
+            '/contractpaymentdetail/detail/',
+            '/contractpaymentdetail/propertylist/'];
+
 
         let key = '';
 
@@ -80,6 +106,18 @@ function Sidebar() {
         if (array_salepolicy.some(route => path_name.startsWith(route))) {
             key = 'salepolicys';
         }
+        if (array_customer.some(route => path_name.startsWith(route))) {
+            key = 'customers';
+        }
+        if (array_staff.some(route => path_name.startsWith(route))) {
+            key = 'staff';
+        }
+        if (array_openforsaledetail.some(route => path_name.startsWith(route))) {
+            key = 'openforsaledetails';
+        }
+        if (array_contractpaymentdetail.some(route => path_name.startsWith(route))) {
+            key = 'contractpaymentdetail';
+        }
 
         $('#sidebar-nav .nav-link').removeClass('active');
 
@@ -90,7 +128,7 @@ function Sidebar() {
             case "property":
                 $('a[data-key="property"]').addClass('active');
                 break;
-            case "opensales":
+            case "openforsales":
                 $('a[data-key="openforsales"]').addClass('active');
                 break;
             case "promotions":
@@ -98,6 +136,18 @@ function Sidebar() {
                 break;
             case "salepolicys":
                 $('a[data-key="salepolicys"]').addClass('active');
+                break;
+            case "customers":
+                $('a[data-key="customers"]').addClass('active');
+                break;
+            case "staff":
+                $('a[data-key="staff"]').addClass('active');
+                break;
+            case "openforsaledetails":
+                $('a[data-key="openforsaledetails"]').addClass('active');
+                break;
+            case "contractpaymentdetail":
+                $('a[data-key="contractpaymentdetail"]').addClass('active');
                 break;
             default:
                 $('a[data-key="main"]').addClass('active');
@@ -168,7 +218,7 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
-                        <a className="nav-link collapsed" href="#">
+                        <a data-key="customers" className="nav-link collapsed" href="/customers/list">
                             <img className="icon_sidebar_" src="/assets/icon/customer_icon.png" alt="" />
                             <span>Customer</span>
                         </a>
@@ -201,12 +251,26 @@ function Sidebar() {
                     </li>
 
                     <li className="nav-item">
+                        <a data-key="staff" className="nav-link collapsed" href="/staff/list">
+                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                            <span>Staff</span>
+                        </a>
+                    </li>
+                    <li className="nav-item">
+                        <a data-key="contractpaymentdetail" className="nav-link collapsed" href="/contractpaymentdetail/list">
+                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                            <span>Contract Payment Detail</span>
+                        </a>
+                    </li>
+
+                    <li className="nav-item">
                         <a className="nav-link collapsed" data-bs-target="#users-nav" data-bs-toggle="collapse"
                             href="#">
                             <img className="icon_sidebar_" src="/assets/icon/contact_icon.png" alt="" />
                             <span>Contract</span><i
                                 className="bi bi-chevron-down ms-auto"></i>
                         </a>
+                        
                         <ul id="users-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                             <li>
                                 <a href="">

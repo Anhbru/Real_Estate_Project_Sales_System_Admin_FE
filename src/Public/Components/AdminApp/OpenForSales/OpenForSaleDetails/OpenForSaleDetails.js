@@ -138,6 +138,7 @@ function OpenForSaleDetails() {
                                             <p className="key_">Trạng thái: </p>
                                             <p className="val_ text-truncate">{openForSale?.status}</p>
                                         </div>
+                                        
                                         <div className="d-flex align-items-center justify-content-start col-md-6">
                                             <p className="key_">Danh mục dự án: </p>
                                             <p className="val_ text-truncate">{openForSale?.projectCategoryDetailID}</p>

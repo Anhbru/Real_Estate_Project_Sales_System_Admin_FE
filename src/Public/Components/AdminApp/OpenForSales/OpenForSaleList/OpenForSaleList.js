@@ -5,12 +5,11 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
 function OpenForSaleList() {
-
     const [data, setData] = useState([]);
-
     const [loading, setLoading] = useState(false);
-
     const [error, setError] = useState(null);
+    const [projectCategoryID, setProjectCategoryID] = useState(null); // State for projectCategoryID
+
     const formatDateTime = (date) => {
         const d = new Date(date);
         const yyyy = d.getFullYear();
@@ -23,17 +22,21 @@ function OpenForSaleList() {
         return `${yyyy}-${mm}-${dd} ${hh}:${min}:${ss}`;
     };
 
-
     const getListOpenSales = async () => {
-
         setLoading(true);
-
         setError(null);
         try {
             const res = await openSaleService.adminListOpenSales();
             console.log("Open Sales Response:", res.data);
             if (res.status === 200) {
-                setData(Array.isArray(res.data) ? res.data : []);
+                
+                const sortedData = res.data
+                    .sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+                setData(Array.isArray(sortedData) ? sortedData : []);
+
+                if (res.data.length > 0) {
+                    setProjectCategoryID(res.data[0].projectCategoryID); 
+                }
             } else {
                 setError("Failed to fetch open sales.");
             }
@@ -45,13 +48,15 @@ function OpenForSaleList() {
         }
     };
 
-    const checkAll = () => {
+    const isCheckinAvailable = (checkinDate, saleType) => {
+        if (saleType !== "Offline") return false;
 
-        if ($('#checkAll').is(":checked")) {
-            $('.checkbox_item_').prop('checked', true);
-        } else {
-            $('.checkbox_item_').prop('checked', false);
-        }
+        const now = new Date();
+        const checkinStart = new Date(checkinDate);
+        const checkinEnd = new Date(checkinDate);
+        checkinEnd.setDate(checkinEnd.getDate() + 1);
+
+        return now >= checkinStart && now <= checkinEnd;
     };
 
     useEffect(() => {
@@ -86,7 +91,6 @@ function OpenForSaleList() {
                                 ) : (
                                     <table className="table datatable">
                                         <colgroup>
-                                            
                                             <col width="5%" />
                                             <col width="15%" />
                                             <col width="15%" />
@@ -99,7 +103,6 @@ function OpenForSaleList() {
                                         </colgroup>
                                         <thead>
                                             <tr>
-                                              
                                                 <th scope="col">STT</th>
                                                 <th scope="col">Decision Name</th>
                                                 <th scope="col">Description</th>
@@ -114,7 +117,6 @@ function OpenForSaleList() {
                                         <tbody>
                                             {data.map((item, index) => (
                                                 <tr key={item.openingForSaleID}>
-                                                
                                                     <th>{index + 1}</th>
                                                     <td>{item.decisionName}</td>
                                                     <td>{item.description}</td>
@@ -134,6 +136,14 @@ function OpenForSaleList() {
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li><a className="dropdown-item" href={'/openforsales/update/' + item.openingForSaleID}>Update</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
+                                                                <li><a className="dropdown-item" href={'/openforsaledetails/list/' + item.openingForSaleID}>OpenForSaleDetail</a></li>
+                                                                <li><hr className="dropdown-divider" /></li>
+                                                                {isCheckinAvailable(item.checkinDate, item.saleType) && (
+                                                                    <>
+                                                                        <li><a className="dropdown-item" href={'/staff/detailcheckin/' + item.openingForSaleID}>Check-in</a></li>
+                                                                        <li><hr className="dropdown-divider" /></li>
+                                                                    </>
+                                                                )}
                                                                 <li><a className="dropdown-item" href="/openforsales/create">Create</a></li>
                                                             </ul>
                                                         </p>

@@ -24,9 +24,21 @@ function OpenForSaleUpdate() {
 
     const updateOpenForSale = async () => {
         $('#btnUpdate').prop('disabled', true).text('Saving...');
-
+    
         try {
             const formData = new FormData($('#formUpdate')[0]);
+    
+            
+            const fields = ['startDate', 'endDate', 'checkinDate'];
+            fields.forEach(field => {
+                const value = formData.get(field);
+                if (value) {
+                    const date = new Date(value); 
+                    const formatted = date.toISOString().replace('T', ' ').substring(0, 19); 
+                    formData.set(field, formatted);
+                }
+            });
+    
             await openForSaleService.adminUpdateOpenSale(id, formData);
             message.success("Open For Sale updated successfully");
             navigate("/openforsales/list");
@@ -36,6 +48,7 @@ function OpenForSaleUpdate() {
             $('#btnUpdate').prop('disabled', false).text('Save Changes');
         }
     };
+    
 
     useEffect(() => {
         detailOpenForSale();
@@ -44,15 +57,16 @@ function OpenForSaleUpdate() {
     const formatDateTime = (date) => {
         if (!date) return '';
         const d = new Date(date);
-
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const hours = String(d.getHours()).padStart(2, '0');
-        const minutes = String(d.getMinutes()).padStart(2, '0');
-
-        return `${yyyy}-${mm}-${dd}T${hours}:${minutes}`;
+    
+        const yyyy = d.getUTCFullYear();
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        const hh = String(d.getUTCHours()).padStart(2, '0');
+        const min = String(d.getUTCMinutes()).padStart(2, '0');
+    
+        return `${yyyy}-${mm}-${dd}T${hh}:${min}`;
     };
+    
 
     return (
         <>

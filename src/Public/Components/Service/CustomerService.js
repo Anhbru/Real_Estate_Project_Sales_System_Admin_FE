@@ -2,65 +2,65 @@ import { BASE_URL_SERVER } from "../config/server";
 import axios from "axios";
 
 const API_ENDPOINT = {
-    ADMIN_LIST_SALES_POLICY: "/api/sales-policys",
-    ADMIN_DETAIL_SALES_POLICY: "/api/sales-policys/",
-    ADMIN_POST_SALES_POLICY: "/api/sales-policys",
-    ADMIN_UPDATE_SALES_POLICY: "/api/sales-policys/",
-    ADMIN_DELETE_SALES_POLICY: "/api/sales-policys/",
-};
+    ADMIN_LIST_CUSTOMER: "/api/customers",
+    ADMIN_DETAIL_CUSTOMER: "/api/customers/",
+    ADMIN_POST_CUSTOMER: "/api/customers",
+    ADMIN_UPDATE_CUSTOMER: "/api/customers/",
+    ADMIN_DELETE_CUSTOMER: "/api/customers/",
+}
 
-class SalesPolicyService {
-    adminListSalesPolicy = () => {
+class CustomerService {
+    // ADMIN
+    adminListCustomer = () => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_SALES_POLICY, config);
-    };
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_CUSTOMER, config);
+    }
 
-    adminDetailSalesPolicy = (id) => {
+    adminDetailCustomer = (id) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_SALES_POLICY + id, config);
-    };
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_CUSTOMER + id, config);
+    }
 
-    adminCreateSalesPolicy= (data) => {
+    adminCreateCustomer = (data) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_SALES_POLICY, data, config);
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_CUSTOMER, data, config);
     };
-    
 
-    adminUpdateSalesPolicy = (id, data) => {
+    adminUpdateCustomer = (id, data) => {
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_SALES_POLICY + id, data, config);
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_CUSTOMER + id, data, config)
     };
 
-    adminDeleteSalesPolicy = (id) => {
+    adminDeleteCustomer = (id) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_SALES_POLICY + id, config);
-    };
+        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_CUSTOMER + id, config);
+    }
 }
 
-const salesPolicyService = new SalesPolicyService();
-export default salesPolicyService;
+const customerService = new CustomerService();
+export default customerService;

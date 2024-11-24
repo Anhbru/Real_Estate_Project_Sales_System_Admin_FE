@@ -73,22 +73,7 @@ function PromotionCreate() {
                                     </div>
                                 </div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="startDate">Start Date</label>
-                                            <input type="date" className="form-control" name="startDate"
-                                                   id="startDate" placeholder="Enter Start Date" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="endDate">End Date</label>
-                                            <input type="date" className="form-control" name="endDate"
-                                                   id="endDate" placeholder="Enter End Date" />
-                                        </div>
-                                    </div>
-                                </div>
+                                
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                 <div className="col-md-5">

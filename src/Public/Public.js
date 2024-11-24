@@ -19,7 +19,6 @@ import OpenForSaleList from './Components/AdminApp/OpenForSales/OpenForSaleList/
 import OpenForSaleCreate from './Components/AdminApp/OpenForSales/OpenForSaleCreate/OpenForSaleCreate';
 import OpenForSaleUpdate from './Components/AdminApp/OpenForSales/OpenForSaleUpdate/OpenForSaleUpdate';
 import OpenForSaleDetail from './Components/AdminApp/OpenForSales/OpenForSaleDetails/OpenForSaleDetails';
-
 /*Promotion*/
 import PromotionList from './Components/AdminApp/Promotions/PromotionsList/PromotionList';
 import PromotionCreate from './Components/AdminApp/Promotions/PromotionsCreate/PromotionCreate';
@@ -28,6 +27,20 @@ import PromotionUpdate from './Components/AdminApp/Promotions/PromotionsUpdate/P
 
 import SalePoliciesList from './Components/AdminApp/SalePolicies/SalePoliciesList/SalePolicList';
 
+import CustomerList from './Components/AdminApp/Customer/CustomerList/CustomerList';
+import CustomerDetail from './Components/AdminApp/Customer/CustomerDetail/CustomerDetail';
+import CustomerUpdate from './Components/AdminApp/Customer/CustomerUpdate/CustomerUpdate';
+import CustomerCreate from './Components/AdminApp/Customer/CustomerCreate/CustomerCreate';
+
+import StaffList from './Components/AdminApp/Staff/BookingList/BookingList';
+import StaffDetailCheckin from './Components/AdminApp/Staff/BookingDetails/BookingDetailsCheck';
+import StaffProperty from './Components/AdminApp/Staff/PropertySelect/PropertySelect';
+
+import OpenForSaleDetailList from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailList/OpenForSaleDetailList';
+
+
+import ContractPaymentDetailList from './Components/AdminApp/ContractPaymentDetail/ContractPaymentDetailList/ContractPaymentDetailList';
+import ContractPaymentDetailUpdate from './Components/AdminApp/ContractPaymentDetail/ContractPaymentUpdate/ContractPaymentUpdate';
 
 /* Main Page */
 function Public() {
@@ -53,13 +66,30 @@ function Public() {
                 <Route path='/openforsales/create' element={<OpenForSaleCreate />} />
                 <Route path='/openforsales/update/:id' element={<OpenForSaleUpdate />} />
                 <Route path='/openforsales/detail/:id' element={<OpenForSaleDetail />} />
+
                 {/* Promotions Page */}
                 <Route path="/promotions/list" element={<PromotionList />} />
                 <Route path="/promotions/create" element={<PromotionCreate />}/>
                 <Route path='/promotions/detail/:id' element={<PromotionDetail />} />
                 <Route path='/promotions/update/:id' element={<PromotionUpdate />} />
 
-                <Route path="/salepolicy/list" element={<SalePoliciesList/>} />
+                <Route path="/salepolicy/list" element={<SalePoliciesList />} />
+
+                <Route path="/customers/list" element={<CustomerList />} />
+                <Route path='/customers/detail/:id' element={<CustomerDetail />} />
+                <Route path='/customers/update/:id' element={<CustomerUpdate />} />
+                <Route path='/customers/create' element={<CustomerCreate />} />
+
+                <Route path='/staff/list' element={<StaffList />} />
+                <Route path='/staff/detailcheckin/:openingForSaleID' element={<StaffDetailCheckin />} />
+                <Route path='/staff/propertylist/:categoryDetailID' element={<StaffProperty />} />
+
+                <Route path='/openforsaledetails/list/:openingForSaleID' element={<OpenForSaleDetailList />} />
+                
+
+
+                <Route path='/contractpaymentdetail/list' element={<ContractPaymentDetailList />} />
+                <Route path='/contractpaymentdetail/update/:id' element={<ContractPaymentDetailUpdate />} />
             </Routes>
         </div>
     )

@@ -6,7 +6,7 @@ const API_ENDPOINT = {
     ADMIN_DETAIL_OPENFORSALE: "/api/open-for-sales/",
     ADMIN_POST_OPENFORSALES: "/api/open-for-sales/",
     ADMIN_UPDATE_OPENFORSALES: "/api/open-for-sales/",
-    ADMIN_DELETE_OPENFORSALES: "/api/open-for-sales/"
+    ADMIN_DELETE_OPENFORSALES: "/api/open-for-sales/",
 };
 
 class OpenSaleService {
@@ -60,6 +60,8 @@ class OpenSaleService {
         };
         return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_OPENFORSALES + id, config);
     };
+
+ 
 }
 
 const openSaleService = new OpenSaleService();

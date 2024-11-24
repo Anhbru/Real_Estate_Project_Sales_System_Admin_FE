@@ -1,29 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import promotionService from '../../../Service/PromotionService';
+import customerService from '../../../Service/CustomerService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
-function PromotionsList() {
+function CustomerList() {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const getListPromotions = async () => {
+    const getListCustomers = async () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await promotionService.adminListPromotions();
-            console.log("Promotions Response:", res.data);
+            const res = await customerService.adminListCustomer();
+            console.log("Customers Response:", res.data);
             if (res.status === 200) {
                 setData(Array.isArray(res.data) ? res.data : []);
             } else {
-                setError("Failed to fetch promotions.");
+                setError("Failed to fetch customers.");
             }
         } catch (err) {
-            setError("Error fetching promotions: " + err.message);
-            console.error("Error fetching promotions:", err);
+            setError("Error fetching customers: " + err.message);
+            console.error("Error fetching customers:", err);
         } finally {
             setLoading(false);
         }
@@ -35,10 +35,10 @@ function PromotionsList() {
         } else {
             $('.checkbox_item_').prop('checked', false);
         }
-    }
+    };
 
     useEffect(() => {
-        getListPromotions();
+        getListCustomers();
     }, []);
 
     return (
@@ -47,12 +47,12 @@ function PromotionsList() {
             <Sidebar />
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Promotions List</h1>
+                    <h1>Customer List</h1>
                 </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search promotions" />
-                        <a href="/promotions/create" className="btn_go_">
+                        <input type="text" className="input_search" placeholder="Search customers" />
+                        <a href="/customers/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
                         </a>
                     </div>
@@ -65,47 +65,45 @@ function PromotionsList() {
                         ) : (
                             <>
                                 {data.length === 0 ? (
-                                    <p>No promotions found.</p>
+                                    <p>No customers found.</p>
                                 ) : (
                                     <table className="table datatable">
                                         <colgroup>
-                                            <col width="5%" />
+                                          
                                             <col width="5%" />
                                             <col width="15%" />
                                             <col width="15%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
+                                            <col width="15%" />
+                                            <col width="15%" />
+                                            <col width="20%" />
                                             <col width="10%" />
                                         </colgroup>
                                         <thead>
                                             <tr>
-                                                <th scope="col">
-                                                    <input type="checkbox" id="checkAll" onClick={checkAll} />
-                                                </th>
+                                               
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Promotion Name</th>
-                                                <th scope="col">Description</th>
+                                                <th scope="col">Full Name</th>
+                                                <th scope="col">Phone Number</th>
+                                                <th scope="col">ID Card</th>
+                                                <th scope="col">Nationality</th>
+                                                <th scope="col">Address</th>
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Sales Policy Type</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {data.map((item, index) => (
-                                                <tr key={item.promotionID}>
-                                                    <td>
-                                                        <input type="checkbox" className="checkbox_item_" value={item.promotionID} />
-                                                    </td>
+                                                <tr key={item.customerID}>
+                                                    
                                                     <th>{index + 1}</th>
-                                                    <td>{item.promotionName}</td>
-                                                    <td>{item.description}</td>
+                                                    <td>{item.fullName}</td>
+                                                    <td>{item.phoneNumber}</td>
+                                                    <td>{item.identityCardNumber}</td>
+                                                    <td>{item.nationality}</td>
+                                                    <td>{item.placeOfResidence}</td>
                                                     <td style={{ color: item.status ? 'green' : 'red' }}>
                                                         {item.status ? 'Active' : 'Inactive'}
                                                     </td>
-                                                    <td>{item.salesPolicyType}</td>
                                                     <td>
                                                         <p className="nav-item dropdown">
                                                             <a className="nav-link" data-bs-toggle="dropdown" href="#"
@@ -113,11 +111,9 @@ function PromotionsList() {
                                                                 <img src="/assets/icon/more_icon.png" alt="" />
                                                             </a>
                                                             <ul className="dropdown-menu">
-                                                                <li><a className="dropdown-item" href={'/promotions/detail/' + item.promotionID}>Detail</a></li>
+                                                                <li><a className="dropdown-item" href={'/customers/detail/' + item.customerID}>Detail</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
-                                                                <li><a className="dropdown-item" href={'/promotions/update/' + item.promotionID}>Update</a></li>
-                                                                <li><hr className="dropdown-divider" /></li>
-                                                                <li><a className="dropdown-item" href="/promotions/create">Create</a></li>
+                                                                <li><a className="dropdown-item" href={'/customers/update/' + item.customerID}>Update</a></li>
                                                             </ul>
                                                         </p>
                                                     </td>
@@ -135,4 +131,4 @@ function PromotionsList() {
     );
 }
 
-export default PromotionsList;
+export default CustomerList;

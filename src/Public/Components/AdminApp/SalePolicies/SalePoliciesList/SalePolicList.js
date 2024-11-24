@@ -46,25 +46,32 @@ function SalesPolicyList() {
             const values = await form.validateFields();
             const formattedValues = {
                 ...values,
-                expressTime: values.expressTime ? values.expressTime : undefined, 
+                expressTime: values.expressTime ? values.expressTime : undefined,
             };
     
-            console.log("Submitting values:", formattedValues); 
+            console.log("Submitting values:", formattedValues);
     
             if (editingPolicy) {
                 const response = await salesPolicyService.adminUpdateSalesPolicy(editingPolicy.salesPolicyID, formattedValues);
                 message.success("Sales policy updated successfully");
             } else {
                 const response = await salesPolicyService.adminCreateSalesPolicy(formattedValues);
-                message.success("Sales policy created successfully");
+                console.log("Create response:", response);
+                if (response && response.status === 200) {
+                    message.success("Sales policy created successfully");
+                } else {
+                    message.error("Failed to create sales policy");
+                }
             }
     
             setIsModalVisible(false);
             getListSalesPolicies();
         } catch (error) {
+            console.error("Error:", error);
             message.error("Error: " + error.message);
         }
     };
+    
     
 
     const handleDelete = async (salesPolicyID) => {
