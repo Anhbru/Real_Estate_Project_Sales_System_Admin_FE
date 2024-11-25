@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_ENDPOINT = {
     ADMIN_LIST_BLOCK: "/api/blocks",
-    ADMIN_DETAIL_BLOCK: "/api/blocks/GetBlockbyID/",
+    ADMIN_DETAIL_BLOCK: "/api/blocks/",
     ADMIN_CREATE_BLOCK: "/api/blocks",
     ADMIN_UPDATE_BLOCK: "/api/blocks/",
     ADMIN_DELETE_BLOCK: "/api/blocks/",

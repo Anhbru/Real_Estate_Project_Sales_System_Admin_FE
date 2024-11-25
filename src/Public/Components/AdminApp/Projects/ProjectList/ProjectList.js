@@ -20,7 +20,6 @@ function ProjectList() {
       .adminListProject(page)
       .then((res) => {
         if (res.status === 200) {
-          console.log("data", res.data);
           setData(res.data.projects);
           setTotalPages(res.data.totalPages);
           setLoading(false);

@@ -96,6 +96,20 @@ function Sidebar() {
             "/bookings/edit",
         ];
 
+        let array_payment_process = [
+            "/paymentprocesses/list",
+            "/paymentprocesses/create",
+            "/paymentprocesses/update/",
+            "/paymentprocesses/detail/",
+        ];
+
+        let array_payment_process_detail = [
+            "/paymentprocessdetail/list",
+            "/paymentprocessdetail/create",
+            "/paymentprocessdetail/update/",
+            "/paymentprocessdetail/detail/",
+        ];
+
         let key = "";
 
         if (array_project.some((route) => path_name.startsWith(route))) {
@@ -148,6 +162,14 @@ function Sidebar() {
             key = "bookings";
         }
 
+        if (array_payment_process.some((route) => path_name.startsWith(route))) {
+            key = "paymentprocesses";
+        }
+
+        if (array_payment_process_detail.some((route) => path_name.startsWith(route))) {
+            key = "paymentprocessesdetail";
+        }
+
         $("#sidebar-nav .nav-link").removeClass("active");
 
         switch (key) {
@@ -186,6 +208,12 @@ function Sidebar() {
                 break;
             case "bookings":
                 $('a[data-key="bookings"]').addClass("active");
+                break;
+            case "paymentprocesses":
+                $('a[data-key="paymentprocesses"]').addClass("active");
+                break;
+            case "paymentprocessesdetail":
+                $('a[data-key="paymentprocessesdetail"]').addClass("active");
                 break;
             default:
                 $('a[data-key="main"]').addClass("active");
@@ -411,6 +439,27 @@ function Sidebar() {
                             alt=""
                         />
                         <span>UnitType</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="paymentprocesses" href="/paymentprocesses/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Processes</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
+                       className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Processes Detail</span>
                     </a>
                 </li>
 
