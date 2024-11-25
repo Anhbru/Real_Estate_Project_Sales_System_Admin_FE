@@ -63,6 +63,21 @@ import UnittypeDetail from "./Components/AdminApp/Unittypes/UnittypeDetail/Unitt
 import UnittypeCreate from "./Components/AdminApp/Unittypes/UnittypeCreate/UnittypeCreate";
 import UnittypeUpdate from "./Components/AdminApp/Unittypes/UnittypeUpdate/UnittypeUpdate";
 
+
+
+
+/*  PaymentProcess Page */
+import PaymentProcessList from "./Components/AdminApp/PaymentProcess/PaymentProcessList/PaymentProcessList";
+import PaymentProcessDetail from "./Components/AdminApp/PaymentProcess/PaymentProcessDetail/PaymentProcessDetail";
+import PaymentProcessCreate from "./Components/AdminApp/PaymentProcess/PaymentProcessCreate/PaymentProcessCreate";
+import PaymentProcessUpdate from "./Components/AdminApp/PaymentProcess/PaymentProcessUpdate/PaymentProcessUpdate";
+
+/*  PaymentProcessDetail Page */
+import PaymentProcessDetailList from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessList/PaymentProcessList";
+import PaymentProcessDetailDetail from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessDetail/PaymentProcessDetail";
+import PaymentProcessDetailCreate from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessCreate/PaymentProcessCreate";
+import PaymentProcessDetailUpdate from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessUpdate/PaymentProcessUpdate";
+
 import StaffList from './Components/AdminApp/Staff/BookingList/BookingList';
 import StaffDetailCheckin from './Components/AdminApp/Staff/BookingDetails/BookingDetailsCheck';
 import StaffProperty from './Components/AdminApp/Staff/PropertySelect/PropertySelect';
@@ -166,6 +181,18 @@ function Public() {
             
             <Route path='/contractpaymentdetail/list' element={<ContractPaymentDetailList />} />
             <Route path='/contractpaymentdetail/update/:id' element={<ContractPaymentDetailUpdate />} />
+
+            {/* Payment Processes */}
+            <Route path="/paymentprocesses/list" element={<PaymentProcessList/>}/>
+            <Route path="/paymentprocesses/create" element={<PaymentProcessCreate/>}/>
+            <Route path="/paymentprocesses/detail/:id" element={<PaymentProcessDetail/>}/>
+            <Route path="/paymentprocesses/update/:id" element={<PaymentProcessUpdate/>}/>
+
+            {/* Payment Processes Detail*/}
+            <Route path="/paymentprocessesdetail/list" element={<PaymentProcessDetailList/>}/>
+            <Route path="/paymentprocessesdetail/create" element={<PaymentProcessDetailCreate/>}/>
+            <Route path="/paymentprocessesdetail/detail/:id" element={<PaymentProcessDetailDetail/>}/>
+            <Route path="/paymentprocessesdetail/update/:id" element={<PaymentProcessDetailUpdate/>}/>
         </Routes>
     );
 }

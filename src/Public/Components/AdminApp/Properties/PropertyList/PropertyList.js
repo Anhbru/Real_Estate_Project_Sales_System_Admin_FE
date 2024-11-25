@@ -34,6 +34,32 @@ function PropertyList() {
 
     }
 
+    async function deleteProperty(id) {
+        if (window.confirm('Are you sure you want to delete this property?')) {
+            await handleDeleteProperty(id)
+        }
+    }
+
+    const handleDeleteProperty = async (id) => {
+        await propertyService.adminDeleteProperty(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    alert('Delete property successfully!')
+                    getListProperty(currentPage);
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                alert('Delete property error!')
+                setLoading(false)
+                console.log(err)
+            })
+
+    }
+
     const handlePageChange = (page) => {
         if (page > 0 && page <= totalPages) {
             setCurrentPage(page);
@@ -147,8 +173,12 @@ function PropertyList() {
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item" href="/properties/create">Create
-                                                            property</a></li>
+                                                        <li>
+                                                            <p className="dropdown-item " style={{ cursor: 'pointer' }}
+                                                               onClick={() => deleteProperty(item.propertyID)}>
+                                                                Delete property
+                                                            </p>
+                                                        </li>
                                                     </ul>
                                                 </p>
                                             </td>

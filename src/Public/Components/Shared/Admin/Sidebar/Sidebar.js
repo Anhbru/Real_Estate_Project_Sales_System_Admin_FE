@@ -96,6 +96,34 @@ function Sidebar() {
             "/bookings/edit",
         ];
 
+        // let array_payment_process = [
+        //     "/paymentprocesses/list",
+        //     "/paymentprocesses/create",
+        //     "/paymentprocesses/update/",
+        //     "/paymentprocesses/detail/",
+        // ];
+
+        // let array_payment_process_detail = [
+        //     "/paymentprocessdetail/list",
+        //     "/paymentprocessdetail/create",
+        //     "/paymentprocessdetail/update/",
+        //     "/paymentprocessdetail/detail/",
+        // ];
+
+        let array_payment_process = [
+            "/paymentprocesses/list",
+            "/paymentprocesses/create",
+            "/paymentprocesses/update/",
+            "/paymentprocesses/detail/",
+        ];
+
+        let array_payment_process_detail = [
+            "/paymentprocessdetail/list",
+            "/paymentprocessdetail/create",
+            "/paymentprocessdetail/update/",
+            "/paymentprocessdetail/detail/",
+        ];
+
         let array_customer = [
             '/customers/list',
             '/customers/create',
@@ -170,6 +198,14 @@ function Sidebar() {
         if (array_bookings.some((route) => path_name.startsWith(route))) {
             key = "bookings";
         }
+
+        if (array_payment_process.some((route) => path_name.startsWith(route))) {
+            key = "paymentprocesses";
+        }
+
+        if (array_payment_process_detail.some((route) => path_name.startsWith(route))) {
+            key = "paymentprocessesdetail";
+        }
         if (array_staff.some(route => path_name.startsWith(route))) {
             key = 'staff';
         }
@@ -181,6 +217,7 @@ function Sidebar() {
         if (array_contractpaymentdetail.some(route => path_name.startsWith(route))) {
             key = 'contractpaymentdetail';
         }
+
 
         $("#sidebar-nav .nav-link").removeClass("active");
 
@@ -220,6 +257,12 @@ function Sidebar() {
                 break;
             case "bookings":
                 $('a[data-key="bookings"]').addClass("active");
+                break;
+            case "paymentprocesses":
+                $('a[data-key="paymentprocesses"]').addClass("active");
+                break;
+            case "paymentprocessesdetail":
+                $('a[data-key="paymentprocessesdetail"]').addClass("active");
                 break;
             case "staff":
                 $('a[data-key="staff"]').addClass('active');
@@ -409,7 +452,7 @@ function Sidebar() {
                         <span>Contract</span>
                     </a>
                 </li>
-                
+
                 <li className="nav-item">
                     <a data-key="staff" className="nav-link collapsed" href="/staff/list">
                         <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
@@ -417,11 +460,11 @@ function Sidebar() {
                     </a>
                 </li>
                 <li className="nav-item">
-                        <a data-key="contractpaymentdetail" className="nav-link collapsed" href="/contractpaymentdetail/list">
-                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
-                            <span>Contract Payment Detail</span>
-                        </a>
-                    </li>
+                    <a data-key="contractpaymentdetail" className="nav-link collapsed" href="/contractpaymentdetail/list">
+                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                        <span>Contract Payment Detail</span>
+                    </a>
+                </li>
                 <li className="nav-item">
                     <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
                         <img
@@ -470,6 +513,27 @@ function Sidebar() {
                             alt=""
                         />
                         <span>UnitType</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="paymentprocesses" href="/paymentprocesses/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Processes</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
+                        className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Processes Detail</span>
                     </a>
                 </li>
 
