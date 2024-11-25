@@ -1,12 +1,12 @@
-import {Form, message} from "antd";
-import React, {useEffect, useState} from "react";
+import { Form, message } from "antd";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import {useLocation, Link, useNavigate, useParams} from "react-router-dom";
+import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import $ from "jquery";
 
 function Sidebar() {
-    const {id} = useParams();
+    const { id } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -96,6 +96,29 @@ function Sidebar() {
             "/bookings/edit",
         ];
 
+        let array_customer = [
+            '/customers/list',
+            '/customers/create',
+            '/customers/update/',
+            '/customers/detail/'];
+
+        let array_staff = [
+            '/staff/list',
+            '/staff/create',
+            '/staff/detail/',
+            '/staff/propertylist/'];
+
+        let array_openforsaledetail = [
+            '/openforsaledetails/list/',
+            '/openforsaledetails/create',
+            '/openforsaledetails/update/',
+            '/openforsaledetails/detail/'];
+
+        let array_contractpaymentdetail = [
+            '/contractpaymentdetail/list',
+            '/contractpaymentdetail/create',
+            '/contractpaymentdetail/detail/',
+            '/contractpaymentdetail/propertylist/'];
         let key = "";
 
         if (array_project.some((route) => path_name.startsWith(route))) {
@@ -147,6 +170,17 @@ function Sidebar() {
         if (array_bookings.some((route) => path_name.startsWith(route))) {
             key = "bookings";
         }
+        if (array_staff.some(route => path_name.startsWith(route))) {
+            key = 'staff';
+        }
+        if (array_customer.some(route => path_name.startsWith(route))) {
+            key = 'customers';
+        } if (array_openforsaledetail.some(route => path_name.startsWith(route))) {
+            key = 'openforsaledetails';
+        }
+        if (array_contractpaymentdetail.some(route => path_name.startsWith(route))) {
+            key = 'contractpaymentdetail';
+        }
 
         $("#sidebar-nav .nav-link").removeClass("active");
 
@@ -186,6 +220,18 @@ function Sidebar() {
                 break;
             case "bookings":
                 $('a[data-key="bookings"]').addClass("active");
+                break;
+            case "staff":
+                $('a[data-key="staff"]').addClass('active');
+                break;
+            case "customers":
+                $('a[data-key="customers"]').addClass('active');
+                break;
+            case "openforsaledetails":
+                $('a[data-key="openforsaledetails"]').addClass('active');
+                break;
+            case "contractpaymentdetail":
+                $('a[data-key="contractpaymentdetail"]').addClass('active');
                 break;
             default:
                 $('a[data-key="main"]').addClass("active");
@@ -301,7 +347,7 @@ function Sidebar() {
                 </li>
 
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#">
+                    <a className="nav-link collapsed" href="/customers/list">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/customer_icon.png"
@@ -363,6 +409,19 @@ function Sidebar() {
                         <span>Contract</span>
                     </a>
                 </li>
+                
+                <li className="nav-item">
+                    <a data-key="staff" className="nav-link collapsed" href="/staff/list">
+                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                        <span>Staff</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                        <a data-key="contractpaymentdetail" className="nav-link collapsed" href="/contractpaymentdetail/list">
+                            <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                            <span>Contract Payment Detail</span>
+                        </a>
+                    </li>
                 <li className="nav-item">
                     <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
                         <img
