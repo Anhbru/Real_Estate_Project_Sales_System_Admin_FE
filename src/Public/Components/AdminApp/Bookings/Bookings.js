@@ -78,7 +78,7 @@ function Bookings() {
 
   const getListCustomer = async () => {
     await customerService
-      .getList()
+      .adminListCustomer()
       .then((res) => {
         const data = res.data.map((item) => {
           return {
