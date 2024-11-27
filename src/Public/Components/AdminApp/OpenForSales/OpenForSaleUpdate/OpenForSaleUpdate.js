@@ -41,19 +41,7 @@ function OpenForSaleUpdate() {
         detailOpenForSale();
     }, [id]);
 
-    const formatDateTime = (date) => {
-        if (!date) return '';
-        const d = new Date(date);
-
-        const yyyy = d.getFullYear();
-        const mm = String(d.getMonth() + 1).padStart(2, '0');
-        const dd = String(d.getDate()).padStart(2, '0');
-        const hours = String(d.getHours()).padStart(2, '0');
-        const minutes = String(d.getMinutes()).padStart(2, '0');
-
-        return `${yyyy}-${mm}-${dd}T${hours}:${minutes}`;
-    };
-
+   
     return (
         <>
             <Header />
@@ -77,45 +65,39 @@ function OpenForSaleUpdate() {
 
                                 <div className="form-group">
                                     <label htmlFor="saleType">Sale Type</label>
-                                    <input type="text" className="form-control" name="saleType"
-                                        id="saleType" defaultValue={openingForSale?.saleType}
-                                        placeholder="Enter Sale Type" />
+                                    <select
+                                        className="form-control"
+                                        name="saleType"
+                                        id="saleType"
+                                        defaultValue={openingForSale?.saleType || ""}
+                                    >
+                                        <option value="" disabled>
+                                            Select Sale Type
+                                        </option>
+                                        <option value="Online">Online</option>
+                                        <option value="Offline">Offline</option>
+                                    </select>
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="startDate">Start Date</label>
-                                    <input
-                                        type="datetime-local"
-                                        className="form-control"
-                                        name="startDate"
-                                        id="startDate"
-                                        defaultValue={formatDateTime(openingForSale?.startDate)}
-                                        placeholder="Enter Start Date"
-                                    />
+                                    <input type="text" className="form-control" name="startDate"
+                                        id="startDate" defaultValue={openingForSale?.startDate}
+                                        placeholder="Enter Start Date" />
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="endDate">End Date</label>
-                                    <input
-                                        type="datetime-local"
-                                        className="form-control"
-                                        name="endDate"
-                                        id="endDate"
-                                        defaultValue={formatDateTime(openingForSale?.endDate)}
-                                        placeholder="Enter End Date"
-                                    />
+                                    <input type="text" className="form-control" name="endDate"
+                                        id="endDate" defaultValue={openingForSale?.endDate}
+                                        placeholder="Enter End Date" />
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="checkinDate">Check-in Date</label>
-                                    <input
-                                        type="datetime-local"
-                                        className="form-control"
-                                        name="checkinDate"
-                                        id="checkinDate"
-                                        defaultValue={formatDateTime(openingForSale?.checkinDate)}
-                                        placeholder="Enter Check-in Date"
-                                    />
+                                    <input type="text" className="form-control" name="checkinDate"
+                                        id="checkinDate" defaultValue={openingForSale?.checkinDate}
+                                        placeholder="Enter Check-in Date" />
                                 </div>
 
                                 <div className="form-group">
