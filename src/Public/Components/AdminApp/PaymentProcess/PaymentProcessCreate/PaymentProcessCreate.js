@@ -26,12 +26,14 @@ function PaymentProcessCreate() {
                 return
             }
 
-            data.push($(inputs[i]).val());
+             data[$(inputs[i]).attr('id')] = $(inputs[i]).val();
         }
 
-        await paymentProcessService.adminCreate(data)
+        const formData = new FormData($("#formCreate")[0]);
+
+        await paymentProcessService.adminCreate(formData)
             .then((res) => {
-                console.log("create paymentprocess", res.data)
+                console.log("create payment process", res.data)
                 message.success("Tạo payment process thành công!")
                 navigate("/paymentprocesses/list")
             })

@@ -47,10 +47,14 @@ function PaymentProcessUpdate() {
                 return
             }
 
-            data.push($(inputs[i]).val());
+             data[$(inputs[i]).attr('id')] = $(inputs[i]).val();
         }
 
-        await paymentProcessService.adminUpdate(id, data)
+        const formData = new FormData($("#formCreate")[0]);
+
+        console.log(data);
+
+        await paymentProcessService.adminUpdate(id, formData)
             .then((res) => {
                 console.log("create paymentprocess", res.data)
                 message.success("chỉnh sửa payment processs thành công!")
