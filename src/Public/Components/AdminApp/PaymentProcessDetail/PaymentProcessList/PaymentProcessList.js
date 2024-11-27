@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Form, message} from 'antd';
-import paymentProcessService from '../../../Service/PaymentProcessService';
+import paymentProcessDetailService from '../../../Service/PaymentProcessDetailService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -15,7 +15,7 @@ function PaymentProcessList() {
     const [totalPages, setTotalPages] = useState(1);
 
     const getList = async () => {
-        await paymentProcessService.getList()
+        await paymentProcessDetailService.getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
@@ -47,14 +47,14 @@ function PaymentProcessList() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>PaymentProcess List</h1>
+                    <h1>Payment Process Detail List</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
                         <input type="text" className="input_search" placeholder="Search payment processes name"/>
 
-                        <a href="/paymentprocesses/create" className="btn_go_">
+                        <a href="/paymentprocessesdetail/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt=""/>
                         </a>
                     </div>
@@ -91,19 +91,19 @@ function PaymentProcessList() {
                                                         alt=""/></a>
                                                     <ul className="dropdown-menu">
                                                         <li><a className="dropdown-item"
-                                                               href={'/paymentprocesses/detail/' + item.paymentProcessID}>Detail
+                                                               href={'/paymentprocessesdetail/detail/' + item.paymentProcessDetailID}>Detail
                                                             payment processes</a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
-                                                               href={'/paymentprocesses/update/' + item.paymentProcessID}>Update
+                                                               href={'/paymentprocessesdetail/update/' + item.paymentProcessDetailID}>Update
                                                             payment processes</a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
-                                                               href="/paymentprocesses/create">Create
+                                                               href="/paymentprocessesdetail/create">Create
                                                             payment processes</a></li>
                                                     </ul>
                                                 </p>

@@ -4,23 +4,23 @@ import {Form, message} from 'antd';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
-import projectService from "../../../Service/ProjectService";
-import zoneService from "../../../Service/ZoneService";
+import paymentProcessService from "../../../Service/PaymentProcessService";
+import paymentProcessDetailService from "../../../Service/PaymentProcessDetailService";
 
 function PaymentProcessUpdate() {
-    const [zone, setZone] = useState([]);
+    const [process, setProcess] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const {id} = useParams();
     const [form] = Form.useForm();
-    const [projects, setProjects] = useState([]);
+    const [paymentProcesses, setPaymentProcesses] = useState([]);
 
-    const getListProject = async () => {
-        await projectService.adminListProject(1)
+    const getList = async () => {
+        await paymentProcessService.getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setProjects(res.data.projects)
+                    setPaymentProcesses(res.data)
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -48,11 +48,11 @@ function PaymentProcessUpdate() {
 
         const formData = new FormData($('#formCreate')[0]);
 
-        await zoneService.adminUpdateZone(id, formData)
+        await paymentProcessDetailService.adminUpdate(id, formData)
             .then((res) => {
                 console.log("create zone", res.data)
                 message.success("chỉnh sửa zones thành công!")
-                navigate("/zones/list")
+                navigate("/paymentprocessesdetail/list")
             })
             .catch((err) => {
                 console.log(err)
@@ -61,10 +61,10 @@ function PaymentProcessUpdate() {
     }
 
     const detailZone = async () => {
-        await zoneService.adminDetailZone(id)
+        await paymentProcessDetailService.adminDetail(id)
             .then((res) => {
                 console.log("detail Zone", res.data);
-                setZone(res.data)
+                setProcess(res.data)
                 setLoading(false)
             })
             .catch((err) => {
@@ -74,7 +74,7 @@ function PaymentProcessUpdate() {
     };
 
     useEffect(() => {
-        getListProject();
+        getList();
         detailZone();
     }, [form, id, loading])
 
@@ -84,7 +84,7 @@ function PaymentProcessUpdate() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/zones/list" className="back__url_">
+                    <Link to="/paymentprocessesdetail/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to list
                     </Link>
                 </div>
@@ -98,24 +98,18 @@ function PaymentProcessUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="ZoneName">Zone Name</label>
-                                            <input type="text" className="form-control" name="ZoneName"
-                                                   id="ZoneName" defaultValue={zone.zoneName}
-                                                   placeholder="Enter your Zone Name"/>
+                                            <label htmlFor="paymentStage">PaymentStage</label>
+                                            <input type="text" className="form-control" name="paymentStage"
+                                                   id="paymentStage" defaultValue={process.paymentStage}
+                                                   placeholder="Enter your paymentStage"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="ImageZone">Image Zone</label>
-                                            <input type="file" className="form-control" name="ImageZone"
-                                                   id="ImageZone" placeholder="Enter yourImageZone"/>
-                                            <div className="col-md-3">
-                                                <button type="button" className="btn btn-primary mt-3"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal">
-                                                    Xem hình ảnh
-                                                </button>
-                                            </div>
+                                            <label htmlFor="percentage">Percentage</label>
+                                            <input type="text" className="form-control" name="percentage"
+                                                   id="percentage" defaultValue={process.percentage}
+                                                   placeholder="Enter your percentage"/>
                                         </div>
                                     </div>
                                 </div>
@@ -123,14 +117,42 @@ function PaymentProcessUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="ProjectID">ProjectID</label>
-                                            <select name="ProjectID" id="ProjectID" className="form-control">
+                                            <label htmlFor="durationDate">DurationDate</label>
+                                            <input type="text" className="form-control" name="durationDate"
+                                                   id="durationDate" defaultValue={process.durationDate}
+                                                   placeholder="Enter your durationDate"/>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="amount">Amount</label>
+                                            <input type="text" className="form-control" name="amount"
+                                                   id="amount" defaultValue={process.amount}
+                                                   placeholder="Enter your amount"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="form_el mt-3">
+                                    <div className="form-group">
+                                        <label htmlFor="description">Description</label>
+                                        <textarea className="form-control" name="description" id="description"
+                                                  defaultValue={process.description} rows="6"></textarea>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="paymentProcessID">PaymentProcessID</label>
+                                            <select name="paymentProcessID" id="paymentProcessID"
+                                                    className="form-control">
                                                 {
-                                                    projects.map((project) => {
+                                                    paymentProcesses.map((payment) => {
                                                         return (
-                                                            <option key={project.projectID}
-                                                                    value={project.projectID}>
-                                                                {project.projectName}
+                                                            <option key={payment.paymentProcessID}
+                                                                    value={payment.paymentProcessID}>
+                                                                {payment.paymentProcessName}
                                                             </option>
                                                         )
                                                     })
@@ -138,7 +160,6 @@ function PaymentProcessUpdate() {
                                             </select>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
@@ -150,29 +171,6 @@ function PaymentProcessUpdate() {
                     </div>
                 </section>
             </main>
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row">
-                                <div className="row">
-                                    <img src={zone.imageZone} alt=""
-                                         style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </>
     )
 }

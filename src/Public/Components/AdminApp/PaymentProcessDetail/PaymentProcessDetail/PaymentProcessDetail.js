@@ -1,7 +1,7 @@
 import {Form, message} from 'antd';
 import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from 'react-router-dom';
-import paymentProcessService from '../../../Service/PaymentProcessService';
+import paymentProcessDetailService from '../../../Service/PaymentProcessDetailService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -14,7 +14,7 @@ function PaymentProcessDetail() {
     const [form] = Form.useForm();
 
     const detail = async () => {
-        await paymentProcessService.adminDetail(id)
+        await paymentProcessDetailService.adminDetail(id)
             .then((res) => {
                 console.log("detail paymentprocess", res.data);
                 setPaymentprocess(res.data)
@@ -37,7 +37,7 @@ function PaymentProcessDetail() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/paymentprocesss/list" className="back__url_">
+                    <Link to="/paymentprocessesdetail/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to payment process list
                     </Link>
                 </div>
@@ -52,59 +52,48 @@ function PaymentProcessDetail() {
                                 <p className="title_">
                                     General information
                                 </p>
-                                <a href={"/paymentprocesss/update/" + paymentprocess.paymentprocessID} className="edit_tab_">Edit</a>
+                                <a href={"/paymentprocessesdetail/update/" + paymentprocess.paymentProcessDetailID}
+                                   className="edit_tab_">Edit</a>
                             </div>
 
                             <div className="content_">
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Paymentprocess Name: </p>
-                                        <p className="val_ text-truncate">{paymentprocess.paymentprocessName}</p>
+                                        <p className="key_">PaymentProcessName: </p>
+                                        <p className="val_ text-truncate">{paymentprocess.paymentProcessName}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Project Name: </p>
-                                        <p className="val_ text-truncate">{paymentprocess.projectName}</p>
+                                        <p className="key_">Percentage: </p>
+                                        <p className="val_ text-truncate">{paymentprocess.percentage}</p>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-6">
-                                        <div className="col-md-3">
-                                            <button type="button" className="btn btn-primary mt-3"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal">
-                                                Xem hình ảnh
-                                            </button>
-                                        </div>
+                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                        <p className="key_">PaymentStage: </p>
+                                        <p className="val_ text-truncate">{paymentprocess.paymentStage}</p>
                                     </div>
+                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                        <p className="key_">DurationDate: </p>
+                                        <p className="val_ text-truncate">{paymentprocess.durationDate}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                        <p className="key_">Amount: </p>
+                                        <p className="val_ text-truncate">{paymentprocess.amount}</p>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <p className="key_">Description: </p>
+                                    <p>
+                                        {paymentprocess.description}
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
             </main>
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <div className="row">
-                                <div className="row">
-                                    <img src={paymentprocess.imagePaymentprocess} alt=""
-                                         style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </>
     )
 }

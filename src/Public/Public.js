@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import React, {useEffect} from "react";
+import {Route, Routes, useNavigate} from "react-router-dom";
 /* Auth Page */
 import Login from "./Components/Auth/Login/Login";
 /* Dashboard Page */
@@ -26,7 +26,7 @@ import PromotionCreate from "./Components/AdminApp/Promotions/PromotionsCreate/P
 import PromotionDetail from "./Components/AdminApp/Promotions/PromotionsDetails/PromotionDetails";
 import PromotionUpdate from "./Components/AdminApp/Promotions/PromotionsUpdate/PromotionsUpdate";
 
-import SalePoliciesList from "./Components/AdminApp/SalePolicies/SalePoliciesList/SalePolicList";
+import SalePoliciesList from "./Components/AdminApp/SalePolicies/SalePoliciesList/SalesPolicyList";
 
 // Project category detail
 import ProjectCategoryDetail from "./Components/AdminApp/ProjectCategoryDetail/ProjectCategoryDetail";
@@ -63,9 +63,6 @@ import UnittypeDetail from "./Components/AdminApp/Unittypes/UnittypeDetail/Unitt
 import UnittypeCreate from "./Components/AdminApp/Unittypes/UnittypeCreate/UnittypeCreate";
 import UnittypeUpdate from "./Components/AdminApp/Unittypes/UnittypeUpdate/UnittypeUpdate";
 
-
-
-
 /*  PaymentProcess Page */
 import PaymentProcessList from "./Components/AdminApp/PaymentProcess/PaymentProcessList/PaymentProcessList";
 import PaymentProcessDetail from "./Components/AdminApp/PaymentProcess/PaymentProcessDetail/PaymentProcessDetail";
@@ -74,14 +71,16 @@ import PaymentProcessUpdate from "./Components/AdminApp/PaymentProcess/PaymentPr
 
 /*  PaymentProcessDetail Page */
 import PaymentProcessDetailList from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessList/PaymentProcessList";
-import PaymentProcessDetailDetail from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessDetail/PaymentProcessDetail";
-import PaymentProcessDetailCreate from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessCreate/PaymentProcessCreate";
-import PaymentProcessDetailUpdate from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessUpdate/PaymentProcessUpdate";
+import PaymentProcessDetailDetail
+    from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessDetail/PaymentProcessDetail";
+import PaymentProcessDetailCreate
+    from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessCreate/PaymentProcessCreate";
+import PaymentProcessDetailUpdate
+    from "./Components/AdminApp/PaymentProcessDetail/PaymentProcessUpdate/PaymentProcessUpdate";
 
 import StaffList from './Components/AdminApp/Staff/BookingList/BookingList';
 import StaffDetailCheckin from './Components/AdminApp/Staff/BookingDetails/BookingDetailsCheck';
 import StaffProperty from './Components/AdminApp/Staff/PropertySelect/PropertySelect';
-
 
 import CustomerList from './Components/AdminApp/Customer/CustomerList/CustomerList';
 import CustomerDetail from './Components/AdminApp/Customer/CustomerDetail/CustomerDetail';
@@ -90,10 +89,17 @@ import CustomerCreate from './Components/AdminApp/Customer/CustomerCreate/Custom
 
 import OpenForSaleDetailList from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailList/OpenForSaleDetailList';
 
-
-import ContractPaymentDetailList from './Components/AdminApp/ContractPaymentDetail/ContractPaymentDetailList/ContractPaymentDetailList';
-import ContractPaymentDetailUpdate from './Components/AdminApp/ContractPaymentDetail/ContractPaymentUpdate/ContractPaymentUpdate';
+import ContractPaymentDetailList
+    from './Components/AdminApp/ContractPaymentDetail/ContractPaymentDetailList/ContractPaymentDetailList';
+import ContractPaymentDetailUpdate
+    from './Components/AdminApp/ContractPaymentDetail/ContractPaymentUpdate/ContractPaymentUpdate';
 /* Main Page */
+
+/*  PromotionDetail Page */
+import PromotionDetailList from './Components/AdminApp/PromotionDetail/PromotionDetailList/PromotionDetailList';
+import PromotionDetailDetail from './Components/AdminApp/PromotionDetail/PromotionDetailDetail/PromotionDetailDetail';
+import PromotionDetailUpdate from './Components/AdminApp/PromotionDetail/PromotionDetailUpdate/PromotionDetailUpdate';
+import PromotionDetailCreate from './Components/AdminApp/PromotionDetail/PromotionDetailCreate/PromotionDetailCreate';
 
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
@@ -107,80 +113,80 @@ function Public() {
     return (
         <Routes>
             {/* Auth Page */}
-            <Route path="/login" element={<LoginV2 />} />
+            <Route path="/login" element={<LoginV2/>}/>
             {/* Dashboard Page */}
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard/>}/>
             {/* Projects Page */}
-            <Route path="/projects/list" element={<ProjectList />} />
-            <Route path="/projects/detail/:id" element={<ProjectDetail />} />
-            <Route path="/projects/create" element={<ProjectCreate />} />
-            <Route path="/projects/update/:id" element={<ProjectUpdate />} />
+            <Route path="/projects/list" element={<ProjectList/>}/>
+            <Route path="/projects/detail/:id" element={<ProjectDetail/>}/>
+            <Route path="/projects/create" element={<ProjectCreate/>}/>
+            <Route path="/projects/update/:id" element={<ProjectUpdate/>}/>
             {/* Properties Page */}
-            <Route path="/properties/list" element={<PropertyList />} />
-            <Route path="/properties/detail/:id" element={<PropertyDetail />} />
-            <Route path="/properties/create" element={<PropertyCreate />} />
-            <Route path="/properties/update/:id" element={<PropertyUpdate />} />
+            <Route path="/properties/list" element={<PropertyList/>}/>
+            <Route path="/properties/detail/:id" element={<PropertyDetail/>}/>
+            <Route path="/properties/create" element={<PropertyCreate/>}/>
+            <Route path="/properties/update/:id" element={<PropertyUpdate/>}/>
             {/* OpenForSales Page */}
-            <Route path="/openforsales/list" element={<OpenForSaleList />} />
-            <Route path="/openforsales/create" element={<OpenForSaleCreate />} />
-            <Route path="/openforsales/update/:id" element={<OpenForSaleUpdate />} />
-            <Route path="/openforsales/detail/:id" element={<OpenForSaleDetail />} />
+            <Route path="/openforsales/list" element={<OpenForSaleList/>}/>
+            <Route path="/openforsales/create" element={<OpenForSaleCreate/>}/>
+            <Route path="/openforsales/update/:id" element={<OpenForSaleUpdate/>}/>
+            <Route path="/openforsales/detail/:id" element={<OpenForSaleDetail/>}/>
             {/* Promotions Page */}
-            <Route path="/promotions/list" element={<PromotionList />} />
-            <Route path="/promotions/create" element={<PromotionCreate />} />
-            <Route path="/promotions/detail/:id" element={<PromotionDetail />} />
-            <Route path="/promotions/update/:id" element={<PromotionUpdate />} />
+            <Route path="/promotions/list" element={<PromotionList/>}/>
+            <Route path="/promotions/create" element={<PromotionCreate/>}/>
+            <Route path="/promotions/detail/:id" element={<PromotionDetail/>}/>
+            <Route path="/promotions/update/:id" element={<PromotionUpdate/>}/>
 
-            <Route path="/salepolicy/list" element={<SalePoliciesList />} />
+            <Route path="/salepolicy/list" element={<SalePoliciesList/>}/>
             {/* Project Category Detail Page */}
-            <Route path="/project-category-detail" element={<ProjectCategoryDetail />}
+            <Route path="/project-category-detail" element={<ProjectCategoryDetail/>}
             />
             {/* Contract */}
-            <Route path="/contract" element={<Contract />} />
-            <Route path="/contract/create" element={<FormContractCreate />} />
-            <Route path="/contract/edit/:id" element={<FormContractUpdate />} />
+            <Route path="/contract" element={<Contract/>}/>
+            <Route path="/contract/create" element={<FormContractCreate/>}/>
+            <Route path="/contract/edit/:id" element={<FormContractUpdate/>}/>
 
             {/* Bookings */}
-            <Route path="/bookings" element={<Bookings />} />
-            <Route path="/bookings/edit/:id" element={<FormUpdateBookings />} />
+            <Route path="/bookings" element={<Bookings/>}/>
+            <Route path="/bookings/edit/:id" element={<FormUpdateBookings/>}/>
 
             {/* Blocks */}
-            <Route path="/blocks/list" element={<BlockList />} />
-            <Route path="/blocks/create" element={<BlockCreate />} />
-            <Route path="/blocks/detail/:id" element={<BlockDetail />} />
-            <Route path="/blocks/update/:id" element={<BlockUpdate />} />
+            <Route path="/blocks/list" element={<BlockList/>}/>
+            <Route path="/blocks/create" element={<BlockCreate/>}/>
+            <Route path="/blocks/detail/:id" element={<BlockDetail/>}/>
+            <Route path="/blocks/update/:id" element={<BlockUpdate/>}/>
 
             {/* Floors */}
-            <Route path="/floors/list" element={<FloorList />} />
-            <Route path="/floors/create" element={<FloorCreate />} />
-            <Route path="/floors/detail/:id" element={<FloorDetail />} />
-            <Route path="/floors/update/:id" element={<FloorUpdate />} />
+            <Route path="/floors/list" element={<FloorList/>}/>
+            <Route path="/floors/create" element={<FloorCreate/>}/>
+            <Route path="/floors/detail/:id" element={<FloorDetail/>}/>
+            <Route path="/floors/update/:id" element={<FloorUpdate/>}/>
 
             {/* Zones */}
-            <Route path="/zones/list" element={<ZoneList />} />
-            <Route path="/zones/create" element={<ZoneCreate />} />
-            <Route path="/zones/detail/:id" element={<ZoneDetail />} />
-            <Route path="/zones/update/:id" element={<ZoneUpdate />} />
+            <Route path="/zones/list" element={<ZoneList/>}/>
+            <Route path="/zones/create" element={<ZoneCreate/>}/>
+            <Route path="/zones/detail/:id" element={<ZoneDetail/>}/>
+            <Route path="/zones/update/:id" element={<ZoneUpdate/>}/>
 
             {/* Unittypes */}
-            <Route path="/unittypes/list" element={<UnittypeList />} />
-            <Route path="/unittypes/create" element={<UnittypeCreate />} />
-            <Route path="/unittypes/detail/:id" element={<UnittypeDetail />} />
-            <Route path="/unittypes/update/:id" element={<UnittypeUpdate />} />
+            <Route path="/unittypes/list" element={<UnittypeList/>}/>
+            <Route path="/unittypes/create" element={<UnittypeCreate/>}/>
+            <Route path="/unittypes/detail/:id" element={<UnittypeDetail/>}/>
+            <Route path="/unittypes/update/:id" element={<UnittypeUpdate/>}/>
 
-            <Route path="/staff/list" element={<StaffList />} />
-            <Route path='/staff/detailcheckin/:openingForSaleID' element={<StaffDetailCheckin />} />
-            <Route path='/staff/propertylist/:categoryDetailID' element={<StaffProperty />} />
+            <Route path="/staff/list" element={<StaffList/>}/>
+            <Route path='/staff/detailcheckin/:openingForSaleID' element={<StaffDetailCheckin/>}/>
+            <Route path='/staff/propertylist/:categoryDetailID' element={<StaffProperty/>}/>
 
-            <Route path="/customers/list" element={<CustomerList />} />
-            <Route path='/customers/detail/:id' element={<CustomerDetail />} />
-            <Route path='/customers/update/:id' element={<CustomerUpdate />} />
-            <Route path='/customers/create' element={<CustomerCreate />} />
+            <Route path="/customers/list" element={<CustomerList/>}/>
+            <Route path='/customers/detail/:id' element={<CustomerDetail/>}/>
+            <Route path='/customers/update/:id' element={<CustomerUpdate/>}/>
+            <Route path='/customers/create' element={<CustomerCreate/>}/>
 
-            <Route path='/openforsaledetails/list/:openingForSaleID' element={<OpenForSaleDetailList />} />
-            
-            <Route path='/contractpaymentdetail/list' element={<ContractPaymentDetailList />} />
-            <Route path='/contractpaymentdetail/update/:id' element={<ContractPaymentDetailUpdate />} />
+            <Route path='/openforsaledetails/list/:openingForSaleID' element={<OpenForSaleDetailList/>}/>
+
+            <Route path='/contractpaymentdetail/list' element={<ContractPaymentDetailList/>}/>
+            <Route path='/contractpaymentdetail/update/:id' element={<ContractPaymentDetailUpdate/>}/>
 
             {/* Payment Processes */}
             <Route path="/paymentprocesses/list" element={<PaymentProcessList/>}/>
@@ -193,6 +199,12 @@ function Public() {
             <Route path="/paymentprocessesdetail/create" element={<PaymentProcessDetailCreate/>}/>
             <Route path="/paymentprocessesdetail/detail/:id" element={<PaymentProcessDetailDetail/>}/>
             <Route path="/paymentprocessesdetail/update/:id" element={<PaymentProcessDetailUpdate/>}/>
+
+            {/* Promotion Detail */}
+            <Route path="/promotiondetails/list" element={<PromotionDetailList/>}/>
+            <Route path="/promotiondetails/create" element={<PromotionDetailCreate/>}/>
+            <Route path="/promotiondetails/detail/:id" element={<PromotionDetailDetail/>}/>
+            <Route path="/promotiondetails/update/:id" element={<PromotionDetailUpdate/>}/>
         </Routes>
     );
 }
