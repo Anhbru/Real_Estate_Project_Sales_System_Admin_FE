@@ -14,10 +14,10 @@ function ZoneCreate() {
 
   const getListProject = async () => {
     await projectService
-      .adminListProject(1)
+      .getList()
       .then((res) => {
         if (res.status === 200) {
-          setProjects(res.data.projects);
+          setProjects(res.data);
           setLoading(false);
         } else {
           setLoading(false);
@@ -115,7 +115,7 @@ function ZoneCreate() {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                {/* <div className="d-flex justify-content-between align-items-center form_el mt-3">
                   <div className="col-md-5">
                     <div className="form-group">
                       <label htmlFor="ProjectID">ProjectID</label>
@@ -136,18 +136,37 @@ function ZoneCreate() {
                         })}
                       </select>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </div> */}
 
-              <div className="footer_form_">
-                <button className="btn_back" type="button">
-                  Back
-                </button>
-                <button id="btnCreate" className="btn_create" type="submit">
-                  Save
-                </button>
-              </div>
+                  <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                    <div className="col-md-5">
+                      <div className="form-group">
+                        <label htmlFor="ProjectID">ProjectID</label>
+                        <select name="ProjectID" id="ProjectID" className="form-control">
+                          {
+                            projects.map((project) => {
+                              return (
+                                <option key={project.projectID}
+                                  value={project.projectID}>
+                                  {project.projectName}
+                                </option>
+                              )
+                            })
+                          }
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+
+                <div className="footer_form_">
+                  <button className="btn_back" type="button">
+                    Back
+                  </button>
+                  <button id="btnCreate" className="btn_create" type="submit">
+                    Save
+                  </button>
+                </div>
             </Form>
           </div>
         </section>

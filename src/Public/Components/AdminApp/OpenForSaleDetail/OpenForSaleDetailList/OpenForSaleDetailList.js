@@ -112,6 +112,28 @@ function OpenForSaleDetailList() {
         }
     };
 
+    const handleDeleteOpenSaleDetail = async (propertyID, openingForSaleID) => {
+        if (!window.confirm("Are you sure you want to delete this item?")) {
+            return;
+        }
+        try {
+            const res = await openSaleDetailsService.adminDeleteOpenSaleDetail(propertyID, openingForSaleID);
+            if (res.status === 200 || res.status === 204) {
+                setSuccessMessage("Successfully deleted the open-for-sale detail!");
+                getListOpenForSaleDetails(); // Refresh the list
+            } else {
+                setErrorMessage("Failed to delete the open-for-sale detail.");
+            }
+        } catch (err) {
+            if (err.response && err.response.status === 404) {
+                setErrorMessage("The detail does not exist or has already been deleted.");
+            } else {
+                setErrorMessage("Error deleting the open-for-sale detail: " + err.message);
+            }
+        }
+    };
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -188,6 +210,12 @@ function OpenForSaleDetailList() {
                                                         onClick={() => navigate(`/open-for-sale-details/update/${item.openingForSaleID}`)}
                                                     >
                                                         Update
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-danger"
+                                                        onClick={() => handleDeleteOpenSaleDetail(item.propertyID, item.openingForSaleID)}
+                                                    >
+                                                        Delete
                                                     </button>
                                                 </div>
                                             </td>

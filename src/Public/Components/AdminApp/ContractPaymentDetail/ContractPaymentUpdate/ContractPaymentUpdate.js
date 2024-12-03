@@ -9,7 +9,7 @@ import $ from 'jquery';
 function ContractPaymentDetailsUpdate() {
     const [contractDetails, setContractDetails] = useState([]);
     const navigate = useNavigate();
-    const { id } = useParams();
+    const { id, contractID } = useParams(); 
     const [form] = Form.useForm();
 
     const detailContractPaymentDetails = async () => {
@@ -29,7 +29,9 @@ function ContractPaymentDetailsUpdate() {
             const formData = new FormData($('#formUpdate')[0]);
             await contractPaymentDetailService.adminUpdateContractPaymentDetail(id, formData);
             message.success("Contract payment details updated successfully");
-            navigate("/contractpaymentdetail/list");
+
+            // Quay lại trang danh sách theo contractID
+            navigate(`/contractpaymentdetail/list/${contractID}`);
         } catch (err) {
             console.error(err);
             message.error("Failed to update contract payment details");
@@ -54,7 +56,6 @@ function ContractPaymentDetailsUpdate() {
                         <Form id="formUpdate" className="form_create_custom_" onFinish={updateContractPaymentDetails}>
                             <div className="form_area_">
                                 <div className="title_form_">Contract Payment Information</div>
-
                                 
                                 <div className="form-group">
                                     <label htmlFor="status">Status</label>
@@ -63,11 +64,16 @@ function ContractPaymentDetailsUpdate() {
                                         <option value="false">Inactive</option>
                                     </select>
                                 </div>
-
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button" onClick={() => navigate("/contractpaymentdetail/list")}>Back</button>
+                                <button
+                                    className="btn_back"
+                                    type="button"
+                                    onClick={() => navigate(`/contractpaymentdetail/list/${contractID}`)}
+                                >
+                                    Back
+                                </button>
                                 <button className="btn_create" id="btnUpdate" type="submit">Save</button>
                             </div>
                         </Form>

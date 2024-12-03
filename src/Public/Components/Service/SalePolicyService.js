@@ -36,32 +36,16 @@ class SalesPolicyService {
     );
   };
 
-  adminCreateSalesPolicy = async (data) => {
+
+  adminCreateSalesPolicy = (data) => {
     const config = {
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
-      },
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
+        }
     };
-    try {
-      const response = await axios.post(
-        BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_SALES_POLICY,
-        data,
-        config
-      );
-      return response;
-    } catch (error) {
-      console.error("Error creating sales policy:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        throw new Error(
-          error.response.data.message || "Error creating sales policy"
-        );
-      } else {
-        throw new Error("Network error or server did not respond");
-      }
-    }
-  };
+    return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_SALES_POLICY, data, config);
+};
 
   adminUpdateSalesPolicy = (id, data) => {
     const config = {

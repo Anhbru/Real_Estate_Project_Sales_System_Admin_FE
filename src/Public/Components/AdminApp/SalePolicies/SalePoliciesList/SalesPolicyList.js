@@ -3,14 +3,15 @@ import { Table, Button, message, Modal, Form, Input } from "antd";
 import salesPolicyService from "../../../Service/SalePolicyService";
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-
+import projectService from "../../../Service/ProjectService";
+import { Select } from "antd";
 function SalesPolicyList() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
   const [editingPolicy, setEditingPolicy] = useState(null);
-
+  const [projects, setProjects] = useState([]);
   const getListSalesPolicies = async () => {
     try {
       const res = await salesPolicyService.adminListSalesPolicy();
@@ -26,8 +27,21 @@ function SalesPolicyList() {
       setLoading(false);
     }
   };
-
+  const getProjects = async () => {
+    try {
+      const res = await projectService.getList();
+      if (res.status === 200) {
+        setProjects(res.data);
+      } else {
+        message.error("Failed to fetch projects");
+      }
+    } catch (err) {
+      message.error("Error fetching projects");
+      console.error(err);
+    }
+  };
   useEffect(() => {
+    getProjects();
     getListSalesPolicies();
   }, []);
 
@@ -85,6 +99,14 @@ function SalesPolicyList() {
     {
       title: "Express Time",
       dataIndex: "expressTime",
+    },
+    {
+      title: "Project Name",
+      dataIndex: "projectID",
+      render: (projectID) => {
+        const project = projects.find((p) => p.projectID === projectID);
+        return project ? project.projectName : "Unknown";
+      },
     },
     {
       title: "People Applied",
@@ -182,10 +204,16 @@ function SalesPolicyList() {
             <Form.Item
               name="projectID"
               id="projectID"
-              label="Project ID"
-              rules={[{ required: true, message: "Please enter project ID" }]}
+              label="Project Name"
+              rules={[{ required: true, message: "Please select a project" }]}
             >
-              <Input />
+              <Select
+                placeholder="Select a project"
+                options={projects.map((project) => ({
+                  label: project.projectName,
+                  value: project.projectID,
+                }))}
+              />
             </Form.Item>
           </Form>
         </Modal>
