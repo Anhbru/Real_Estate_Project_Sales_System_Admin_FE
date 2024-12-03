@@ -4,14 +4,16 @@ import contractPaymentDetailService from "../../../Service/ContractPaymentDetail
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import paymentPolicyService from "../../../Service/PaymentPolicyService";
+import { useNavigate } from "react-router-dom";
 function ContractList() {
-    const { contractID } = useParams(); // Lấy contractID từ URL
+    const { contractID } = useParams(); 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedContract, setSelectedContract] = useState(null); 
+    const [selectedContract, setSelectedContract] = useState(null);
     const [paymentPolicies, setPaymentPolicies] = useState([]);
+    const navigate = useNavigate();
     const [updateForm, setUpdateForm] = useState({
         paymentRate: "",
         description: "",
@@ -19,7 +21,7 @@ function ContractList() {
         paidValueLate: "",
         period: "",
         status: false,
-        paymentPolicyID: "", 
+        paymentPolicyID: "",
     });
 
     useEffect(() => {
@@ -36,7 +38,7 @@ function ContractList() {
         try {
             const res = await paymentPolicyService.adminListPaymentPolicy();
             if (res.status === 200) {
-                setPaymentPolicies(res.data); 
+                setPaymentPolicies(res.data);
             } else {
                 setError("Failed to fetch payment policies.");
             }
@@ -45,6 +47,9 @@ function ContractList() {
         } finally {
             setLoading(false);
         }
+    };
+    const handleConfirm = (contractID, contractPaymentDetailID) => {
+        navigate(`/contractpaymentdetail/update/${contractID}/${contractPaymentDetailID}`);
     };
 
     const handleUpdateClick = (contract) => {
@@ -111,16 +116,19 @@ function ContractList() {
         }));
     };
 
-    const handleUpdateSubmit = async () => {
+    const handleUpdateSubmit = async (e) => {
+        e.preventDefault(); // Ngăn hành vi làm mới mặc định
         if (!selectedContract) return;
 
         setLoading(true);
         setError(null);
+
         try {
             const updatedContract = {
                 ...selectedContract,
                 ...updateForm,
             };
+
             const res = await contractPaymentDetailService.adminUpdateContractPaymentDetail(
                 selectedContract.contractPaymentDetailID,
                 updatedContract
@@ -135,6 +143,7 @@ function ContractList() {
                     )
                 );
                 alert("Cập nhật thành công!");
+                window.location.reload();
                 setSelectedContract(null);
             } else {
                 setError("Cập nhật không thành công. Vui lòng thử lại.");
@@ -145,7 +154,6 @@ function ContractList() {
             setLoading(false);
         }
     };
-
 
     const closeUpdateModal = () => {
         setSelectedContract(null);
@@ -177,7 +185,7 @@ function ContractList() {
                             <>
                                 {data.length === 0 ? (
                                     <div className="no-data-found">
-                                        <p>Không tìm thấy hợp đồng nào phù hợp với mã đã nhập.</p>
+                                        <p></p>
                                     </div>
                                 ) : (
                                     <table className="table datatable">
@@ -219,30 +227,30 @@ function ContractList() {
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <a
+                                                        <button
                                                             className="btn btn-primary"
-                                                            href={`/contractpaymentdetail/update/${item.contractID}/${item.contractPaymentDetailID}`}
+                                                            onClick={() => handleConfirm(item.contractID, item.contractPaymentDetailID)}
                                                         >
                                                             Confirm
-                                                        </a>
-                                                      
+                                                        </button>
+
                                                     </td>
                                                     <td>
-                                                    <button
+                                                        <button
                                                             className="btn btn-danger ms-2"
                                                             onClick={() => handleDelete(item.contractPaymentDetailID)}
                                                         >
                                                             Delete
                                                         </button>
                                                     </td>
-                                                   <td>
-                                                   <button
+                                                    <td>
+                                                        <button
                                                             className="btn btn-primary"
                                                             onClick={() => handleUpdateClick(item)}
                                                         >
                                                             update
                                                         </button>
-                                                   </td>
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -343,13 +351,17 @@ function ContractList() {
                                 </div>
                                 <div className="form-group">
                                     <label>Status</label>
-                                    <input
-                                        type="checkbox"
+                                    <select
                                         name="status"
-                                        checked={updateForm.status}
+                                        value={updateForm.status}
                                         onChange={handleUpdateChange}
-                                        className="form-check-input"
-                                    />
+                                        className="form-control"
+                                    >
+                                        <option value={true}>Active</option>
+                                        <option value={false}>Inactive</option>
+
+                                    </select>
+
                                 </div>
                                 <div className="form-group">
                                     <label>Payment Policy</label>
