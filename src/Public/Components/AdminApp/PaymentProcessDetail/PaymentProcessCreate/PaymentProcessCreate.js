@@ -15,25 +15,30 @@ function PaymentProcessCreate() {
     const createZone = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
 
-        let data = [];
-
+        let data = {};
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
-        for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val()) {
-                let text = $(inputs[i]).prev().text();
-                alert(text + ' không được bỏ trống!');
-                $('#btnCreate').prop('disabled', false).text('Tạo mới');
-                return
+
+        for (let input of inputs) {
+            let key = $(input).attr('id');
+            let value = $(input).val();
+
+            if (!value) {
+                value = 0;
+                if (key === 'description') {
+                    value = '';
+                }
+                // const label = $(input).prev('label').text() || 'Trường dữ liệu';
+                // alert(`${label} không được bỏ trống!`);
+                // $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                // return;
             }
 
-             data[$(inputs[i]).attr('id')] = $(inputs[i]).val();
+            data[key] = value;
         }
 
-        console.log(data);
+        // const formData = new FormData($("#formCreate")[0]);
 
-        const formData = new FormData($("#formCreate")[0]);
-
-        await paymentProcessDetailService.adminCreate(formData)
+        await paymentProcessDetailService.adminCreate(data)
             .then((res) => {
                 console.log("create paymentprocess", res.data)
                 message.success("Tạo payment process detail thành công!")
@@ -128,7 +133,8 @@ function PaymentProcessCreate() {
                                 <div className="form_el mt-3">
                                     <div className="form-group">
                                         <label htmlFor="description">Description</label>
-                                        <textarea className="form-control" name="description" id="description" rows="6"></textarea>
+                                        <textarea className="form-control" name="description" id="description"
+                                                  rows="6"></textarea>
                                     </div>
                                 </div>
 
@@ -136,7 +142,8 @@ function PaymentProcessCreate() {
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="paymentProcessID">PaymentProcessID</label>
-                                            <select name="paymentProcessID" id="paymentProcessID" className="form-control">
+                                            <select name="paymentProcessID" id="paymentProcessID"
+                                                    className="form-control">
                                                 {
                                                     paymentProcesses.map((payment) => {
                                                         return (

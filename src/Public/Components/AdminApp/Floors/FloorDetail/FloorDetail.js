@@ -57,10 +57,10 @@ function FloorDetail() {
 
                             <div className="content_">
                                 <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">Floor Name: </p>
-                                        <p className="val_ text-truncate">{floor.floorName}</p>
-                                    </div>
+                                    {/*<div className="d-flex align-items-center justify-content-start col-md-6">*/}
+                                    {/*    <p className="key_">Floor Name: </p>*/}
+                                    {/*    <p className="val_ text-truncate">{floor.floorName}</p>*/}
+                                    {/*</div>*/}
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Block Name: </p>
                                         <p className="val_ text-truncate">{floor.blockName}</p>

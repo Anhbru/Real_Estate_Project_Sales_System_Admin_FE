@@ -434,7 +434,7 @@ function Sidebar() {
                     <a data-key="paymentprocesses" href="/paymentprocesses/list" className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
-                            src="/assets/icon/payment_report_icon.png"
+                            src="/assets/icon/contact_icon.png"
                             alt=""
                         />
                         <span>Payment Process</span>

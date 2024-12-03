@@ -365,50 +365,50 @@ function PropertyCreate() {
                                     </div>
                                 </div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="PropertyTypeID">PropertyType</label>
-                                            <select
-                                                name="PropertyTypeID"
-                                                id="PropertyTypeID"
-                                                className="form-control"
-                                            >
-                                                {propertyTypes.map((propertyType) => {
-                                                    return (
-                                                        <option
-                                                            key={propertyType.propertyTypeID}
-                                                            value={propertyType.propertyTypeID}
-                                                        >
-                                                            {propertyType.propertyTypeName}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="ProjectID">Project</label>
-                                            <select
-                                                name="ProjectID"
-                                                id="ProjectID"
-                                                className="form-control"
-                                            >
-                                                {projects.map((project) => {
-                                                    return (
-                                                        <option
-                                                            key={project.projectID}
-                                                            value={project.projectID}
-                                                        >
-                                                            {project.projectName}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
+                                {/*<div className="d-flex justify-content-between align-items-center form_el mt-3">*/}
+                                {/*    <div className="col-md-5">*/}
+                                {/*        <div className="form-group">*/}
+                                {/*            <label htmlFor="PropertyTypeID">PropertyType</label>*/}
+                                {/*            <select*/}
+                                {/*                name="PropertyTypeID"*/}
+                                {/*                id="PropertyTypeID"*/}
+                                {/*                className="form-control"*/}
+                                {/*            >*/}
+                                {/*                {propertyTypes.map((propertyType) => {*/}
+                                {/*                    return (*/}
+                                {/*                        <option*/}
+                                {/*                            key={propertyType.propertyTypeID}*/}
+                                {/*                            value={propertyType.propertyTypeID}*/}
+                                {/*                        >*/}
+                                {/*                            {propertyType.propertyTypeName}*/}
+                                {/*                        </option>*/}
+                                {/*                    );*/}
+                                {/*                })}*/}
+                                {/*            </select>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="col-md-5">*/}
+                                {/*        <div className="form-group">*/}
+                                {/*            <label htmlFor="ProjectID">Project</label>*/}
+                                {/*            <select*/}
+                                {/*                name="ProjectID"*/}
+                                {/*                id="ProjectID"*/}
+                                {/*                className="form-control"*/}
+                                {/*            >*/}
+                                {/*                {projects.map((project) => {*/}
+                                {/*                    return (*/}
+                                {/*                        <option*/}
+                                {/*                            key={project.projectID}*/}
+                                {/*                            value={project.projectID}*/}
+                                {/*                        >*/}
+                                {/*                            {project.projectName}*/}
+                                {/*                        </option>*/}
+                                {/*                    );*/}
+                                {/*                })}*/}
+                                {/*            </select>*/}
+                                {/*        </div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 {/*<div className="d-flex justify-content-between align-items-center form_el mt-3">*/}
                                 {/*    <div className="col-md-5">*/}
                                 {/*        <div className="form-group">*/}

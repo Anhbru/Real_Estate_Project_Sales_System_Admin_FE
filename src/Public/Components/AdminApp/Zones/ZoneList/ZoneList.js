@@ -77,10 +77,7 @@ function ZoneList() {
                   return (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>
-                        {" "}
-                        <img src={item.imageZone} alt="" />{" "}
-                      </td>
+                      <td>{item.zoneName}</td>
                       <td>{item.projectName}</td>
                       <td>
                         <p className="nav-item dropdown">

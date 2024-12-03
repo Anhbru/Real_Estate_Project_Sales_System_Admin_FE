@@ -82,14 +82,14 @@ function FloorCreate() {
                                 <div className="title_form_">General Information</div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="FloorName">Floor Name</label>
-                                            <input type="text" className="form-control" name="FloorName"
-                                                   id="FloorName"
-                                                   placeholder="Enter your Floor Name"/>
-                                        </div>
-                                    </div>
+                                    {/*<div className="col-md-5">*/}
+                                    {/*    <div className="form-group">*/}
+                                    {/*        <label htmlFor="FloorName">Floor Name</label>*/}
+                                    {/*        <input type="text" className="form-control" name="FloorName"*/}
+                                    {/*               id="FloorName"*/}
+                                    {/*               placeholder="Enter your Floor Name"/>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="ImageFloor">Image Floor</label>
