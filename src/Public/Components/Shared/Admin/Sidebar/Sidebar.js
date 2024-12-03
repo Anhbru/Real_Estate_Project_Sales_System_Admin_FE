@@ -1,12 +1,12 @@
-import {Form, message} from "antd";
-import React, {useEffect, useState} from "react";
+import { Form, message } from "antd";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import {useLocation, Link, useNavigate, useParams} from "react-router-dom";
+import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import $ from "jquery";
 
 function Sidebar() {
-    const {id} = useParams();
+    const { id } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -143,7 +143,7 @@ function Sidebar() {
             '/openforsaledetails/detail/'];
 
         let array_contractpaymentdetail = [
-            '/contractpaymentdetail/list',
+            '/contractpaymentdetail/list/',
             '/contractpaymentdetail/create',
             '/contractpaymentdetail/detail/',
             '/contractpaymentdetail/propertylist/'];
@@ -155,11 +155,23 @@ function Sidebar() {
             '/promotiondetails/update/'];
 
 
-            let array_document = [
-                '/document/list',
-                '/document/create',
-                '/document/detail/',
-                '/document/propertylist/'];
+        let array_document = [
+            '/document/list',
+            '/document/create',
+            '/document/detail/',
+            '/document/propertylist/'];
+
+        let array_propertytype = [
+            '/propertytype/list',
+            '/propertytype/create',
+            '/propertytype/detail/',
+            '/propertytype/update/'];
+
+        let array_paymentpolicy = [
+            '/paymentpolicy/list',
+            '/paymentpolicy/create',
+            '/paymentpolicy/detail/',
+            '/paymentpolicy/update/'];
 
         let key = "";
 
@@ -243,6 +255,12 @@ function Sidebar() {
         if (array_document.some(route => path_name.startsWith(route))) {
             key = 'document';
         }
+        if (array_propertytype.some(route => path_name.startsWith(route))) {
+            key = 'propertytype';
+        }
+        if (array_paymentpolicy.some(route => path_name.startsWith(route))) {
+            key = 'paymentpolicy';
+        }
 
 
         $("#sidebar-nav .nav-link").removeClass("active");
@@ -305,6 +323,15 @@ function Sidebar() {
             case "promotiondetails":
                 $('a[data-key="promotiondetails"]').addClass('active');
                 break;
+            case "document":
+                $('a[data-key="document"]').addClass('active');
+                break;
+            case "propertytype":
+                $('a[data-key="propertytype"]').addClass('active');
+                break;
+            case "paymentpolicy":
+                $('a[data-key="paymentpolicy"]').addClass('active');
+                break;
             default:
                 $('a[data-key="main"]').addClass("active");
                 break;
@@ -347,6 +374,8 @@ function Sidebar() {
                     </a>
                 </li>
 
+
+
                 <li className="nav-item">
                     <a
                         data-key="property"
@@ -359,6 +388,21 @@ function Sidebar() {
                             alt=""
                         />
                         <span>Property</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
+                        data-key="propertytype"
+                        className="nav-link collapsed"
+                        href="/propertytype/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/house_icon.png"
+                            alt=""
+                        />
+                        <span>Property type</span>
                     </a>
                 </li>
 
@@ -441,7 +485,7 @@ function Sidebar() {
                 </li>
 
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#">
+                    <a className="nav-link collapsed" href="/paymentprocesses/list">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/payment_report_icon.png"
@@ -484,17 +528,11 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a data-key="staff" className="nav-link collapsed" href="/staff/list">
-                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt=""/>
+                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
                         <span>Staff</span>
                     </a>
                 </li>
-                <li className="nav-item">
-                    <a data-key="contractpaymentdetail" className="nav-link collapsed"
-                       href="/contractpaymentdetail/list">
-                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt=""/>
-                        <span>Contract Payment Detail</span>
-                    </a>
-                </li>
+
                 <li className="nav-item">
                     <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
                         <img
@@ -555,9 +593,10 @@ function Sidebar() {
                         <span>Payment Processes</span>
                     </a>
                 </li>
+                
                 <li className="nav-item">
                     <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
-                       className="nav-link collapsed">
+                        className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/contact_icon.png"
@@ -566,9 +605,22 @@ function Sidebar() {
                         <span>Payment Processes Detail</span>
                     </a>
                 </li>
+
+                <li className="nav-item">
+                    <a data-key="paymentpolicy" href="/paymentpolicy/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Policy</span>
+                    </a>
+                </li>
+
+
                 <li className="nav-item">
                     <a data-key="promotiondetails" href="/promotiondetails/list"
-                       className="nav-link collapsed">
+                        className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/contact_icon.png"

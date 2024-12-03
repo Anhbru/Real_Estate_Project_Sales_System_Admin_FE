@@ -51,15 +51,16 @@ class OpenSaleDetailsService {
         return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_OPENFORSALEDETAILS + id, data, config);
     };
 
-    adminDeleteOpenSaleDetail = (id) => {
+    adminDeleteOpenSaleDetail = (propertyID, openingForSaleID) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_OPENFORSALEDETAILS + id, config);
+        return axios.delete(BASE_URL_SERVER + `/api/open-for-sale-details/${propertyID}/${openingForSaleID}`, config);
     };
+    
 
  
     getOpenForSaleDetailsByOpenForSaleID = (openingForSaleID) => {

@@ -5,8 +5,10 @@ const API_ENDPOINT = {
     ADMIN_LIST_CONTRACT_PAYMENT_DETAILS: "/api/contract-payment-details",
     ADMIN_DETAIL_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details/",
     ADMIN_POST_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details",
-    ADMIN_UPDATE_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details/confirm/",
+    ADMIN_UPDATE_CONFIRM_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details/confirm/",
     ADMIN_DELETE_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details/",
+    ADMIN_DETAIL_CONTRACTID_PAYMENT_DETAIL: "/api/contract-payment-details/contract/",
+    ADMIN_UPDATE_CONTRACT_PAYMENT_DETAIL: "/api/contract-payment-details/",
 };
 
 class ContractPaymentDetailService {
@@ -44,11 +46,20 @@ class ContractPaymentDetailService {
     adminUpdateContractPaymentDetail = (id, data) => {
         const config = {
             headers: {
-                "content-type": "application/json",
+                "content-type": "multipart/form-data",
                 Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
             },
         };
         return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_CONTRACT_PAYMENT_DETAIL + id, data, config);
+    };
+    adminConFirmContractPaymentDetail = (id, data) => {
+        const config = {
+            headers: {
+                "content-type": "multipart/form-data",
+                Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+        };
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_CONFIRM_CONTRACT_PAYMENT_DETAIL + id, data, config);
     };
 
     adminDeleteContractPaymentDetail = (id) => {
@@ -60,6 +71,17 @@ class ContractPaymentDetailService {
         };
         return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_CONTRACT_PAYMENT_DETAIL + id, config);
     };
+    
+    adminGetContractPaymentDetailsByContractId = (contractID) => {
+        const config = {
+            headers: {
+                "content-type": "text/plan",
+                Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+            },
+        };
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_CONTRACTID_PAYMENT_DETAIL + contractID, config);
+    };
+
 }
 
 const contractPaymentDetailService = new ContractPaymentDetailService();

@@ -1,45 +1,154 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import contractPaymentDetailService from "../../../Service/ContractPaymentDetailService";
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from "jquery";
-
+import paymentPolicyService from "../../../Service/PaymentPolicyService";
 function ContractList() {
+    const { contractID } = useParams(); // Lấy contractID từ URL
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedContract, setSelectedContract] = useState(null); 
+    const [paymentPolicies, setPaymentPolicies] = useState([]);
+    const [updateForm, setUpdateForm] = useState({
+        paymentRate: "",
+        description: "",
+        paidValue: "",
+        paidValueLate: "",
+        period: "",
+        status: false,
+        paymentPolicyID: "", 
+    });
 
-    // Fetch contract details and apply sorting
-    const getListContracts = async () => {
+    useEffect(() => {
+        if (contractID) {
+            getContractPaymentDetailsByContractID(contractID);
+        }
+        getPaymentPolicies();
+    }, [contractID]);
+
+
+    const getPaymentPolicies = async () => {
         setLoading(true);
         setError(null);
         try {
-            const res = await contractPaymentDetailService.adminListContractPaymentDetails();
-            console.log("Contracts Response:", res.data);
+            const res = await paymentPolicyService.adminListPaymentPolicy();
+            if (res.status === 200) {
+                setPaymentPolicies(res.data); 
+            } else {
+                setError("Failed to fetch payment policies.");
+            }
+        } catch (err) {
+            setError("Error fetching payment policies: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleUpdateClick = (contract) => {
+        setSelectedContract(contract);
+        setUpdateForm({
+            paymentRate: contract.paymentRate,
+            description: contract.description,
+            paidValue: contract.paidValue,
+            paidValueLate: contract.paidValueLate,
+            period: contract.period,
+            status: contract.status,
+            paymentPolicyID: contract.paymentPolicyID,
+        });
+    };
+
+    const getContractPaymentDetailsByContractID = async (id) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await contractPaymentDetailService.adminGetContractPaymentDetailsByContractId(id);
             if (res.status === 200) {
                 const contracts = Array.isArray(res.data) ? res.data : [];
-
-                // Sort contracts by contractCode (alphabetically) and paymentRate (ascending)
                 const sortedContracts = contracts.sort((a, b) => {
-                    // First, sort by contractCode (alphabetically)
                     if (a.contractCode < b.contractCode) return -1;
                     if (a.contractCode > b.contractCode) return 1;
-
-                    // If contractCode is the same, sort by paymentRate (ascending order)
                     return a.paymentRate - b.paymentRate;
                 });
-
                 setData(sortedContracts);
             } else {
                 setError("Failed to fetch contracts.");
             }
         } catch (err) {
             setError("Error fetching contracts: " + err.message);
-            console.error("Error fetching contracts:", err);
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Bạn có chắc chắn muốn xóa bản ghi này không?")) return;
+
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await contractPaymentDetailService.adminDeleteContractPaymentDetail(id);
+            if (res.status === 200) {
+                setData((prevData) => prevData.filter((item) => item.contractPaymentDetailID !== id));
+                alert("Xóa thành công!");
+            } else {
+                setError("Xóa không thành công. Vui lòng thử lại.");
+            }
+        } catch (err) {
+            setError("Đã xảy ra lỗi khi xóa: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleUpdateChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setUpdateForm((prevForm) => ({
+            ...prevForm,
+            [name]: type === "checkbox" ? checked : value,
+        }));
+    };
+
+    const handleUpdateSubmit = async () => {
+        if (!selectedContract) return;
+
+        setLoading(true);
+        setError(null);
+        try {
+            const updatedContract = {
+                ...selectedContract,
+                ...updateForm,
+            };
+            const res = await contractPaymentDetailService.adminUpdateContractPaymentDetail(
+                selectedContract.contractPaymentDetailID,
+                updatedContract
+            );
+
+            if (res.status === 200) {
+                setData((prevData) =>
+                    prevData.map((item) =>
+                        item.contractPaymentDetailID === selectedContract.contractPaymentDetailID
+                            ? { ...item, ...updateForm }
+                            : item
+                    )
+                );
+                alert("Cập nhật thành công!");
+                setSelectedContract(null);
+            } else {
+                setError("Cập nhật không thành công. Vui lòng thử lại.");
+            }
+        } catch (err) {
+            setError("Đã xảy ra lỗi khi cập nhật: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    const closeUpdateModal = () => {
+        setSelectedContract(null);
     };
 
     const handleViewImage = (imageUrl) => {
@@ -50,10 +159,6 @@ function ContractList() {
         setSelectedImage(null);
     };
 
-    useEffect(() => {
-        getListContracts();
-    }, []);
-
     return (
         <>
             <Header />
@@ -63,13 +168,6 @@ function ContractList() {
                     <h1>Contract Payment Details</h1>
                 </div>
                 <section className="section">
-                    <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search contracts" />
-                        <a href="/contracts/create" className="btn_go_">
-                            ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
-                        </a>
-                    </div>
-
                     <div className="content_ table_list_">
                         {loading ? (
                             <div>Loading...</div>
@@ -78,40 +176,32 @@ function ContractList() {
                         ) : (
                             <>
                                 {data.length === 0 ? (
-                                    <p>No contracts found.</p>
+                                    <div className="no-data-found">
+                                        <p>Không tìm thấy hợp đồng nào phù hợp với mã đã nhập.</p>
+                                    </div>
                                 ) : (
                                     <table className="table datatable">
-                                        <colgroup>
-                                            <col width="5%" />
-                                            <col width="15%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                        </colgroup>
                                         <thead>
                                             <tr>
-                                                <th scope="col">STT</th>
-                                                <th scope="col">Contract Code</th>
-                                                <th scope="col">Payment Rate</th>
-                                                <th scope="col">Paid Value</th>
-                                                <th scope="col">Late Payment</th>
-                                                <th scope="col">Period</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Policy Name</th>
-                                                <th scope="col">Remittance Order</th>
-                                                <th scope="col">Action</th>
+                                                <th>STT</th>
+                                                <th>Contract Code</th>
+                                                <th>Description</th>
+                                                <th>Payment Rate</th>
+                                                <th>Paid Value</th>
+                                                <th>Late Payment</th>
+                                                <th>Period</th>
+                                                <th>Status</th>
+                                                <th>Policy Name</th>
+                                                <th>Remittance Order</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {data.map((item, index) => (
                                                 <tr key={item.contractPaymentDetailID}>
-                                                    <th>{index + 1}</th>
+                                                    <td>{index + 1}</td>
                                                     <td>{item.contractCode}</td>
+                                                    <td>{item.description}</td>
                                                     <td>{item.paymentRate}</td>
                                                     <td>{item.paidValue}</td>
                                                     <td>{item.paidValueLate}</td>
@@ -129,31 +219,30 @@ function ContractList() {
                                                         </button>
                                                     </td>
                                                     <td>
-                                                        <p className="nav-item dropdown">
-                                                            <a
-                                                                className="nav-link"
-                                                                data-bs-toggle="dropdown"
-                                                                href="#"
-                                                                role="button"
-                                                                aria-expanded="false"
-                                                            >
-                                                                <img src="/assets/icon/more_icon.png" alt="" />
-                                                            </a>
-                                                            <ul className="dropdown-menu">
-                                                                <li>
-                                                                    <hr className="dropdown-divider" />
-                                                                </li>
-                                                                <li>
-                                                                    <a
-                                                                        className="dropdown-item"
-                                                                        href={"/contractpaymentdetail/update/" + item.contractPaymentDetailID}
-                                                                    >
-                                                                        Update
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                        </p>
+                                                        <a
+                                                            className="btn btn-primary"
+                                                            href={`/contractpaymentdetail/update/${item.contractID}/${item.contractPaymentDetailID}`}
+                                                        >
+                                                            Confirm
+                                                        </a>
+                                                      
                                                     </td>
+                                                    <td>
+                                                    <button
+                                                            className="btn btn-danger ms-2"
+                                                            onClick={() => handleDelete(item.contractPaymentDetailID)}
+                                                        >
+                                                            Delete
+                                                        </button>
+                                                    </td>
+                                                   <td>
+                                                   <button
+                                                            className="btn btn-primary"
+                                                            onClick={() => handleUpdateClick(item)}
+                                                        >
+                                                            update
+                                                        </button>
+                                                   </td>
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -165,7 +254,6 @@ function ContractList() {
                 </section>
             </main>
 
-            {/* Modal hiển thị hình ảnh */}
             {selectedImage && (
                 <div className="modal show d-block" tabIndex="-1">
                     <div className="modal-dialog modal-lg">
@@ -184,6 +272,120 @@ function ContractList() {
                                     alt="Remittance Order"
                                     className="img-fluid"
                                 />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {selectedContract && (
+                <div className="modal show d-block" tabIndex="-1">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Cập nhật thông tin</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    onClick={closeUpdateModal}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <label>Payment Rate</label>
+                                    <input
+                                        type="text"
+                                        name="description"
+                                        value={updateForm.description}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Description</label>
+                                    <input
+                                        type="number"
+                                        name="paymentRate"
+                                        value={updateForm.paymentRate}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Paid Value</label>
+                                    <input
+                                        type="number"
+                                        name="paidValue"
+                                        value={updateForm.paidValue}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Late Payment</label>
+                                    <input
+                                        type="number"
+                                        name="paidValueLate"
+                                        value={updateForm.paidValueLate}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Period</label>
+                                    <input
+                                        type="text"
+                                        name="period"
+                                        value={updateForm.period}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <input
+                                        type="checkbox"
+                                        name="status"
+                                        checked={updateForm.status}
+                                        onChange={handleUpdateChange}
+                                        className="form-check-input"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Payment Policy</label>
+                                    <select
+                                        name="paymentPolicyID"
+                                        value={updateForm.paymentPolicyID}
+                                        onChange={handleUpdateChange}
+                                        className="form-control"
+                                    >
+                                        <option value="">Select Payment Policy</option>
+                                        {paymentPolicies.map((policy) => (
+                                            <option
+                                                key={policy.paymentPolicyID}
+                                                value={policy.paymentPolicyID}
+                                            >
+                                                {policy.paymentPolicyName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={closeUpdateModal}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleUpdateSubmit}
+                                >
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </div>
