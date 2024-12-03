@@ -117,7 +117,7 @@ function ContractList() {
     };
 
     const handleUpdateSubmit = async (e) => {
-        e.preventDefault(); // Ngăn hành vi làm mới mặc định
+        e.preventDefault();
         if (!selectedContract) return;
 
         setLoading(true);
