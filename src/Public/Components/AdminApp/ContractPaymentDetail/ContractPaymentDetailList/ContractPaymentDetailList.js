@@ -10,6 +10,7 @@ function ContractList() {
     const [error, setError] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
 
+    // Fetch contract details and apply sorting
     const getListContracts = async () => {
         setLoading(true);
         setError(null);
@@ -17,7 +18,19 @@ function ContractList() {
             const res = await contractPaymentDetailService.adminListContractPaymentDetails();
             console.log("Contracts Response:", res.data);
             if (res.status === 200) {
-                setData(Array.isArray(res.data) ? res.data : []);
+                const contracts = Array.isArray(res.data) ? res.data : [];
+
+                // Sort contracts by contractCode (alphabetically) and paymentRate (ascending)
+                const sortedContracts = contracts.sort((a, b) => {
+                    // First, sort by contractCode (alphabetically)
+                    if (a.contractCode < b.contractCode) return -1;
+                    if (a.contractCode > b.contractCode) return 1;
+
+                    // If contractCode is the same, sort by paymentRate (ascending order)
+                    return a.paymentRate - b.paymentRate;
+                });
+
+                setData(sortedContracts);
             } else {
                 setError("Failed to fetch contracts.");
             }
@@ -29,14 +42,12 @@ function ContractList() {
         }
     };
 
-  
-
     const handleViewImage = (imageUrl) => {
-        setSelectedImage(imageUrl); 
+        setSelectedImage(imageUrl);
     };
 
     const closeImageModal = () => {
-        setSelectedImage(null); 
+        setSelectedImage(null);
     };
 
     useEffect(() => {
@@ -129,7 +140,6 @@ function ContractList() {
                                                                 <img src="/assets/icon/more_icon.png" alt="" />
                                                             </a>
                                                             <ul className="dropdown-menu">
-                                                                
                                                                 <li>
                                                                     <hr className="dropdown-divider" />
                                                                 </li>
