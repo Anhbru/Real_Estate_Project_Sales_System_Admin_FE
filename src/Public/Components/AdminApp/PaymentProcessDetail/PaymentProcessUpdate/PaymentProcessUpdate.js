@@ -36,15 +36,28 @@ function PaymentProcessUpdate() {
     const createZone = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang chỉnh sửa...');
 
+        let data = {};
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
-        for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val() && $(inputs[i]).attr('type') !== 'file') {
-                let text = $(inputs[i]).prev().text();
-                alert(text + ' không được bỏ trống!');
-                $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
-                return
+
+        for (let input of inputs) {
+            let key = $(input).attr('id');
+            let value = $(input).val();
+
+            if (!value) {
+                value = 0;
+                if (key === 'description') {
+                    value = '';
+                }
+                // const label = $(input).prev('label').text() || 'Trường dữ liệu';
+                // alert(`${label} không được bỏ trống!`);
+                // $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                // return;
             }
+
+            data[key] = value;
         }
+
+        // data.status = data.status === 'true';
 
         const formData = new FormData($('#formCreate')[0]);
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {BASE_URL_SERVER} from "../config/server";
-import {configTokenApi} from "./ContractService";
+import {configTokenJson} from "../../Contants/Contatns";
+import {configTokenFormData} from "../../Contants/Contatns";
 
 const API_ENDPOINT = {
     ADMIN_LIST: "/api/payment-process-details",
@@ -12,23 +13,23 @@ const API_ENDPOINT = {
 
 class PaymentProcessDetailService {
     getList = async () => {
-        return await axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST, configTokenApi);
+        return await axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST, configTokenJson);
     };
 
     adminDetail = (id) => {
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_ + id, configTokenApi);
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_ + id, configTokenJson);
     }
 
     adminCreate = (data) => {
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_CREATE_, data, configTokenApi);
+        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_CREATE_, data, configTokenJson);
     };
 
     adminUpdate = (id, data) => {
-        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_ + id, data, configTokenApi);
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_ + id, data, configTokenFormData);
     };
 
     adminDelete = (id) => {
-        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_ + id, configTokenApi);
+        return axios.delete(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DELETE_ + id, configTokenJson);
     };
 }
 

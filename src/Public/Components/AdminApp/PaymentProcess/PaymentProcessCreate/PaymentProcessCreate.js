@@ -12,36 +12,72 @@ function PaymentProcessCreate() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
+    const createZone2 = async () => {
+        const $btnCreate = $('#btnCreate');
+        $btnCreate.prop('disabled', true).text('Đang tạo mới...');
+
+        const inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
+        for (let input of inputs) {
+            const $input = $(input);
+            if (!$input.val()) {
+                const label = $input.attr('data-label') || $input.prev('label').text() || 'Trường dữ liệu';
+                alert(`${label} không được bỏ trống!`);
+                $btnCreate.prop('disabled', false).text('Tạo mới');
+                return;
+            }
+        }
+
+        try {
+            const formData = new FormData($("#formCreate")[0]);
+            formData.delete('status');
+            formData.append('status', $('#status').val() === 'true');
+
+            const res = await paymentProcessService.adminCreate(formData);
+            console.log("create payment process", res.data);
+            message.success("Tạo payment process thành công!");
+            navigate("/paymentprocesses/list");
+        } catch (err) {
+            console.error("Error creating payment process:", err);
+            alert("Có lỗi xảy ra. Vui lòng thử lại!");
+        } finally {
+            $btnCreate.prop('disabled', false).text('Tạo mới');
+        }
+    };
+
     const createZone = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
 
-        let data = [];
-
+        let data = {};
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
-        for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val()) {
-                let text = $(inputs[i]).prev().text();
-                alert(text + ' không được bỏ trống!');
+
+        for (let input of inputs) {
+            let key = $(input).attr('id');
+            let value = $(input).val();
+
+            if (!value) {
+                const label = $(input).prev('label').text() || 'Trường dữ liệu';
+                alert(`${label} không được bỏ trống!`);
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
-                return
+                return;
             }
 
-             data[$(inputs[i]).attr('id')] = $(inputs[i]).val();
+            data[key] = value;
         }
 
-        const formData = new FormData($("#formCreate")[0]);
+        data.status = data.status === 'true';
 
-        await paymentProcessService.adminCreate(formData)
-            .then((res) => {
-                console.log("create payment process", res.data)
-                message.success("Tạo payment process thành công!")
-                navigate("/paymentprocesses/list")
-            })
-            .catch((err) => {
-                console.log(err)
-                $('#btnCreate').prop('disabled', false).text('Tạo mới');
-            })
-    }
+        try {
+            const res = await paymentProcessService.adminCreate(data);
+            console.log("create payment process", res.data);
+            message.success("Tạo payment process thành công!");
+            navigate("/paymentprocesses/list");
+        } catch (err) {
+            console.error("Error creating payment process:", err);
+            alert("Có lỗi xảy ra. Vui lòng thử lại!");
+        } finally {
+            $('#btnCreate').prop('disabled', false).text('Tạo mới');
+        }
+    };
 
     const getList = async () => {
         await salesPolicyService.adminListSalesPolicy()
@@ -92,15 +128,6 @@ function PaymentProcessCreate() {
                                             <input type="text" className="form-control" name="paymentProcessName"
                                                    id="paymentProcessName"
                                                    placeholder="Enter your PaymentProcessName"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="status">status</label>
-                                            <select name="status" id="status" className="form-select">
-                                                <option value="true">True</option>
-                                                <option value="false">False</option>
-                                            </select>
                                         </div>
                                     </div>
                                 </div>

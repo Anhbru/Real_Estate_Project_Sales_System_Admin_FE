@@ -14,6 +14,7 @@ function FloorUpdate() {
     const {id} = useParams();
     const [form] = Form.useForm();
     const [blocks, setBlocks] = useState([]);
+    const [fileName, setFileName] = useState("default_image_name.jpg");
 
     const getListBlock = async () => {
         await blockService.adminListBlock()
@@ -60,12 +61,23 @@ function FloorUpdate() {
             })
     }
 
+    const preUploadImage = (evt, imgInp) => {
+        const imagePreview = document.getElementById('imagePreview')
+        const [file] = imgInp.files
+        if (file) {
+            imagePreview.src = URL.createObjectURL(file)
+            setFileName(file.name);
+        }
+    }
+
     const detailFloor = async () => {
         await floorService.adminDetailFloor(id)
             .then((res) => {
                 console.log("detail Floor", res.data);
                 setFloor(res.data)
                 setLoading(false)
+                const lastPath = res.data.imageFloor.split('/').pop();
+                setFileName(lastPath)
             })
             .catch((err) => {
                 setLoading(false)
@@ -96,18 +108,21 @@ function FloorUpdate() {
                                 <div className="title_form_">General Information</div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="FloorName">Floor Name</label>
-                                            <input type="text" className="form-control" name="FloorName"
-                                                   id="FloorName" defaultValue={floor.floorName}
-                                                   placeholder="Enter your Floor Name"/>
-                                        </div>
-                                    </div>
+                                    {/*<div className="col-md-5">*/}
+                                    {/*    <div className="form-group">*/}
+                                    {/*        <label htmlFor="FloorName">Floor Name</label>*/}
+                                    {/*        <input type="text" className="form-control" name="FloorName"*/}
+                                    {/*               id="FloorName" defaultValue={floor.floorName}*/}
+                                    {/*               placeholder="Enter your Floor Name"/>*/}
+                                    {/*    </div>*/}
+                                    {/*</div>*/}
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="ImageFloor">Image Floor</label>
+                                            <label className="form-control" htmlFor="ImageFloor">{fileName}</label>
                                             <input type="file" className="form-control" name="ImageFloor"
+                                                   onChange={event => preUploadImage(event, event.target)}
+                                                   style={{display: 'none'}}
                                                    id="ImageFloor" placeholder="Enter yourImageFloor"/>
                                             <div className="col-md-3">
                                                 <button type="button" className="btn btn-primary mt-3"
@@ -170,7 +185,7 @@ function FloorUpdate() {
                         <div className="modal-body">
                             <div className="row">
                                 <div className="row">
-                                    <img src={floor.imageFloor} alt=""
+                                    <img src={floor.imageFloor} alt="" id="imagePreview"
                                          style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                 </div>
                             </div>
