@@ -299,7 +299,7 @@ function PropertyCreate() {
                                                             key={unitType.unitTypeID}
                                                             value={unitType.unitTypeID}
                                                         >
-                                                            {unitType.propertyTypeName}
+                                                            {unitType.propertyTypeName} - {unitType.netFloorArea} - {unitType.grossFloorArea}
                                                         </option>
                                                     );
                                                 })}
@@ -317,7 +317,7 @@ function PropertyCreate() {
                                                 {blocks.map((block) => {
                                                     return (
                                                         <option key={block.blockID} value={block.blockID}>
-                                                            {block.blockName}
+                                                            {block.blockName}-{block.zoneName}
                                                         </option>
                                                     );
                                                 })}
@@ -338,7 +338,7 @@ function PropertyCreate() {
                                                 {zones.map((zone) => {
                                                     return (
                                                         <option key={zone.zoneID} value={zone.zoneID}>
-                                                            {zone.zoneName}
+                                                            {zone.zoneName}-{zone.projectName}
                                                         </option>
                                                     );
                                                 })}
@@ -356,7 +356,7 @@ function PropertyCreate() {
                                                 {floors.map((floor) => {
                                                     return (
                                                         <option key={floor.floorID} value={floor.floorID}>
-                                                            {floor.numFloor}
+                                                            {floor.numFloor}-{floor.blockName}
                                                         </option>
                                                     );
                                                 })}

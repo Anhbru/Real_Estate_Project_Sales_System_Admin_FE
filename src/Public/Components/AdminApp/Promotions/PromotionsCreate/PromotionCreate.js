@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Form, message } from 'antd';
+import { Form, message, Select } from 'antd';
 import promotionService from '../../../Service/PromotionService';
+import salesPolicyService from '../../../Service/SalePolicyService'; 
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -9,7 +10,24 @@ import $ from 'jquery';
 
 function PromotionCreate() {
     const navigate = useNavigate();
+    const [salesPolicies, setSalesPolicies] = useState([]);
+    useEffect(() => {
+        const fetchSalesPolicies = async () => {
+            try {
+                const res = await salesPolicyService.adminListSalesPolicy();
+                if (res.status === 200) {
+                    setSalesPolicies(res.data); // res.data phải chứa danh sách Sales Policies
+                } else {
+                    message.error("Failed to fetch sales policies");
+                }
+            } catch (error) {
+                console.error("Error fetching sales policies:", error);
+                message.error("Error fetching sales policies");
+            }
+        };
 
+        fetchSalesPolicies();
+    }, []);
     const onFinish = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
 
@@ -36,7 +54,7 @@ function PromotionCreate() {
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
             });
     };
-
+    
     return (
         <>
             <Header />
@@ -61,44 +79,36 @@ function PromotionCreate() {
                                         <div className="form-group">
                                             <label htmlFor="promotionName">Promotion Name</label>
                                             <input type="text" className="form-control" name="promotionName"
-                                                   id="promotionName" placeholder="Enter Promotion Name" />
+                                                id="promotionName" placeholder="Enter Promotion Name" />
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="description">Description</label>
                                             <textarea className="form-control" name="description"
-                                                      id="description" placeholder="Enter Description" />
+                                                id="description" placeholder="Enter Description" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="startDate">Start Date</label>
-                                            <input type="date" className="form-control" name="startDate"
-                                                   id="startDate" placeholder="Enter Start Date" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="endDate">End Date</label>
-                                            <input type="date" className="form-control" name="endDate"
-                                                   id="endDate" placeholder="Enter End Date" />
-                                        </div>
-                                    </div>
-                                </div>
+
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                <div className="col-md-5">
+                                    <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="salesPolicyID">Sales PolicyID</label>
-                                            <textarea className="form-control" name="salesPolicyID"
-                                                      id="salesPolicyID" placeholder="Enter Sales PolicyID" />
+                                            <label htmlFor="salesPolicyID">Sales Policy</label>
+                                            <Select
+                                                name="salesPolicyID"
+                                                id="salesPolicyID"
+                                                className="form-control"
+                                                placeholder="Select a Sales Policy"
+                                                options={salesPolicies.map(policy => ({
+                                                    label: policy.salesPolicyType, // Hiển thị Sales Policy Type
+                                                    value: policy.salesPolicyID,   // Lưu Sales Policy ID
+                                                }))}
+                                            />
                                         </div>
                                     </div>
-                                 
                                 </div>
                             </div>
 

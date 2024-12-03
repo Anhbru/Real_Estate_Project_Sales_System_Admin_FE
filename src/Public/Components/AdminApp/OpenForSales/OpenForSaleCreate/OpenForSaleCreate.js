@@ -82,7 +82,7 @@ const OpenForSaleCreate = () => {
                                 <Input.TextArea />
                             </Form.Item>
                             <Form.Item 
-                                label="Project Name" 
+                                label="Project Category Name" 
                                 name="projectCategoryDetailID" 
                                 rules={[{ required: true, message: 'Please select a project category' }]}
                             >

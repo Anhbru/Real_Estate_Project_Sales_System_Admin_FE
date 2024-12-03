@@ -3,6 +3,7 @@ import axios from "axios";
 
 const API_ENDPOINT = {
   ADMIN_LIST_PROJECT: "/api/projects",
+  ADMIN_LIST_ALL_PROJECT: "/api/projects/all-project",
   ADMIN_DETAIL_PROJECT: "/api/projects/",
   ADMIN_POST_PROJECT: "/api/projects",
   ADMIN_UPDATE_PROJECT: "/api/projects/",
@@ -90,7 +91,17 @@ class ProjectService {
       config
     );
   };
+  adminListAllProject = () => {
+    const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
+        }
+    };
+    return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_ALL_PROJECT, config);
+  };
 }
+
 
 const projectService = new ProjectService();
 export default projectService;

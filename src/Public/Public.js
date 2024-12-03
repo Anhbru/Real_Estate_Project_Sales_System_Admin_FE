@@ -105,6 +105,21 @@ import PromotionDetailCreate from './Components/AdminApp/PromotionDetail/Promoti
 import DocumentList from './Components/AdminApp/Document/DocumentList';
 import DocumentShow from './Components/AdminApp/Document/DocumentShow';
 
+
+
+
+
+import PropertyTypeList from './Components/AdminApp/PropertyType/PropertyTypeList/PropertyTypeList';
+import PropertyTypeDetail from './Components/AdminApp/PropertyType/PropertyTypeDetails/PropertyTypeDetails';
+import PropertyTypeUpdate from './Components/AdminApp/PropertyType/PropertyTypeUpdate/PropertyTypeUpdate';
+import PropertyTypeCreate from './Components/AdminApp/PropertyType/PropertyTypeCreate/PropertyTypeCreate';
+
+
+
+
+
+
+import PaymentPolicy from './Components/AdminApp/PaymentPolicy/PaymentPolicy/PaymentPolicy';
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -189,8 +204,9 @@ function Public() {
 
             <Route path='/openforsaledetails/list/:openingForSaleID' element={<OpenForSaleDetailList/>}/>
 
-            <Route path='/contractpaymentdetail/list' element={<ContractPaymentDetailList/>}/>
-            <Route path='/contractpaymentdetail/update/:id' element={<ContractPaymentDetailUpdate/>}/>
+            <Route path="/contractpaymentdetail/list/:contractID" element={<ContractPaymentDetailList />} />
+            <Route path="/contractpaymentdetail/update/:contractID/:id" element={<ContractPaymentDetailUpdate />} />
+            
 
             {/* Payment Processes */}
             <Route path="/paymentprocesses/list" element={<PaymentProcessList/>}/>
@@ -212,6 +228,14 @@ function Public() {
 
             <Route path='/document/list/' element={<DocumentList />}/>
             <Route path='/document/detail/:id' element={<DocumentShow />}/>
+
+            <Route path='/propertytype/list' element={<PropertyTypeList />}/>
+            <Route path='/propertytype/detail/:id' element={<PropertyTypeDetail />}/>
+            <Route path='/propertytype/update/:id' element={<PropertyTypeUpdate />}/>
+            <Route path='/propertytype/create' element={<PropertyTypeCreate />}/>
+
+
+            <Route path='/paymentpolicy/list' element={<PaymentPolicy />}/>
         </Routes>
     );
 }

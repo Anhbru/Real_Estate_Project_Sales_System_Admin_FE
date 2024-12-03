@@ -130,15 +130,6 @@ function PaymentProcessCreate() {
                                                    placeholder="Enter your PaymentProcessName"/>
                                         </div>
                                     </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="status">Atatus</label>
-                                            <select name="status" id="status" className="form-select">
-                                                <option value="true">True</option>
-                                                <option value="false">False</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
