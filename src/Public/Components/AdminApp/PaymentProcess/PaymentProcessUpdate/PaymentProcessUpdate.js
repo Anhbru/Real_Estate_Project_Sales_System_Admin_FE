@@ -36,35 +36,37 @@ function PaymentProcessUpdate() {
     const createZone = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang chỉnh sửa...');
 
-        let data = [];
-
+        let data = {};
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
-        for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val() && $(inputs[i]).attr('type') !== 'file') {
-                let text = $(inputs[i]).prev().text();
-                alert(text + ' không được bỏ trống!');
+
+        for (let input of inputs) {
+            let key = $(input).attr('id');
+            let value = $(input).val();
+
+            if (!value) {
+                const label = $(input).prev('label').text() || 'Trường dữ liệu';
+                alert(`${label} không được bỏ trống!`);
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
-                return
+                return;
             }
 
-             data[$(inputs[i]).attr('id')] = $(inputs[i]).val();
+            data[key] = value;
         }
 
-        const formData = new FormData($("#formCreate")[0]);
+        data.status = data.status === 'true';
 
-        console.log(data);
-
-        await paymentProcessService.adminUpdate(id, formData)
-            .then((res) => {
-                console.log("create paymentprocess", res.data)
-                message.success("chỉnh sửa payment processs thành công!")
-                navigate("/paymentprocesses/list")
-            })
-            .catch((err) => {
-                console.log(err)
-                $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
-            })
-    }
+        try {
+            const res = await paymentProcessService.adminUpdate(id, data);
+            console.log("create payment process", res.data);
+            message.success("Update payment process thành công!");
+            navigate("/paymentprocesses/list");
+        } catch (err) {
+            console.error("Error update payment process:", err);
+            alert("Có lỗi xảy ra. Vui lòng thử lại!");
+        } finally {
+            $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+        }
+    };
 
     const detail = async () => {
         await paymentProcessService.adminDetail(id)

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_ENDPOINT = {
     ADMIN_LIST_FLOOR: "/api/floors",
-    ADMIN_DETAIL_FLOOR: "/api/floors/GetFloorbyID/",
+    ADMIN_DETAIL_FLOOR: "/api/floors/",
     ADMIN_CREATE_FLOOR: "/api/floors",
     ADMIN_UPDATE_FLOOR: "/api/floors/",
     ADMIN_DELETE_FLOOR: "/api/floors/",

@@ -41,7 +41,7 @@ function UnittypeUpdate() {
 
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
         for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val() && $(inputs[i]).attr('type') !== 'file') {
+            if (!$(inputs[i]).val() && $(inputs[i]).attr('name') !== 'Basement' && $(inputs[i]).attr('type') !== 'file') {
                 let text = $(inputs[i]).prev().text();
                 alert(text + ' không được bỏ trống!');
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');

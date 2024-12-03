@@ -1,7 +1,6 @@
 import axios from "axios";
 import {BASE_URL_SERVER} from "../config/server";
 import {configTokenJson} from "../../Contants/Contatns";
-import {configTokenFormData} from "../../Contants/Contatns";
 
 const API_ENDPOINT = {
     LIST: "/api/promotion-details",
@@ -25,7 +24,7 @@ class PromotionDetailService {
     };
 
     update = (id, data) => {
-        return axios.put(BASE_URL_SERVER + API_ENDPOINT.UPDATE + id, data, configTokenFormData);
+        return axios.put(BASE_URL_SERVER + API_ENDPOINT.UPDATE + id, data, configTokenJson);
     };
 
     delete = (id) => {

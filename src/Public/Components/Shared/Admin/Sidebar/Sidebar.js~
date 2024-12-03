@@ -154,13 +154,6 @@ function Sidebar() {
             '/promotiondetails/detail/',
             '/promotiondetails/update/'];
 
-
-            let array_document = [
-                '/document/list',
-                '/document/create',
-                '/document/detail/',
-                '/document/propertylist/'];
-
         let key = "";
 
         if (array_project.some((route) => path_name.startsWith(route))) {
@@ -239,9 +232,6 @@ function Sidebar() {
 
         if (array_promotiondetails.some(route => path_name.startsWith(route))) {
             key = 'promotiondetails';
-        }
-        if (array_document.some(route => path_name.startsWith(route))) {
-            key = 'document';
         }
 
 
@@ -444,20 +434,20 @@ function Sidebar() {
                     <a data-key="paymentprocesses" href="/paymentprocesses/list" className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
-                            src="/assets/icon/payment_report_icon.png"
+                            src="/assets/icon/contact_icon.png"
                             alt=""
                         />
                         <span>Payment Process</span>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="/document/list">
+                    <a className="nav-link collapsed" href="#">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/comment_icon.png"
                             alt=""
                         />
-                        <span>Document</span>
+                        <span>Comment</span>
                     </a>
                 </li>
                 <li className="nav-item">

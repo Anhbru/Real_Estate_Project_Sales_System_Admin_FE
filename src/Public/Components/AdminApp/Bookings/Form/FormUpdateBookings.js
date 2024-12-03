@@ -115,7 +115,7 @@ function FormUpdateBookings() {
         staffResponse,
         bookingsData,
       ] = await Promise.all([
-        customerService.getList(),
+        customerService.adminListCustomer(),
         projectCategoryDetailService.getList(),
         openSaleService.adminListOpenSales(),
         documentTemplateService.getList(),
