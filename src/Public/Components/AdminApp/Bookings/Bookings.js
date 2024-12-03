@@ -63,7 +63,7 @@ function Bookings() {
       });
   };
 
-  const getListBooking = async () => {
+   const getListBooking = async () => {
     setLoading(true);
     await bookingService
       .getList()
