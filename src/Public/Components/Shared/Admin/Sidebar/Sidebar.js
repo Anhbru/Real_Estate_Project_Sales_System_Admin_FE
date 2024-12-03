@@ -154,6 +154,13 @@ function Sidebar() {
             '/promotiondetails/detail/',
             '/promotiondetails/update/'];
 
+
+            let array_document = [
+                '/document/list',
+                '/document/create',
+                '/document/detail/',
+                '/document/propertylist/'];
+
         let key = "";
 
         if (array_project.some((route) => path_name.startsWith(route))) {
@@ -232,6 +239,9 @@ function Sidebar() {
 
         if (array_promotiondetails.some(route => path_name.startsWith(route))) {
             key = 'promotiondetails';
+        }
+        if (array_document.some(route => path_name.startsWith(route))) {
+            key = 'document';
         }
 
 
@@ -441,13 +451,13 @@ function Sidebar() {
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link collapsed" href="#">
+                    <a className="nav-link collapsed" href="/document/list">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/comment_icon.png"
                             alt=""
                         />
-                        <span>Comment</span>
+                        <span>Document</span>
                     </a>
                 </li>
                 <li className="nav-item">

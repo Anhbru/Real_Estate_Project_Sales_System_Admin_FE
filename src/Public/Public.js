@@ -101,6 +101,10 @@ import PromotionDetailDetail from './Components/AdminApp/PromotionDetail/Promoti
 import PromotionDetailUpdate from './Components/AdminApp/PromotionDetail/PromotionDetailUpdate/PromotionDetailUpdate';
 import PromotionDetailCreate from './Components/AdminApp/PromotionDetail/PromotionDetailCreate/PromotionDetailCreate';
 
+
+import DocumentList from './Components/AdminApp/Document/DocumentList';
+import DocumentShow from './Components/AdminApp/Document/DocumentShow';
+
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -205,6 +209,9 @@ function Public() {
             <Route path="/promotiondetails/create" element={<PromotionDetailCreate/>}/>
             <Route path="/promotiondetails/detail/:id" element={<PromotionDetailDetail/>}/>
             <Route path="/promotiondetails/update/:id" element={<PromotionDetailUpdate/>}/>
+
+            <Route path='/document/list/' element={<DocumentList />}/>
+            <Route path='/document/detail/:id' element={<DocumentShow />}/>
         </Routes>
     );
 }
