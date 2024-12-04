@@ -219,6 +219,7 @@ function Public() {
             <Route path="/paymentprocessesdetail/create" element={<PaymentProcessDetailCreate/>}/>
             <Route path="/paymentprocessesdetail/detail/:id" element={<PaymentProcessDetailDetail/>}/>
             <Route path="/paymentprocessesdetail/update/:id" element={<PaymentProcessDetailUpdate/>}/>
+            <Route path="/paymentprocessesdetail/list/:paymentProcessID" element={<PaymentProcessDetailList/>}/>
 
             {/* Promotion Detail */}
             <Route path="/promotiondetails/list" element={<PromotionDetailList/>}/>

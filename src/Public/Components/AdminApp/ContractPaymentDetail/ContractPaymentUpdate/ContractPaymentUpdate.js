@@ -14,7 +14,7 @@ function ContractPaymentDetailsUpdate() {
 
     const detailContractPaymentDetails = async () => {
         try {
-            const res = await contractPaymentDetailService.adminUpdateContractPaymentDetail(id);
+            const res = await contractPaymentDetailService.adminConFirmContractPaymentDetail(id);
             setContractDetails(res.data);
         } catch (err) {
             console.error(err);

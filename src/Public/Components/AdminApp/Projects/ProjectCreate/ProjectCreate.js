@@ -6,9 +6,31 @@ import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import { useState,useEffect } from 'react';
+import paymentPolicyService from '../../../Service/PaymentPolicyService';
 
 function ProjectCreate() {
     const navigate = useNavigate();
+    const [paymentPolicies, setPaymentPolicies] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const getListPaymentPolicy = async () => {
+        await paymentPolicyService
+            .adminListPaymentPolicy()
+            .then((res) => {
+                if (res.status === 200) {
+                    setPaymentPolicies(res.data);
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                }
+            })
+            .catch((err) => {
+                setLoading(false);
+                console.log(err);
+            });
+    };
+
 
     const preUploadImage = () => {
         $('input#Images').click();
@@ -58,6 +80,9 @@ function ProjectCreate() {
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
             })
     };
+        useEffect(() => {
+            getListPaymentPolicy();
+        }, [loading]);
 
     return (
         <>
@@ -215,9 +240,23 @@ function ProjectCreate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="status">Status</label>
-                                            <input type="text" className="form-control" name="status" id="status"
-                                                   placeholder="Enter your Stauts"/>
+                                            <label htmlFor="PaymentPolicyID">Payment Policy</label>
+                                            <select
+                                                name="PaymentPolicyID"
+                                                id="PaymentPolicyID"
+                                                className="form-control"
+                                            >
+                                                {paymentPolicies.map((paymentPolicy) => {
+                                                    return (
+                                                        <option
+                                                            key={paymentPolicy.paymentPolicyID}
+                                                            value={paymentPolicy.paymentPolicyID}
+                                                        >
+                                                            { paymentPolicy.paymentPolicyName  } 
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
