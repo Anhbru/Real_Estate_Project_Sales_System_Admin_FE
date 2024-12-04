@@ -2,23 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, message } from 'antd';
 import promotionService from '../../../Service/PromotionService';
+import salesPolicyService from '../../../Service/SalePolicyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 
 function PromotionUpdate() {
     const [promotion, setPromotion] = useState([]);
+    const [salesPolicies, setSalesPolicies] = useState([]);
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
 
     const detailPromotion = async () => {
         try {
-            const res = await promotionService.adminDetailPromotion(id);
-            setPromotion(res.data);
+            
+            const resPromotion = await promotionService.adminDetailPromotion(id);
+            setPromotion(resPromotion.data);
+
+            
+            const resSalesPolicies = await salesPolicyService.adminListSalesPolicy();
+            setSalesPolicies(resSalesPolicies.data);
+
         } catch (err) {
             console.error(err);
-            message.error("Failed to load promotion details");
+            message.error("Failed to load promotion or sales policies");
         }
     };
 
@@ -70,22 +78,6 @@ function PromotionUpdate() {
                                 </div>
 
                                 <div className="form-group">
-                                    <label htmlFor="startDate">Start Date</label>
-                                    <input type="date" className="form-control" name="startDate" id="startDate"
-                                        defaultValue={promotion?.startDate ? new Date(promotion.startDate).toISOString().slice(0, 10) : ""}
-                                        placeholder="Enter Start Date" />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="endDate">End Date</label>
-                                    <input type="date" className="form-control" name="endDate" id="endDate"
-                                        defaultValue={promotion?.endDate ? new Date(promotion.endDate).toISOString().slice(0, 10) : ""}
-                                        placeholder="Enter End Date" />
-                                </div>
-
-
-
-                                <div className="form-group">
                                     <label htmlFor="status">Status</label>
                                     <select className="form-control" name="status" id="status" defaultValue={promotion?.status}>
                                         <option value="true">Active</option>
@@ -95,9 +87,14 @@ function PromotionUpdate() {
 
                                 <div className="form-group">
                                     <label htmlFor="salesPolicyType">Sales Policy Type</label>
-                                    <textarea className="form-control" name="salesPolicyType" id="salesPolicyType"
-                                        defaultValue={promotion?.salesPolicyType}
-                                        placeholder="Enter Sales Policy Type" />
+                                    <select className="form-control" name="salesPolicyType" id="salesPolicyType"
+                                        defaultValue={promotion?.salesPolicyID}>
+                                        {salesPolicies.map(policy => (
+                                            <option key={policy.id} value={policy.id}>
+                                                {policy.salesPolicyType}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
 
                             </div>
