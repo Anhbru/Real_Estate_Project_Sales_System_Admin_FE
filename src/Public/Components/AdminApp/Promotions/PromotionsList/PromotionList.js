@@ -29,18 +29,11 @@ function PromotionsList() {
         }
     };
 
-    const checkAll = () => {
-        if ($('#checkAll').is(":checked")) {
-            $('.checkbox_item_').prop('checked', true);
-        } else {
-            $('.checkbox_item_').prop('checked', false);
-        }
-    }
     const handleDelete = async (promotionID) => {
         if (window.confirm("Are you sure you want to delete this promotion?")) {
             try {
                 setLoading(true);
-                const res = await promotionService.adminUpdatePromotion(promotionID, { status: false }); 
+                const res = await promotionService.adminUpdatePromotion(promotionID, { status: false });
                 if (res.status === 200) {
                     alert("Promotion marked as Inactive successfully!");
                     getListPromotions(); // Cập nhật danh sách
@@ -55,6 +48,14 @@ function PromotionsList() {
             }
         }
     };
+    const checkAll = () => {
+        if ($('#checkAll').is(":checked")) {
+            $('.checkbox_item_').prop('checked', true);
+        } else {
+            $('.checkbox_item_').prop('checked', false);
+        }
+    }
+
     useEffect(() => {
         getListPromotions();
     }, []);
@@ -133,6 +134,7 @@ function PromotionsList() {
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li><a className="dropdown-item" href={'/promotions/update/' + item.promotionID}>Update</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
+                                                                <li><a className="dropdown-item" href="/promotions/create">Create</a></li>
                                                                 <li>
                                                                     <button
                                                                         className="dropdown-item"
@@ -141,6 +143,7 @@ function PromotionsList() {
                                                                         Delete
                                                                     </button>
                                                                 </li>
+
                                                             </ul>
                                                         </p>
                                                     </td>

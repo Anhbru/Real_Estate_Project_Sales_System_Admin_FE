@@ -6,7 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import paymentPolicyService from "../../../Service/PaymentPolicyService";
 import { useNavigate } from "react-router-dom";
 function ContractList() {
-    const { contractID } = useParams(); 
+    const { contractID } = useParams();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -48,10 +48,35 @@ function ContractList() {
             setLoading(false);
         }
     };
-    const handleConfirm = (contractID, contractPaymentDetailID) => {
-        navigate(`/contractpaymentdetail/update/${contractID}/${contractPaymentDetailID}`);
-    };
+    const handleConfirm = async (contractPaymentDetailID) => {
+        if (!window.confirm("Bạn có chắc chắn muốn xác nhận hợp đồng này không?")) return;
 
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await contractPaymentDetailService.adminConFirmContractPaymentDetail(
+                contractPaymentDetailID,
+                { status: true }
+            );
+
+            if (res.status === 200) {
+                setData((prevData) =>
+                    prevData.map((item) =>
+                        item.contractPaymentDetailID === contractPaymentDetailID
+                            ? { ...item, status: true }
+                            : item
+                    )
+                );
+                alert("Xác nhận thành công!");
+            } else {
+                setError("Xác nhận không thành công. Vui lòng thử lại.");
+            }
+        } catch (err) {
+            setError("Đã xảy ra lỗi khi xác nhận: " + err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
     const handleUpdateClick = (contract) => {
         setSelectedContract(contract);
         setUpdateForm({
@@ -219,21 +244,23 @@ function ContractList() {
                                                     </td>
                                                     <td>{item.paymentPolicyName}</td>
                                                     <td>
-                                                        <button
-                                                            className="btn btn-link"
-                                                            onClick={() => handleViewImage(item.remittanceOrder)}
-                                                        >
-                                                            View Image
-                                                        </button>
+                                                        {item.remittanceOrder && (
+                                                            <button
+                                                                className="btn btn-link"
+                                                                onClick={() => handleViewImage(item.remittanceOrder)}
+                                                            >
+                                                                View Image
+                                                            </button>
+                                                        )}
                                                     </td>
                                                     <td>
                                                         <button
-                                                            className="btn btn-primary"
-                                                            onClick={() => handleConfirm(item.contractID, item.contractPaymentDetailID)}
+                                                            className="btn btn-success"
+                                                            onClick={() => handleConfirm(item.contractPaymentDetailID)}
+                                                            disabled={item.status || !item.remittanceOrder}
                                                         >
-                                                            Confirm
+                                                            {item.status ? "Confirmed" : "Confirm"}
                                                         </button>
-
                                                     </td>
                                                     <td>
                                                         <button
@@ -248,12 +275,13 @@ function ContractList() {
                                                             className="btn btn-primary"
                                                             onClick={() => handleUpdateClick(item)}
                                                         >
-                                                            update
+                                                            Update
                                                         </button>
                                                     </td>
                                                 </tr>
                                             ))}
                                         </tbody>
+
                                     </table>
                                 )}
                             </>
