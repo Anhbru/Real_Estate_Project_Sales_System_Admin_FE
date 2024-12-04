@@ -9,6 +9,7 @@ const API_ENDPOINT = {
     ADMIN_CREATE_: "/api/payment-processes",
     ADMIN_UPDATE_: "/api/payment-processes/",
     ADMIN_DELETE_: "/api/payment-processes/",
+    
 };
 
 class PaymentProcessService {

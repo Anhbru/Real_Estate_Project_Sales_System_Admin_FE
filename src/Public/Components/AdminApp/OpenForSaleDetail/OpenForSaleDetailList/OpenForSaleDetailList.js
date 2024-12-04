@@ -16,7 +16,7 @@ function OpenForSaleDetailList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [newSaleDetail, setNewSaleDetail] = useState({
-        openingForSaleID: openingForSaleID,
+        openingForSaleID: openingForSaleID,     
         propertyID: '',
         price: '',
         note: ''
@@ -33,7 +33,7 @@ function OpenForSaleDetailList() {
                     openingForSaleName: res.data.openingForSaleName,
                 }));
                 setProjectCategoryID(res.data.projectCategoryDetailID);
-            } else {
+            } else {        
                 setError("Failed to fetch open-for-sale info.");
             }
         } catch (err) {

@@ -106,10 +106,10 @@ export default function LoginV2(props) {
             }}
           >
             {/* Alert */}
-            <Alert severity="info" sx={{ mb: 3, width: "100%" }}>
+            {/* <Alert severity="info" sx={{ mb: 3, width: "100%" }}>
               Use <strong>admin@gmail.com</strong> with password{" "}
               <strong>admin123</strong>
-            </Alert>
+            </Alert> */}
 
             <Typography component="h1" variant="h5">
               Sign in to your account
@@ -139,11 +139,11 @@ export default function LoginV2(props) {
                     clickEndIcon={handleClickShowPassword}
                   />
                 </Box>
-                <Box display="flex" justifyContent="flex-end" sx={{ mt: 1 }}>
+                {/* <Box display="flex" justifyContent="flex-end" sx={{ mt: 1 }}>
                   <Link href="#" underline="hover">
                     Forgot password?
                   </Link>
-                </Box>
+                </Box> */}
                 <Button
                   sx={{ mt: 2 }}
                   type="submit"
@@ -166,8 +166,8 @@ export default function LoginV2(props) {
                   {isSubmitting ? "" : "Sign in"}
                 </Button>
               </FormProviderJs>
-              <Divider sx={{ mt: 2 }}>or</Divider>
-              <Box
+              {/* <Divider sx={{ mt: 2 }}>or</Divider> */}
+              {/* <Box
                 sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}
               >
                 <Button fullWidth variant="outlined" startIcon={<GoogleIcon />}>
@@ -188,7 +188,7 @@ export default function LoginV2(props) {
                     Return to dashboard
                   </Typography>
                 </Divider>
-              </Box>
+              </Box> */}
             </Box>
           </Box>
         </Grid>
