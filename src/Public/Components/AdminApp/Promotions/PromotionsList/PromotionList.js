@@ -36,7 +36,25 @@ function PromotionsList() {
             $('.checkbox_item_').prop('checked', false);
         }
     }
-
+    const handleDelete = async (promotionID) => {
+        if (window.confirm("Are you sure you want to delete this promotion?")) {
+            try {
+                setLoading(true);
+                const res = await promotionService.adminUpdatePromotion(promotionID, { status: false }); 
+                if (res.status === 200) {
+                    alert("Promotion marked as Inactive successfully!");
+                    getListPromotions(); // Cập nhật danh sách
+                } else {
+                    alert("Failed to delete promotion. Please try again.");
+                }
+            } catch (err) {
+                console.error("Error deleting promotion:", err);
+                alert("An error occurred while deleting the promotion.");
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
     useEffect(() => {
         getListPromotions();
     }, []);
@@ -72,8 +90,6 @@ function PromotionsList() {
                                             <col width="5%" />
                                             <col width="5%" />
                                             <col width="15%" />
-                                            <col width="15%" />
-                                            <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
@@ -88,8 +104,6 @@ function PromotionsList() {
                                                 <th scope="col">STT</th>
                                                 <th scope="col">Promotion Name</th>
                                                 <th scope="col">Description</th>
-                                                <th scope="col">Start Date</th>
-                                                <th scope="col">End Date</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Sales Policy Type</th>
                                                 <th scope="col">Action</th>
@@ -104,8 +118,6 @@ function PromotionsList() {
                                                     <th>{index + 1}</th>
                                                     <td>{item.promotionName}</td>
                                                     <td>{item.description}</td>
-                                                    <td>{item.startDate}</td>
-                                                    <td>{item.endDate}</td>
                                                     <td style={{ color: item.status ? 'green' : 'red' }}>
                                                         {item.status ? 'Active' : 'Inactive'}
                                                     </td>
@@ -121,7 +133,14 @@ function PromotionsList() {
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li><a className="dropdown-item" href={'/promotions/update/' + item.promotionID}>Update</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
-                                                                <li><a className="dropdown-item" href="/promotions/create">Create</a></li>
+                                                                <li>
+                                                                    <button
+                                                                        className="dropdown-item"
+                                                                        onClick={() => handleDelete(item.promotionID)}
+                                                                    >
+                                                                        Delete
+                                                                    </button>
+                                                                </li>
                                                             </ul>
                                                         </p>
                                                     </td>
