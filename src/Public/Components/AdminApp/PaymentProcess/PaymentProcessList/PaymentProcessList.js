@@ -86,19 +86,22 @@ function PaymentProcessList() {
                                                     <ul className="dropdown-menu">
                                                         <li><a className="dropdown-item"
                                                                href={'/paymentprocesses/detail/' + item.paymentProcessID}>Detail
-                                                            payment processes</a></li>
+                                                            </a></li>
+                                                            <li><a className="dropdown-item"
+                                                               href={'/paymentprocessesdetail/list/' + item.paymentProcessID}> Payment Process Detail
+                                                            </a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
                                                                href={'/paymentprocesses/update/' + item.paymentProcessID}>Update
-                                                            payment processes</a></li>
+                                                            </a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
                                                                href="/paymentprocesses/create">Create
-                                                            payment processes</a></li>
+                                                            </a></li>
                                                     </ul>
                                                 </p>
                                             </td>

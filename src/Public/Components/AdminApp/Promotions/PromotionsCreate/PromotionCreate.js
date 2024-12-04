@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Form, message, Select } from 'antd';
 import promotionService from '../../../Service/PromotionService';
-import salesPolicyService from '../../../Service/SalePolicyService'; 
+import salesPolicyService from '../../../Service/SalePolicyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -16,7 +16,7 @@ function PromotionCreate() {
             try {
                 const res = await salesPolicyService.adminListSalesPolicy();
                 if (res.status === 200) {
-                    setSalesPolicies(res.data); // res.data phải chứa danh sách Sales Policies
+                    setSalesPolicies(res.data);
                 } else {
                     message.error("Failed to fetch sales policies");
                 }
@@ -28,17 +28,17 @@ function PromotionCreate() {
 
         fetchSalesPolicies();
     }, []);
-    const onFinish = async () => {
+    const onFinish = async (values) => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
 
-        let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
-        for (let i = 0; i < inputs.length; i++) {
-            if (!$(inputs[i]).val()) {
-                let text = $(inputs[i]).prev().text();
-                alert(text + ' không được bỏ trống!');
-                $('#btnCreate').prop('disabled', false).text('Tạo mới');
-                return;
-            }
+        try {
+            const res = await promotionService.adminCreatePromotion(values);
+            message.success("Tạo thành công!");
+            navigate("/promotions/list");
+        } catch (err) {
+            console.error("Error:", err);
+            message.error("Tạo thất bại");
+            $('#btnCreate').prop('disabled', false).text('Tạo mới');
         }
 
         const formData = new FormData($('#formCreate')[0]);
@@ -54,7 +54,7 @@ function PromotionCreate() {
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
             });
     };
-    
+
     return (
         <>
             <Header />
@@ -70,46 +70,54 @@ function PromotionCreate() {
                 </div>
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formCreate" className="form_create_custom_" onFinish={onFinish}>
+                        <Form
+                            id="formCreate"
+                            className="form_create_custom_"
+                            onFinish={onFinish}
+                            initialValues={{
+                                promotionName: '',
+                                description: '',
+                                salesPolicyID: null,
+                            }}
+                        >
                             <div className="form_area_">
                                 <div className="title_form_">General Information</div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="promotionName">Promotion Name</label>
-                                            <input type="text" className="form-control" name="promotionName"
-                                                id="promotionName" placeholder="Enter Promotion Name" />
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="description">Description</label>
-                                            <textarea className="form-control" name="description"
-                                                id="description" placeholder="Enter Description" />
-                                        </div>
-                                    </div>
-                                </div>
+                                <Form.Item
+                                    label="Promotion Name"
+                                    name="promotionName"
+                                    rules={[{ required: true, message: "Please enter promotion name!" }]}
+                                >
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Enter Promotion Name"
+                                    />
+                                </Form.Item>
 
+                                <Form.Item
+                                    label="Description"
+                                    name="description" // Không có quy tắc bắt buộc nhập
+                                >
+                                    <textarea
+                                        className="form-control"
+                                        placeholder="Enter Description"
+                                    />
+                                </Form.Item>
 
-
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="salesPolicyID">Sales Policy</label>
-                                            <Select
-                                                name="salesPolicyID"
-                                                id="salesPolicyID"
-                                                className="form-control"
-                                                placeholder="Select a Sales Policy"
-                                                options={salesPolicies.map(policy => ({
-                                                    label: policy.salesPolicyType, // Hiển thị Sales Policy Type
-                                                    value: policy.salesPolicyID,   // Lưu Sales Policy ID
-                                                }))}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
+                                <Form.Item
+                                    label="Sales Policy"
+                                    name="salesPolicyID"
+                                    rules={[{ required: true, message: "Please select a sales policy!" }]}
+                                >
+                                    <Select
+                                        placeholder="Select a Sales Policy"
+                                        options={salesPolicies.map(policy => ({
+                                            label: policy.salesPolicyType,
+                                            value: policy.salesPolicyID,
+                                        }))}
+                                    />
+                                </Form.Item>
                             </div>
 
                             <div className="footer_form_">
@@ -117,6 +125,7 @@ function PromotionCreate() {
                                 <button className="btn_create" id="btnCreate" type="submit">Save</button>
                             </div>
                         </Form>
+
                     </div>
                 </section>
             </main>
