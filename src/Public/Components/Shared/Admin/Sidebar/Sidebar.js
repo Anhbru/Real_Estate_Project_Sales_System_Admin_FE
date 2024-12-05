@@ -377,8 +377,59 @@ function Sidebar() {
                     </a>
                 </li>
 
+                <li className="nav-item">
+                    <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Project Category Detail</span>
+                    </a>
+                </li>
 
+                <li className="nav-item">
+                    <a data-key="blocks" href="/blocks/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Block</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="floors" href="/floors/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Floors</span>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a data-key="zones" href="/zones/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Zones</span>
+                    </a>
+                </li>
 
+                <li className="nav-item">
+                    <a data-key="unittypes" href="/unittypes/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>UnitType</span>
+                    </a>
+                </li>
+                
                 <li className="nav-item">
                     <a
                         data-key="property"
@@ -451,6 +502,19 @@ function Sidebar() {
                             alt=""
                         />
                         <span>Promotion</span>
+                    </a>
+                </li>
+
+
+                <li className="nav-item">
+                    <a data-key="promotiondetails" href="/promotiondetails/list"
+                        className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Promotion Detail</span>
                     </a>
                 </li>
 
@@ -536,56 +600,9 @@ function Sidebar() {
                     </a>
                 </li>
 
-                <li className="nav-item">
-                    <a data-key="project_category" href="/project-category-detail" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Project Category Detail</span>
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a data-key="blocks" href="/blocks/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Block</span>
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a data-key="floors" href="/floors/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Floors</span>
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a data-key="zones" href="/zones/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Zones</span>
-                    </a>
-                </li>
-                <li className="nav-item">
-                    <a data-key="unittypes" href="/unittypes/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>UnitType</span>
-                    </a>
-                </li>
+                
+             
+               
 
                 <li className="nav-item">
                     <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
@@ -611,17 +628,6 @@ function Sidebar() {
                 </li>
 
 
-                <li className="nav-item">
-                    <a data-key="promotiondetails" href="/promotiondetails/list"
-                        className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Promotion Detail</span>
-                    </a>
-                </li>
 
                 <li>
                     <p className="nav-divider"></p>

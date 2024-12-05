@@ -16,116 +16,86 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Lấy dữ liệu từ API
     const fetchData = async () => {
       try {
-        const totalPriceResponse = await dashboardService.getTotalPrice();
-        setTotalUser(totalPriceResponse.data);
-
-        const countPropertyResponse = await dashboardService.getCountProperty();
-        setTotalOrder(countPropertyResponse.data);
-
-        const countCustomerResponse = await dashboardService.getCountCustomer();
-        setTotalSales(countCustomerResponse.data);
-
-        const outstandingAmountResponse = await dashboardService.getOutstandingAmount();
-        setTotalPending(outstandingAmountResponse.data);
-
-        const monthlyTotalPriceResponse = await dashboardService.getMonthlyTotalPrice();
-        console.log("API Response:", monthlyTotalPriceResponse);
-        if (Array.isArray(monthlyTotalPriceResponse.data)) {
-          setMonthlySales(monthlyTotalPriceResponse.data);
-        } else {
-          console.error("Invalid data format:", monthlyTotalPriceResponse.data);
-        }
+        setIsLoading(true); 
+        const responses = await Promise.all([
+          dashboardService.getTotalPrice(),
+          dashboardService.getCountProperty(),
+          dashboardService.getCountCustomer(),
+          dashboardService.getOutstandingAmount(),
+          dashboardService.getMonthlyTotalPrice(),
+        ]);
+  
+        setTotalUser(responses[0].data);
+        setTotalOrder(responses[1].data);
+        setTotalSales(responses[2].data);
+        setTotalPending(responses[3].data);
+  
+        const monthlyData = responses[4].data; 
+        const transformedData = Array(12).fill(0); 
+  
+        monthlyData.forEach((item) => {
+          const { month, totalPrice } = item;
+          transformedData[month - 1] = totalPrice; 
+        });
+  
+        setMonthlySales(transformedData); 
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
+      } finally {
+        setIsLoading(false); 
       }
     };
-
+  
     fetchData();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      setIsLoading(true); // Start loading
-      const responses = await Promise.all([
-        dashboardService.getTotalPrice(),
-        dashboardService.getCountProperty(),
-        dashboardService.getCountCustomer(),
-        dashboardService.getOutstandingAmount(),
-        dashboardService.getMonthlyTotalPrice(),
-      ]);
-  
-      setTotalUser(responses[0].data);
-      setTotalOrder(responses[1].data);
-      setTotalSales(responses[2].data);
-      setTotalPending(responses[3].data);
-  
-     
-      const monthlyData = responses[4].data; 
-      const transformedData = Array(12).fill(0); 
-  
-      monthlyData.forEach((item) => {
-        const { month, totalPrice } = item;
-        transformedData[month - 1] = totalPrice; 
-      });
-  
-      setMonthlySales(transformedData);
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-    } finally {
-      setIsLoading(false); 
-    }
-  };
-  
-
   useEffect(() => {
-  if (monthlySales.length > 0) {
-    const chartDom = document.getElementById("reportsChart");
-    if (chartDom) {
-      const myChart = echarts.init(chartDom);
-
-      const xData = [
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-      ];
-
-      const option = {
-        xAxis: { type: "category", data: xData },
-        yAxis: {
-          type: "value",
-          min: 0,
-          axisLabel: { formatter: "{value} USD" },
-        },
-        grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
-        series: [
-          {
-            data: monthlySales, // Dữ liệu đã xử lý
-            type: "line",
-            areaStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: "rgba(67,121,238,0.16)" },
-                { offset: 1, color: "rgba(255,255,255,0.18)" },
-              ]),
-            },
-            lineStyle: { color: "#4379EE", width: 2 },
+    if (monthlySales.length > 0) {
+      const chartDom = document.getElementById("reportsChart");
+      if (chartDom) {
+        const myChart = echarts.init(chartDom);
+  
+        const xData = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ];
+  
+        const option = {
+          xAxis: { type: "category", data: xData },
+          yAxis: {
+            type: "value",
+            min: 0,
+            axisLabel: { formatter: "{value} USD" },
           },
-        ],
-      };
-
-      myChart.setOption(option);
-
-      window.addEventListener("resize", myChart.resize);
-
-      return () => {
-        window.removeEventListener("resize", myChart.resize);
-        myChart.dispose();
-      };
+          grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
+          series: [
+            {
+              data: monthlySales, // Dữ liệu đã xử lý
+              type: "line",
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgba(67,121,238,0.16)" },
+                  { offset: 1, color: "rgba(255,255,255,0.18)" },
+                ]), 
+              },
+              lineStyle: { color: "#4379EE", width: 2 },
+            },
+          ],
+        };
+  
+        myChart.setOption(option);
+  
+        window.addEventListener("resize", myChart.resize);
+  
+        return () => {
+          window.removeEventListener("resize", myChart.resize);
+          myChart.dispose();
+        };
+      }
     }
-  }
-}, [monthlySales]);
-
+  }, [monthlySales]);
 
   return (
     <>
@@ -149,11 +119,7 @@ function Dashboard() {
                       <img src="/assets/icon/icon_user_total.png" alt="" />
                     </div>
                   </div>
-                  <p className="mt-3">
-                    <img src="/assets/icon/icon_revenue_up.png" alt="" />
-                    <span className="percent_ mx-2">8.5%</span>
-                    <span className="percent_content_">Up from yesterday</span>
-                  </p>
+                 
                 </div>
               </div>
             </div>
@@ -169,11 +135,7 @@ function Dashboard() {
                       <img src="/assets/icon/icon_order_total.png" alt="" />
                     </div>
                   </div>
-                  <p className="mt-3">
-                    <img src="/assets/icon/icon_revenue_up.png" alt="" />
-                    <span className="percent_ mx-2">1.3%</span>
-                    <span className="percent_content_">Up from past week</span>
-                  </p>
+                 
                 </div>
               </div>
             </div>
@@ -189,13 +151,7 @@ function Dashboard() {
                       <img src="/assets/icon/icon_sale_total.png" alt="" />
                     </div>
                   </div>
-                  <p className="mt-3">
-                    <img src="/assets/icon/icon_revenue_down.png" alt="" />
-                    <span className="percent_ down_ mx-2">4.3%</span>
-                    <span className="percent_content_">
-                      Down from yesterday
-                    </span>
-                  </p>
+                 
                 </div>
               </div>
             </div>
@@ -211,11 +167,7 @@ function Dashboard() {
                       <img src="/assets/icon/icon_total_pending.png" alt="" />
                     </div>
                   </div>
-                  <p className="mt-3">
-                    <img src="/assets/icon/icon_revenue_up.png" alt="" />
-                    <span className="percent_ mx-2">1.8%</span>
-                    <span className="percent_content_">Up from yesterday</span>
-                  </p>
+                  
                 </div>
               </div>
             </div>
@@ -227,8 +179,6 @@ function Dashboard() {
                 {monthlySales.length === 0 && <p>No data available for the chart</p>}
               </div>
             )}
-
-
           </div>
         </section>
       </main>
