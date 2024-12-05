@@ -30,7 +30,7 @@ function ContractPaymentDetailsUpdate() {
             await contractPaymentDetailService.adminUpdateContractPaymentDetail(id, formData);
             message.success("Contract payment details updated successfully");
 
-            // Quay lại trang danh sách theo contractID
+           
             navigate(`/contractpaymentdetail/list/${contractID}`);
         } catch (err) {
             console.error(err);
