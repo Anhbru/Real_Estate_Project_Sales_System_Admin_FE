@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import openSaleDetailsService from '../../../Service/OpenForSaleDetailsService';
 import openSaleService from '../../../Service/OpenForSaleService';
-import propertyService from '../../../Service/PropertyService';  // Đảm bảo import service này
+import propertyService from '../../../Service/PropertyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
+
 
 function OpenForSaleDetailList() {
     const { openingForSaleID } = useParams();
@@ -16,7 +17,7 @@ function OpenForSaleDetailList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [newSaleDetail, setNewSaleDetail] = useState({
-        openingForSaleID: openingForSaleID,     
+        openingForSaleID: openingForSaleID,
         propertyID: '',
         price: '',
         note: ''
@@ -33,7 +34,7 @@ function OpenForSaleDetailList() {
                     openingForSaleName: res.data.openingForSaleName,
                 }));
                 setProjectCategoryID(res.data.projectCategoryDetailID);
-            } else {        
+            } else {
                 setError("Failed to fetch open-for-sale info.");
             }
         } catch (err) {
@@ -153,6 +154,11 @@ function OpenForSaleDetailList() {
                 <div className="pagetitle">
                     <h1>Open For Sale Details</h1>
                 </div>
+                <div className="back_to_page_">
+                    <Link to="/openforsales/list" className="back__url_">
+                        <img src="/assets/icon/back_to_page_icon.png" alt="" /> Back to Open For Sale list
+                    </Link>
+                </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
                         <input
@@ -165,6 +171,7 @@ function OpenForSaleDetailList() {
                         <button className="btn btn-primary" onClick={() => setShowPopup(true)}>
                             Create New
                         </button>
+
                     </div>
 
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
