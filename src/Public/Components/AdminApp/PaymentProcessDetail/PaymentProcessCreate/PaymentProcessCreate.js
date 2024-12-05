@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {useSearchParams} from 'react-router-dom';
 import {Form, message} from 'antd';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -11,6 +12,10 @@ function PaymentProcessCreate() {
     const [paymentProcesses, setPaymentProcesses] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+
+    const [searchParams] = useSearchParams();
+
+    let paymentProcessID = searchParams.get('paymentProcessID');
 
     const createZone = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
@@ -42,7 +47,11 @@ function PaymentProcessCreate() {
             .then((res) => {
                 console.log("create paymentprocess", res.data)
                 message.success("Tạo payment process detail thành công!")
-                navigate("/paymentprocessesdetail/list")
+                if (paymentProcessID){
+                    navigate(`/paymentprocessesdetail/list/${paymentProcessID}`)
+                } else {
+                    navigate("/paymentprocessesdetail/list")
+                }
             })
             .catch((err) => {
                 console.log(err)
@@ -138,26 +147,45 @@ function PaymentProcessCreate() {
                                     </div>
                                 </div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="paymentProcessID">PaymentProcessID</label>
-                                            <select name="paymentProcessID" id="paymentProcessID"
-                                                    className="form-control">
-                                                {
-                                                    paymentProcesses.map((payment) => {
-                                                        return (
-                                                            <option key={payment.paymentProcessID}
-                                                                    value={payment.paymentProcessID}>
-                                                                {payment.paymentProcessName}
-                                                            </option>
-                                                        )
-                                                    })
-                                                }
-                                            </select>
+                                {!paymentProcessID ? (
+                                    <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                        <div className="col-md-5">
+                                            <div className="form-group">
+                                                <label htmlFor="paymentProcessID">Payment Process ID</label>
+                                                <select
+                                                    name="paymentProcessID"
+                                                    id="paymentProcessID"
+                                                    className="form-control"
+                                                >
+                                                    {paymentProcesses.map((payment) => (
+                                                        <option
+                                                            key={payment.paymentProcessID}
+                                                            value={payment.paymentProcessID}
+                                                        >
+                                                            {payment.paymentProcessName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div className="d-flex justify-content-between align-items-center form_el mt-3 d-none">
+                                        <div className="col-md-5">
+                                            <div className="form-group">
+                                                <label htmlFor="paymentProcessID">Payment Process ID</label>
+                                                <input value={paymentProcessID} readOnly={true}
+                                                    type="text"
+                                                    id="paymentProcessID"
+                                                    name="paymentProcessID"
+                                                    className="form-control"
+                                                    placeholder="Enter Payment Process ID"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
                             </div>
 
                             <div className="footer_form_">

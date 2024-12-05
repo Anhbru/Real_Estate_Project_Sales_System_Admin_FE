@@ -228,9 +228,12 @@ function ProjectUpdate() {
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="status">Status</label>
-                                            <input type="text" className="form-control" name="status" id="status"
-                                                   defaultValue={project?.status}
-                                                   placeholder="Enter your Stauts"/>
+                                            <select name="status" id="status" className="form-control">
+                                                <option value="1">Sắp mở bán</option>
+                                                <option value="2">Đang mở bán</option>
+                                                <option value="3">Đã bàn giao</option>
+                                                <option value="4">Đã hủy</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

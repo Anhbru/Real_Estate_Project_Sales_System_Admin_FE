@@ -187,6 +187,69 @@ export default function FormContractUpdate() {
       });
   };
 
+  const arrayStatus = [
+    {
+      id: 1,
+      label: "Chờ xác nhận TTDG",
+      value: "1",
+    },
+    {
+      id: 2,
+      label: "Chờ xác nhận TTĐC",
+      value: "2",
+    },
+    {
+      id: 3,
+      label: "Đã xác nhận TTĐC",
+      value: "3",
+    },
+    {
+      id: 4,
+      label: "Đã xác nhận chính sách bán hàng",
+      value: "4",
+    },
+    {
+      id: 5,
+      label: "Đã xác nhận phiếu tính giá",
+      value: "5",
+    },
+    {
+      id: 6,
+      label: "Đã thanh toán đợt 1 hợp đồng mua bán",
+      value: "6",
+    },
+    {
+      id: 7,
+      label: "Đã xác nhận hợp đồng mua bán",
+      value: "7",
+    },
+    {
+      id: 8,
+      label: "Đã bàn giao quyền sở hữu đất",
+      value: "8",
+    },
+    {
+      id: 9,
+      label: "Chờ xác nhận TTCN",
+      value: "9",
+    },
+    {
+      id: 10,
+      label: "Đã xác nhận chuyển nhượng",
+      value: "10",
+    },
+    {
+      id: 11,
+      label: "Chờ xác nhận TTCNTTDC",
+      value: "11",
+    },
+    {
+      id: 12,
+      label: "Đã hủy",
+      value: "12",
+    },
+  ];
+
   return (
     <div>
       <Header />
@@ -247,6 +310,24 @@ export default function FormContractUpdate() {
                     label="Loại hợp đồng"
                     errors={errors.contractType}
                   />
+                )}
+              </Grid>
+              {/* Trạng thái */}
+              <Grid item xs={3}>
+                {loading ? (
+                    <Skeleton
+                        variant="rectangular"
+                        sx={{ borderRadius: "8px" }}
+                        height={56}
+                    />
+                ) : (
+                    <SelectJs
+                        control={control}
+                        arrayValue={arrayStatus}
+                        name="status"
+                        label="Trạng thái"
+                        errors={errors.status}
+                    />
                 )}
               </Grid>
               <Grid item xs={3}>
