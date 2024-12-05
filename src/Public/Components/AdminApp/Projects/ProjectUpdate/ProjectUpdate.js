@@ -5,9 +5,11 @@ import projectService from '../../../Service/ProjectService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import paymentPolicyService from '../../../Service/PaymentPolicyService';
 
 function ProjectUpdate() {
     const [project, setProject] = useState([]);
+    const [paymentPolicies, setPaymentPolicies] = useState([]);
     const [images, setImages] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -17,6 +19,22 @@ function ProjectUpdate() {
     const preUploadImage = () => {
         $('input#Images').click();
     }
+    const getListPaymentPolicy = async () => {
+        await paymentPolicyService
+            .adminListPaymentPolicy()
+            .then((res) => {
+                if (res.status === 200) {
+                    setPaymentPolicies(res.data);
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                }
+            })
+            .catch((err) => {
+                setLoading(false);
+                console.log(err);
+            });
+    };
 
     const getImage = () => {
         let src = $('input#Images').val();
@@ -69,6 +87,7 @@ function ProjectUpdate() {
 
     useEffect(() => {
         detailProject();
+        getListPaymentPolicy();
     }, [loading, form, id]);
 
     return (
@@ -199,6 +218,8 @@ function ProjectUpdate() {
                                                    placeholder="Enter your Convenience"/>
                                         </div>
                                     </div>
+                                 
+                                   
                                 </div>
                                 <div className="d-flex justify-content-between align-items-start form_el mt-3">
                                     <div className="col-md-5">
@@ -223,8 +244,11 @@ function ProjectUpdate() {
                                                     })
                                                 }
                                             </div>
+                                            
                                         </div>
                                     </div>
+                                    
+
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="status">Status</label>
@@ -235,10 +259,16 @@ function ProjectUpdate() {
                                                 <option value="4">Đã hủy</option>
                                             </select>
                                         </div>
+                                        
                                     </div>
+                                 
+                              
                                 </div>
+                              
 
                             </div>
+
+                            
 
                             <div className="footer_form_">
                                 <button className="btn_back" type="button">Back</button>

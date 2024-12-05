@@ -164,6 +164,7 @@ function Public() {
             <Route path="/contract" element={<Contract/>}/>
             <Route path="/contract/create" element={<FormContractCreate/>}/>
             <Route path="/contract/edit/:id" element={<FormContractUpdate/>}/>
+            {/* <Route path="/contract/detail/:id" element={<FormContractDetail/>}/> */}
 
             {/* Bookings */}
             <Route path="/bookings" element={<Bookings/>}/>
