@@ -9,6 +9,7 @@ const API_ENDPOINT = {
     CREATE: "/api/promotion-details",
     UPDATE: "/api/promotion-details/",
     DELETE: "/api/promotion-details/",
+    LIST_PROMTIONID: "/api/promotion-details/promotion/",
 };
 
 class PromotionDetailService {
@@ -31,6 +32,10 @@ class PromotionDetailService {
     delete = (id) => {
         return axios.delete(BASE_URL_SERVER + API_ENDPOINT.DELETE + id, configTokenJson);
     };
+    getListByPromotionID = (promotionID) => {
+        return axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST_PROMTIONID + promotionID, configTokenJson);
+    }
+
 }
 
 const promotionDetailService = new PromotionDetailService();

@@ -91,15 +91,15 @@ function OpenForSaleList() {
                                 ) : (
                                     <table className="table datatable">
                                         <colgroup>
-                                            <col width="5%" />
+                                            <col width="4%" />
                                             <col width="15%" />
                                             <col width="15%" />
-                                            <col width="20%" />
-                                            <col width="20%" />
-                                            <col width="20%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
-                                            <col width="10%" />
+                                            <col width="15%" />
+                                            <col width="15%" />
+                                            <col width="14%" />
+                                            <col width="8%" />
+                                            <col width="8%" />
+                                            <col width="13%" />
                                         </colgroup>
                                         <thead>
                                             <tr>
@@ -111,6 +111,7 @@ function OpenForSaleList() {
                                                 <th scope="col">Check-in Date</th>
                                                 <th scope="col">Sale Type</th>
                                                 <th scope="col">Reservation Price</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
@@ -125,6 +126,9 @@ function OpenForSaleList() {
                                                     <td>{formatDateTime(item.checkinDate)}</td>
                                                     <td>{item.saleType}</td>
                                                     <td>{item.reservationPrice}</td>
+                                                    <td style={{ color: item.status ? 'green' : 'red' }}>
+                                                        {item.status ? 'Active' : 'Inactive'}
+                                                    </td>
                                                     <td>
                                                         <p className="nav-item dropdown">
                                                             <a className="nav-link" data-bs-toggle="dropdown" href="#"
