@@ -38,6 +38,26 @@ function BlockList() {
         }
     };
 
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await blockService.adminDeleteBlock(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    alert(res.data.message);
+                    getListBlock(currentPage);
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
+
     useEffect(() => {
         getListBlock(currentPage);
     }, [currentPage]);
@@ -96,8 +116,11 @@ function BlockList() {
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item" href="/blocks/create">Create
-                                                            blocks</a></li>
+                                                        <li>
+                                                            <a className="dropdown-item"
+                                                               onClick={event => handleDelete(event, item.blockID)}
+                                                               href="#">Delete
+                                                                blocks</a></li>
                                                     </ul>
                                                 </p>
                                             </td>

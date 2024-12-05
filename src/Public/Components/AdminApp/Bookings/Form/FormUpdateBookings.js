@@ -164,32 +164,37 @@ function FormUpdateBookings() {
     {
       id: 1,
       label: "Chưa thanh toán tiền giữ chỗ",
-      value: "Chưa thanh toán tiền giữ chỗ",
+      value: "1",
     },
     {
       id: 2,
       label: "Đã đặt chỗ",
-      value: "Đã đặt chỗ",
+      value: "2",
     },
     {
       id: 3,
       label: "Đã check in",
-      value: "Đã check in",
+      value: "3",
     },
     {
       id: 4,
       label: "Đã chọn sản phẩm",
-      value: "Đã chọn sản phẩm",
+      value: "4",
     },
     {
       id: 5,
       label: "Đa ký thỏa thuận đặt cọc",
-      value: "Đa ký thỏa thuận đặt cọc",
+      value: "5",
     },
     {
       id: 6,
+      label: "Không chọn sản phẩm",
+      value: "6",
+    },
+    {
+      id: 7,
       label: "Đã hủy",
-      value: "Đã hủy",
+      value: "7",
     },
   ];
 
