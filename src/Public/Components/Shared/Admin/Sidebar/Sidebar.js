@@ -332,6 +332,9 @@ function Sidebar() {
             case "paymentpolicy":
                 $('a[data-key="paymentpolicy"]').addClass('active');
                 break;
+            case "openforsales":
+                $('a[data-key="openforsales"]').addClass('active');
+                break;
             default:
                 $('a[data-key="main"]').addClass("active");
                 break;
@@ -360,7 +363,7 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a
-                        data-key="salepolicy"
+                        data-key="project"
                         id="project_tab"
                         className="nav-link collapsed"
                         href="/projects/list"

@@ -1,97 +1,93 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../Shared/Admin/Header/Header";
 import Sidebar from "../../Shared/Admin/Sidebar/Sidebar";
 import Footer from "../../Shared/Admin/Footer/Footer";
 import * as echarts from "echarts";
+import dashboardService from "../../Service/DashboardService";
 
 function Dashboard() {
+
+  const [totalUser, setTotalUser] = useState(0);
+  const [totalOrder, setTotalOrder] = useState(0);
+  const [totalSales, setTotalSales] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
+  const [monthlySales, setMonthlySales] = useState([]);
+  
+
   useEffect(() => {
-    var chartDom = document.getElementById("reportsChart");
-    var myChart = echarts.init(chartDom);
+    // Lấy dữ liệu từ API
+    const fetchData = async () => {
+      try {
+        const totalPriceResponse = await dashboardService.getTotalPrice();
+        setTotalUser(totalPriceResponse.data);
 
-    const xData = [
-      "5k",
-      "10k",
-      "15k",
-      "20k",
-      "25k",
-      "30k",
-      "35k",
-      "40k",
-      "45k",
-      "50k",
-      "55k",
-      "60k",
-    ];
-    const yData = [10, 15, 30, 10, 50, 20, 60, 80, 25, 90, 45, 80];
+        const countPropertyResponse = await dashboardService.getCountProperty();
+        setTotalOrder(countPropertyResponse.data);
 
-    let maxVal = "64,3664.77";
-    const maxValue = Math.max(maxVal);
-    const maxIndex = yData.indexOf(maxValue);
+        const countCustomerResponse = await dashboardService.getCountCustomer();
+        setTotalSales(countCustomerResponse.data);
 
-    var option = {
-      xAxis: {
-        type: "category",
-        data: xData,
-      },
-      yAxis: {
-        type: "value",
-        min: 0,
-        max: 100,
-        axisLabel: {
-          formatter: "{value}%",
-        },
-      },
+        const outstandingAmountResponse = await dashboardService.getOutstandingAmount();
+        setTotalPending(outstandingAmountResponse.data);
 
-      grid: {
-        top: 20,
-        left: 0,
-        right: 0,
-        bottom: 20,
-        containLabel: true,
-      },
-      series: [
-        {
-          data: [10, 15, 30, 10, 50, 20, 60, 80, 25, 90, 45, 80],
-          type: "line",
-          areaStyle: {
-            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-              { offset: 0, color: "rgba(67,121,238,0.16)" },
-              { offset: 1, color: "rgba(255,255,255,0.18)" },
-            ]),
-          },
-          lineStyle: {
-            color: "#4379EE",
-            width: 2,
-          },
-          markPoint: {
-            data: [
-              {
-                name: "Giá trị cực đại",
-                value: maxIndex,
-                itemStyle: {
-                  color: "rgba(67,121,238,0.8)",
-                  borderColor: "#4379EE",
-                  borderWidth: 2,
-                  borderType: "solid",
-                },
-                label: {
-                  show: true,
-                  formatter: `{b}: {c}%`,
-                  color: "#fff",
-                },
-                symbol: "rect",
-                symbolSize: [50, 20],
-              },
-            ],
-          },
-        },
-      ],
+        const monthlyTotalPriceResponse = await dashboardService.getMonthlyTotalPrice();
+        console.log("API Response:", monthlyTotalPriceResponse);
+        if (Array.isArray(monthlyTotalPriceResponse.data)) {
+          setMonthlySales(monthlyTotalPriceResponse.data);
+        } else {
+          console.error("Invalid data format:", monthlyTotalPriceResponse.data);
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
     };
-    myChart.setOption(option);
-    myChart.resize();
+
+    fetchData();
   }, []);
+
+
+  useEffect(() => {
+    if (monthlySales.length > 0) {
+      const chartDom = document.getElementById("reportsChart");
+      if (chartDom) {
+        const myChart = echarts.init(chartDom);
+  
+        const xData = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ];
+  
+        const option = {
+          xAxis: { type: "category", data: xData },
+          yAxis: {
+            type: "value",
+            min: 0,
+            axisLabel: { formatter: "{value} USD" },
+          },
+          grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
+          series: [
+            {
+              data: monthlySales,
+              type: "line",
+              areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgba(67,121,238,0.16)" },
+                  { offset: 1, color: "rgba(255,255,255,0.18)" },
+                ]),
+              },
+              lineStyle: { color: "#4379EE", width: 2 },
+            },
+          ],
+        };
+  
+        myChart.setOption(option);
+        window.addEventListener("resize", myChart.resize);
+      }
+    }
+  }, [monthlySales]);
+  
+
 
   return (
     <>
@@ -109,7 +105,7 @@ function Dashboard() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
                       <h5 className="title_revenue_">Total User</h5>
-                      <h6>40,689</h6>
+                      <h6>{totalUser}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <img src="/assets/icon/icon_user_total.png" alt="" />
@@ -129,7 +125,7 @@ function Dashboard() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
                       <h5 className="title_revenue_">Total Order</h5>
-                      <h6>10293</h6>
+                      <h6>{totalOrder}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <img src="/assets/icon/icon_order_total.png" alt="" />
@@ -149,7 +145,7 @@ function Dashboard() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
                       <h5 className="title_revenue_">Total Sales</h5>
-                      <h6>$89,000</h6>
+                      <h6>{totalSales}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <img src="/assets/icon/icon_sale_total.png" alt="" />
@@ -171,7 +167,7 @@ function Dashboard() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
                       <h5 className="title_revenue_">Total Pending</h5>
-                      <h6>2040</h6>
+                      <h6>{totalPending}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <img src="/assets/icon/icon_total_pending.png" alt="" />
@@ -186,67 +182,11 @@ function Dashboard() {
               </div>
             </div>
 
-            <div className="col-12 sale_details_">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title d-flex align-items-center justify-content-between">
-                    Sales Details
-                    <select className="time_selector_" name="time" id="time">
-                      <option value="October">October</option>
-                      <option value="November">November</option>
-                      <option value="December">December</option>
-                    </select>
-                  </h5>
-                  <div id="reportsChart" style={{ height: "400px" }} />
-                </div>
-              </div>
+            <div id="reportsChart" style={{ height: "400px" }}>
+              {monthlySales.length === 0 && <p>No data available for the chart</p>}
             </div>
 
-            <div className="col-12 deal_details_">
-              <div className="card recent-sales overflow-auto">
-                <div className="card-body">
-                  <h5 className="card-title d-flex align-items-center justify-content-between">
-                    Deals Details
-                    <select className="time_selector_" name="time" id="time">
-                      <option value="October">October</option>
-                      <option value="November">November</option>
-                      <option value="December">December</option>
-                    </select>
-                  </h5>
-                  <table className="table table-borderless">
-                    <thead>
-                      <tr>
-                        <th scope="col">Product Name</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">Date - Time</th>
-                        <th scope="col">Piece</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <img
-                            className="product_img_"
-                            src="/assets/img/apple_watch.png"
-                            alt=""
-                          />
-                          Apple Watch
-                        </td>
-                        <td>6096 Marjolaine Landing</td>
-                        <td>12.09.2019 - 12.53 PM</td>
-                        <td>423</td>
-                        <td>$34,295</td>
-                        <td>
-                          <button className="btn_delivered">Delivered</button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+
           </div>
         </section>
       </main>
