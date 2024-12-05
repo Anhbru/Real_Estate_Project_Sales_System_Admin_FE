@@ -13,7 +13,7 @@ function Dashboard() {
   const [totalSales, setTotalSales] = useState(0);
   const [totalPending, setTotalPending] = useState(0);
   const [monthlySales, setMonthlySales] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Lấy dữ liệu từ API
@@ -46,47 +46,85 @@ function Dashboard() {
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      setIsLoading(true); // Start loading
+      const responses = await Promise.all([
+        dashboardService.getTotalPrice(),
+        dashboardService.getCountProperty(),
+        dashboardService.getCountCustomer(),
+        dashboardService.getOutstandingAmount(),
+        dashboardService.getMonthlyTotalPrice(),
+      ]);
+  
+      setTotalUser(responses[0].data);
+      setTotalOrder(responses[1].data);
+      setTotalSales(responses[2].data);
+      setTotalPending(responses[3].data);
+  
+     
+      const monthlyData = responses[4].data; 
+      const transformedData = Array(12).fill(0); 
+  
+      monthlyData.forEach((item) => {
+        const { month, totalPrice } = item;
+        transformedData[month - 1] = totalPrice; 
+      });
+  
+      setMonthlySales(transformedData);
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+    } finally {
+      setIsLoading(false); 
+    }
+  };
+  
 
   useEffect(() => {
-    if (monthlySales.length > 0) {
-      const chartDom = document.getElementById("reportsChart");
-      if (chartDom) {
-        const myChart = echarts.init(chartDom);
-  
-        const xData = [
-          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-        ];
-  
-        const option = {
-          xAxis: { type: "category", data: xData },
-          yAxis: {
-            type: "value",
-            min: 0,
-            axisLabel: { formatter: "{value} USD" },
-          },
-          grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
-          series: [
-            {
-              data: monthlySales,
-              type: "line",
-              areaStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "rgba(67,121,238,0.16)" },
-                  { offset: 1, color: "rgba(255,255,255,0.18)" },
-                ]),
-              },
-              lineStyle: { color: "#4379EE", width: 2 },
+  if (monthlySales.length > 0) {
+    const chartDom = document.getElementById("reportsChart");
+    if (chartDom) {
+      const myChart = echarts.init(chartDom);
+
+      const xData = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+      ];
+
+      const option = {
+        xAxis: { type: "category", data: xData },
+        yAxis: {
+          type: "value",
+          min: 0,
+          axisLabel: { formatter: "{value} USD" },
+        },
+        grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
+        series: [
+          {
+            data: monthlySales, // Dữ liệu đã xử lý
+            type: "line",
+            areaStyle: {
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                { offset: 0, color: "rgba(67,121,238,0.16)" },
+                { offset: 1, color: "rgba(255,255,255,0.18)" },
+              ]),
             },
-          ],
-        };
-  
-        myChart.setOption(option);
-        window.addEventListener("resize", myChart.resize);
-      }
+            lineStyle: { color: "#4379EE", width: 2 },
+          },
+        ],
+      };
+
+      myChart.setOption(option);
+
+      window.addEventListener("resize", myChart.resize);
+
+      return () => {
+        window.removeEventListener("resize", myChart.resize);
+        myChart.dispose();
+      };
     }
-  }, [monthlySales]);
-  
+  }
+}, [monthlySales]);
 
 
   return (
@@ -182,9 +220,13 @@ function Dashboard() {
               </div>
             </div>
 
-            <div id="reportsChart" style={{ height: "400px" }}>
-              {monthlySales.length === 0 && <p>No data available for the chart</p>}
-            </div>
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <div id="reportsChart" style={{ height: "400px" }}>
+                {monthlySales.length === 0 && <p>No data available for the chart</p>}
+              </div>
+            )}
 
 
           </div>

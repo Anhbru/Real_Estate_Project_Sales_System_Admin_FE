@@ -90,12 +90,13 @@ function PromotionsList() {
                                         <colgroup>
                                             <col width="5%" />
                                             <col width="5%" />
+                                            <col width="x" />
                                             <col width="15%" />
                                             <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
                                             <col width="10%" />
-                                            <col width="10%" />
+                                            <col width="5%" />
                                         </colgroup>
                                         <thead>
                                             <tr>

@@ -14,6 +14,7 @@ function ZoneUpdate() {
     const {id} = useParams();
     const [form] = Form.useForm();
     const [projects, setProjects] = useState([]);
+    const [fileName, setFileName] = useState("default_image_name.jpg");
 
     const getListProject = async () => {
         await projectService.adminListProject(1)
@@ -31,6 +32,15 @@ function ZoneUpdate() {
                 console.log(err)
             })
 
+    }
+
+    const preUploadImage = (evt, imgInp) => {
+        const imagePreview = document.getElementById('imagePreview')
+        const [file] = imgInp.files
+        if (file) {
+            imagePreview.src = URL.createObjectURL(file)
+            setFileName(file.name);
+        }
     }
 
     const createZone = async () => {
@@ -66,6 +76,8 @@ function ZoneUpdate() {
                 console.log("detail Zone", res.data);
                 setZone(res.data)
                 setLoading(false)
+                const lastPath = res.data.imageZone.split('/').pop();
+                setFileName(lastPath)
             })
             .catch((err) => {
                 setLoading(false)
@@ -107,7 +119,10 @@ function ZoneUpdate() {
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="ImageZone">Image Zone</label>
+                                            <label className="form-control" htmlFor="ImageZone">{fileName}</label>
                                             <input type="file" className="form-control" name="ImageZone"
+                                                   onChange={event => preUploadImage(event, event.target)}
+                                                   style={{display: 'none'}}
                                                    id="ImageZone" placeholder="Enter yourImageZone"/>
                                             <div className="col-md-3">
                                                 <button type="button" className="btn btn-primary mt-3"
@@ -162,7 +177,7 @@ function ZoneUpdate() {
                         <div className="modal-body">
                             <div className="row">
                                 <div className="row">
-                                    <img src={zone.imageZone} alt=""
+                                    <img src={zone.imageZone} alt="" id="imagePreview"
                                          style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                 </div>
                             </div>

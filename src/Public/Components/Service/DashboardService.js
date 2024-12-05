@@ -6,7 +6,7 @@ const API_ENDPOINT = {
     TOTAL_PRICE: "/api/dashboards/totalprice",
     COUNT_PROPERTY: "/api/dashboards/countproperty",
     COUNT_CUSTOMER: "/api/dashboards/countcustomer",
-    OUTSTANDING_AMOUNT: "/api/dashboards/outstandingamount",
+    OUTSTANDING_AMOUNT: "/api/dashboards/outstanding-amount",
 }
 
 class DashboardService {

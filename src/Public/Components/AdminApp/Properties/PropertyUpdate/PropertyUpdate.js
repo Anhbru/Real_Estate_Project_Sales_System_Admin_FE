@@ -262,11 +262,11 @@ function PropertyUpdate() {
                                         <div className="form-group">
                                             <label htmlFor="propertyCode">Property Code</label>
                                             <input defaultValue={property.propertyCode}
-                                                type="text"
-                                                className="form-control"
-                                                name="propertyCode"
-                                                id="propertyCode"
-                                                placeholder="Enter your Property Code"
+                                                   type="text"
+                                                   className="form-control"
+                                                   name="propertyCode"
+                                                   id="propertyCode"
+                                                   placeholder="Enter your Property Code"
                                             />
                                         </div>
                                     </div>
@@ -274,11 +274,11 @@ function PropertyUpdate() {
                                         <div className="form-group">
                                             <label htmlFor="priceSold">Price Sold</label>
                                             <input defaultValue={property.priceSold}
-                                                type="number"
-                                                className="form-control"
-                                                name="priceSold"
-                                                id="priceSold"
-                                                placeholder="Enter your Price Sold"
+                                                   type="number"
+                                                   className="form-control"
+                                                   name="priceSold"
+                                                   id="priceSold"
+                                                   placeholder="Enter your Price Sold"
                                             />
                                         </div>
                                     </div>
@@ -289,11 +289,11 @@ function PropertyUpdate() {
                                         <div className="form-group">
                                             <label htmlFor="view">View</label>
                                             <input defaultValue={property.view}
-                                                type="text"
-                                                className="form-control"
-                                                name="view"
-                                                id="view"
-                                                placeholder="Enter your View"
+                                                   type="text"
+                                                   className="form-control"
+                                                   name="view"
+                                                   id="view"
+                                                   placeholder="Enter your View"
                                             />
                                         </div>
                                     </div>
@@ -396,6 +396,23 @@ function PropertyUpdate() {
                                                         </option>
                                                     );
                                                 })}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="status">Status</label>
+                                            <select name="Status" id="Status" className="form-control">
+                                                <option value="1">Chưa bán</option>
+                                                <option value="2">Mở bán</option>
+                                                <option value="3">Giữ chỗ</option>
+                                                <option value="4">Đặt cọc</option>
+                                                <option value="5">Đã bán</option>
+                                                <option value="6">Bàn giao</option>
+                                                <option value="7">Đã hủy</option>
                                             </select>
                                         </div>
                                     </div>

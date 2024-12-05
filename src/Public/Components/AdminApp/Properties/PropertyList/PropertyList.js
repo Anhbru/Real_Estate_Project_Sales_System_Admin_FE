@@ -128,7 +128,7 @@ function PropertyList() {
                             <tr>
                                 <th scope="col">STT</th>
                                 <th scope="col">Mã căn hộ</th>
-                                {/* <th scope="col">Image</th> */}
+                                 <th scope="col">Zone</th>
                                 <th scope="col">Khu/Block</th>
                                 <th scope="col">Tầng</th>
                                 <th scope="col">Phòng ngủ</th>
@@ -146,7 +146,7 @@ function PropertyList() {
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{item.propertyCode}</td>
-                                            {/* <td>{item.imageUnitType}</td> */}
+                                             <td>{item.zoneName}</td>
                                             <td>{item.blockName}</td>
                                             <td>{item.numberFloor}</td>
                                             <td>{item.bedRoom}</td>
