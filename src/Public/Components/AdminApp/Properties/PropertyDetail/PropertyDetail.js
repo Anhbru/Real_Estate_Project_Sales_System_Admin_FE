@@ -24,7 +24,15 @@ function PropertyDetail() {
       .then((res) => {
         console.log("detail property", res.data);
         setProperty(res.data);
-        let propImages = res.data.images;
+
+        // Kiểm tra trường hợp có ảnh đơn lẻ
+        let propImages = res.data.imageUnitType ? [res.data.imageUnitType] : [];
+
+        // Nếu có nhiều ảnh từ trường images, thì set vào propertyImages
+        if (Array.isArray(res.data.images) && res.data.images.length > 0) {
+          propImages = res.data.images;
+        }
+
         setpropertyImages(propImages);
         setLoading(false);
       })
@@ -36,7 +44,7 @@ function PropertyDetail() {
 
   useEffect(() => {
     detailProperty();
-  }, [form, id, loading]);
+  }, [id, loading]);
 
   return (
     <>
@@ -52,7 +60,6 @@ function PropertyDetail() {
         <div className="pagetitle">
           <h1>{property?.propertyCategoryName}</h1>
         </div>
-        {/* End Page Title */}
         <section className="section detail_page_">
           <div className="content_page_">
             <div className="info_area_">
@@ -232,7 +239,7 @@ function PropertyDetail() {
                             </li>
                             <li>
                               <a className="dropdown-item" href="#">
-                                Create
+                                Delete
                               </a>
                             </li>
                           </ul>
@@ -247,6 +254,7 @@ function PropertyDetail() {
         </section>
       </main>
 
+      {/* Modal xem hình ảnh */}
       <div
         className="modal fade"
         id="exampleModal"
@@ -270,28 +278,34 @@ function PropertyDetail() {
             <div className="modal-body">
               <div className="row">
                 <div className="row">
-                  <Swiper
-                    slidesPerView={1}
-                    pagination={{
-                      clickable: true,
-                    }}
-                    modules={[Pagination]}
-                    className="mySwiper"
-                  >
-                    {propertyImages.map((img, index) => (
-                      <SwiperSlide key={index}>
-                        <img
-                          src={img}
-                          alt=""
-                          style={{
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                  {propertyImages &&
+                  Array.isArray(propertyImages) &&
+                  propertyImages.length > 0 ? (
+                    <Swiper
+                      slidesPerView={1}
+                      pagination={{
+                        clickable: true,
+                      }}
+                      modules={[Pagination]}
+                      className="mySwiper"
+                    >
+                      {propertyImages.map((img, index) => (
+                        <SwiperSlide key={index}>
+                          <img
+                            src={img}
+                            alt={`Property Image ${index}`}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  ) : (
+                    <p>No images available</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -308,6 +322,7 @@ function PropertyDetail() {
         </div>
       </div>
 
+      {/* Modal Add History */}
       <div
         className="modal fade"
         id="modalCustomer"

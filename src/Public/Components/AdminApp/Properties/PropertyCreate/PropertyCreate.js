@@ -314,6 +314,7 @@ function PropertyCreate() {
                                                 id="blockID"
                                                 className="form-control"
                                             >
+                                                <option value={null}>Không chọn</option>
                                                 {blocks.map((block) => {
                                                     return (
                                                         <option key={block.blockID} value={block.blockID}>
@@ -353,6 +354,7 @@ function PropertyCreate() {
                                                 id="floorID"
                                                 className="form-control"
                                             >
+                                                <option value={null}>Không chọn</option>
                                                 {floors.map((floor) => {
                                                     return (
                                                         <option key={floor.floorID} value={floor.floorID}>
