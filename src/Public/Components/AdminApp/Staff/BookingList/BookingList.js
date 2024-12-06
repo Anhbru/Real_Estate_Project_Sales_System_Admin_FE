@@ -78,7 +78,7 @@ function BookingList() {
             <Sidebar />
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Booking List</h1>
+                    <h1>Staff</h1>
                 </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">

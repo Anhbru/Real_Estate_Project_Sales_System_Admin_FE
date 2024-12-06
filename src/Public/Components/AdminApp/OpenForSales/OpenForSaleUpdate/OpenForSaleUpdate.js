@@ -1,47 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, message } from 'antd';
+import { Form, Input, message, Select, Button } from 'antd';
 import openForSaleService from '../../../Service/OpenForSaleService';
+import projectCategoryService from '../../../Service/ProjectCategoryDetailService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from 'jquery';
+
+const { Option } = Select;
 
 function OpenForSaleUpdate() {
-    const [openingForSale, setOpeningForSale] = useState({});
+    const [projectCategories, setProjectCategories] = useState([]);
+    const [filteredCategories, setFilteredCategories] = useState([]);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
 
+    // Fetch details of the opening for sale
     const detailOpenForSale = async () => {
         try {
             const res = await openForSaleService.adminDetailOpenSale(id);
-            setOpeningForSale(res.data);
+            form.setFieldsValue(res.data);
         } catch (err) {
             console.error(err);
             message.error("Failed to load Open For Sale details");
         }
     };
 
-    const updateOpenForSale = async () => {
-        $('#btnUpdate').prop('disabled', true).text('Saving...');
-
+    const fetchProjectCategories = async () => {
         try {
-            const formData = new FormData($('#formUpdate')[0]);
-            await openForSaleService.adminUpdateOpenSale(id, formData);
+            const response = await projectCategoryService.getList();
+            setProjectCategories(response.data);
+            setFilteredCategories(response.data);  // Set initial categories
+        } catch (error) {
+            message.error("Failed to load project categories");
+        }
+    };
+
+    // Filter categories based on existOpen flag
+    const handleSelectOpenForSale = (value) => {
+        // Filter categories with existOpen = false when select is clicked
+        const filtered = projectCategories.filter(category => category.existOpen === false);
+        setFilteredCategories(filtered);
+    };
+
+    // Update the opening for sale
+    const updateOpenForSale = async (values) => {
+        setLoading(true);
+        try {
+            await openForSaleService.adminUpdateOpenSale(id, values);
             message.success("Open For Sale updated successfully");
             navigate("/openforsales/list");
         } catch (err) {
             console.error(err);
             message.error("Failed to update Open For Sale");
-            $('#btnUpdate').prop('disabled', false).text('Save Changes');
+        } finally {
+            setLoading(false);
         }
     };
 
     useEffect(() => {
         detailOpenForSale();
+        fetchProjectCategories();
     }, [id]);
 
-   
     return (
         <>
             <Header />
@@ -52,93 +74,115 @@ function OpenForSaleUpdate() {
                 </div>
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formUpdate" className="form_create_custom_" onFinish={updateOpenForSale}>
+                        <Form
+                            form={form}
+                            layout="vertical"
+                            onFinish={updateOpenForSale}
+                            className="form_create_custom_"
+                        >
                             <div className="form_area_">
                                 <div className="title_form_">Open For Sale Information</div>
 
-                                <div className="form-group">
-                                    <label htmlFor="decisionName">Decision Name</label>
-                                    <input type="text" className="form-control" name="decisionName"
-                                        id="decisionName" defaultValue={openingForSale?.decisionName}
-                                        placeholder="Enter Decision Name" />
-                                </div>
+                                <Form.Item
+                                    label="Decision Name"
+                                    name="decisionName"
+                                    rules={[{ required: true, message: 'Please enter the Decision Name' }]}
+                                >
+                                    <Input placeholder="Enter Decision Name" />
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="saleType">Sale Type</label>
-                                    <select
-                                        className="form-control"
-                                        name="saleType"
-                                        id="saleType"
-                                        defaultValue={openingForSale?.saleType || ""}
+                                <Form.Item
+                                    label="Sale Type"
+                                    name="saleType"
+                                    rules={[{ required: true, message: 'Please select Sale Type' }]}
+                                >
+                                    <Select placeholder="Select Sale Type">
+                                        <Option value="Online">Online</Option>
+                                        <Option value="Offline">Offline</Option>
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Project Category"
+                                    name="projectCategoryDetailID"
+                                    rules={[{ required: true, message: 'Please select a Project Category' }]}
+                                >
+                                    <Select
+                                        placeholder="Select Project Category"
+                                        onClick={handleSelectOpenForSale}
                                     >
-                                        <option value="" disabled>
-                                            Select Sale Type
-                                        </option>
-                                        <option value="Online">Online</option>
-                                        <option value="Offline">Offline</option>
-                                    </select>
-                                </div>
+                                        {filteredCategories.map((category) => (
+                                            <Option
+                                                key={category.projectCategoryDetailID}
+                                                value={category.projectCategoryDetailID}
+                                            >
+                                                {`${category.projectName} - ${category.propertyCategoryName}`}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="startDate">Start Date</label>
-                                    <input type="text" className="form-control" name="startDate"
-                                        id="startDate" defaultValue={openingForSale?.startDate}
-                                        placeholder="Enter Start Date" />
-                                </div>
+                                <Form.Item
+                                    label="Start Date"
+                                    name="startDate"
+                                    rules={[{ required: true, message: 'Please enter Start Date' }]}
+                                >
+                                    <Input placeholder="Enter Start Date" />
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="endDate">End Date</label>
-                                    <input type="text" className="form-control" name="endDate"
-                                        id="endDate" defaultValue={openingForSale?.endDate}
-                                        placeholder="Enter End Date" />
-                                </div>
+                                <Form.Item
+                                    label="End Date"
+                                    name="endDate"
+                                    rules={[{ required: true, message: 'Please enter End Date' }]}
+                                >
+                                    <Input placeholder="Enter End Date" />
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="checkinDate">Check-in Date</label>
-                                    <input type="text" className="form-control" name="checkinDate"
-                                        id="checkinDate" defaultValue={openingForSale?.checkinDate}
-                                        placeholder="Enter Check-in Date" />
-                                </div>
+                                <Form.Item
+                                    label="Check-in Date"
+                                    name="checkinDate"
+                                    rules={[{ required: true, message: 'Please enter Check-in Date' }]}
+                                >
+                                    <Input placeholder="Enter Check-in Date" />
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="reservationPrice">Reservation Price</label>
-                                    <input type="number" className="form-control" name="reservationPrice"
-                                        id="reservationPrice" defaultValue={openingForSale?.reservationPrice}
-                                        placeholder="Enter Reservation Price" />
-                                </div>
+                                <Form.Item
+                                    label="Reservation Price"
+                                    name="reservationPrice"
+                                    rules={[{ required: true, message: 'Please enter Reservation Price' }]}
+                                >
+                                    <Input type="number" placeholder="Enter Reservation Price" />
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="projectName">Project Name</label>
-                                    <input type="text" className="form-control" name="projectName"
-                                        id="projectName" defaultValue={openingForSale?.projectName}
-                                        placeholder="Enter Project Name" />
-                                </div>
+                                <Form.Item
+                                    label="Status"
+                                    name="status"
+                                    rules={[{ required: true, message: 'Please select a Status' }]}
+                                >
+                                    <Select placeholder="Select Status">
+                                        <Option value={true}>Active</Option>
+                                        <Option value={false}>Inactive</Option>
+                                    </Select>
+                                </Form.Item>
 
-                                <div className="form-group">
-                                    <label htmlFor="propertyCategoryName">Property Category Name</label>
-                                    <input type="text" className="form-control" name="propertyCategoryName"
-                                        id="propertyCategoryName" defaultValue={openingForSale?.propertyCategoryName}
-                                        placeholder="Enter Property Category Name" />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="status">Status</label>
-                                    <input type="text" className="form-control" name="status"
-                                        id="status" defaultValue={openingForSale?.status}
-                                        placeholder="Enter Status" />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="description">Description</label>
-                                    <textarea className="form-control" name="description" id="description"
-                                        defaultValue={openingForSale?.description}
-                                        placeholder="Enter Description" />
-                                </div>
+                                <Form.Item
+                                    label="Description"
+                                    name="description"
+                                >
+                                    <Input.TextArea placeholder="Enter Description" />
+                                </Form.Item>
                             </div>
 
                             <div className="footer_form_">
-                                <Link to="/opensales/list" className="btn_back">Back</Link>
-                                <button className="btn_create" id="btnUpdate" type="submit">Save</button>
+                                <Link to="/openforsales/list" className="btn_back">Back</Link>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    className="btn_create"
+                                    loading={loading}
+                                >
+                                    Save
+                                </Button>
                             </div>
                         </Form>
                     </div>
