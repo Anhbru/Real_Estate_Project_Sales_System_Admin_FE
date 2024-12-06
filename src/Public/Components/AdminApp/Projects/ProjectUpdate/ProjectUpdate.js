@@ -5,14 +5,33 @@ import projectService from '../../../Service/ProjectService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import paymentPolicyService from "../../../Service/PaymentPolicyService";
 
 function ProjectUpdate() {
     const [project, setProject] = useState([]);
     const [images, setImages] = useState([]);
+    const [paymentPolicies, setPaymentPolicies] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const {id} = useParams();
     const [form] = Form.useForm();
+
+    const getListPaymentPolicy = async () => {
+        await paymentPolicyService
+            .adminListPaymentPolicy()
+            .then((res) => {
+                if (res.status === 200) {
+                    setPaymentPolicies(res.data);
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                }
+            })
+            .catch((err) => {
+                setLoading(false);
+                console.log(err);
+            });
+    };
 
     const preUploadImage = () => {
         $('input#Images').click();
@@ -69,6 +88,7 @@ function ProjectUpdate() {
 
     useEffect(() => {
         detailProject();
+        getListPaymentPolicy();
     }, [loading, form, id]);
 
     return (
@@ -120,7 +140,7 @@ function ProjectUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="GeneralContractor">GeneralContractor</label>
+                                            <label htmlFor="GeneralContractor">General Contractor</label>
                                             <input type="text" className="form-control" name="GeneralContractor"
                                                    id="GeneralContractor" defaultValue={project?.generalContractor}
                                                    placeholder="Enter your General Contractor"/>
@@ -130,7 +150,7 @@ function ProjectUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="DesignUnit">DesignUnit</label>
+                                            <label htmlFor="DesignUnit">Design Unit</label>
                                             <input type="text" className="form-control" name="DesignUnit"
                                                    id="DesignUnit" defaultValue={project?.designUnit}
                                                    placeholder="Enter your DesignUnit"/>
@@ -138,7 +158,7 @@ function ProjectUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="TotalArea">TotalArea</label>
+                                            <label htmlFor="TotalArea">Total Area</label>
                                             <input type="text" className="form-control" name="TotalArea" id="TotalArea"
                                                    defaultValue={project?.totalArea}
                                                    placeholder="Enter your TotalArea"/>
@@ -156,7 +176,7 @@ function ProjectUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BuildingDensity">BuildingDensity</label>
+                                            <label htmlFor="BuildingDensity">Building Density</label>
                                             <input type="text" className="form-control" name="BuildingDensity"
                                                    id="BuildingDensity" defaultValue={project?.buildingDensity}
                                                    placeholder="Enter your Building Density"/>
@@ -166,7 +186,7 @@ function ProjectUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="TotalNumberOfApartment">TotalNumberOfApartment</label>
+                                            <label htmlFor="TotalNumberOfApartment">Total Number Of Apartment</label>
                                             <input type="text" className="form-control" name="TotalNumberOfApartment"
                                                    id="TotalNumberOfApartment"
                                                    defaultValue={project?.totalNumberOfApartment}
@@ -175,7 +195,7 @@ function ProjectUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="LegalStatus">LegalStatus</label>
+                                            <label htmlFor="LegalStatus">Legal Status</label>
                                             <input type="text" className="form-control" name="LegalStatus"
                                                    id="LegalStatus" defaultValue={project?.legalStatus}
                                                    placeholder="Enter your LegalStatus"/>
@@ -185,7 +205,7 @@ function ProjectUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="HandOver">HandOver</label>
+                                            <label htmlFor="HandOver">Hand Over</label>
                                             <input type="text" className="form-control" name="HandOver"
                                                    id="HandOver" defaultValue={project?.handOver}
                                                    placeholder="Enter your HandOver"/>
@@ -217,7 +237,8 @@ function ProjectUpdate() {
                                                     images?.map((image, index) => {
                                                         return (
                                                             <div className="image_item" key={index}>
-                                                                <img style={{ width: '200px', height: '150px'}} src={image} alt=""/>
+                                                                <img style={{width: '200px', height: '150px'}}
+                                                                     src={image} alt=""/>
                                                             </div>
                                                         )
                                                     })
@@ -238,6 +259,29 @@ function ProjectUpdate() {
                                     </div>
                                 </div>
 
+                                <div className="d-flex justify-content-between align-items-start form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="PaymentPolicyID">Payment Policy</label>
+                                            <select
+                                                name="PaymentPolicyID"
+                                                id="PaymentPolicyID"
+                                                className="form-control"
+                                            >
+                                                {paymentPolicies.map((paymentPolicy) => {
+                                                    return (
+                                                        <option
+                                                            key={paymentPolicy.paymentPolicyID}
+                                                            value={paymentPolicy.paymentPolicyID}
+                                                        >
+                                                            {paymentPolicy.paymentPolicyName}
+                                                        </option>
+                                                    );
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="footer_form_">
