@@ -4,7 +4,7 @@ import Header from "../../Shared/Admin/Header/Header";
 import Sidebar from "../../Shared/Admin/Sidebar/Sidebar";
 import Footer from "../../Shared/Admin/Footer/Footer";
 import * as echarts from "echarts";
-import dashboardService from "../../../Service/DashboardService";
+import dashboardService from "../../Service/DashboardService";
 
 function Dashboard() {
 
