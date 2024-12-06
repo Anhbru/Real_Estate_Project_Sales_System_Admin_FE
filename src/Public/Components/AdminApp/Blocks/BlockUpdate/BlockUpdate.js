@@ -145,7 +145,7 @@ function BlockUpdate() {
                                                         return (
                                                             <option key={zone.zoneID}
                                                                     value={zone.zoneID}>
-                                                                {zone.zoneName}
+                                                                {zone.zoneName} - {zone.projectName}
                                                             </option>
                                                         )
                                                     })

@@ -160,7 +160,7 @@ function PropertyCreate() {
         $("#btnCreate").prop("disabled", true).text("Đang tạo mới...");
 
         let inputs = $(
-            "#formCreate input, #formCreate textarea, #formCreate select"
+            "#formCreate input, #formCreate textarea"
         );
         for (let i = 0; i < inputs.length; i++) {
             if (!$(inputs[i]).val()) {
@@ -172,6 +172,16 @@ function PropertyCreate() {
         }
 
         const formData = new FormData($("#formCreate")[0]);
+
+        let blockID = $("#blockID").val();
+        if (!blockID){
+            formData.delete('blockID');
+        }
+
+        let floorID = $("#floorID").val();
+        if (!floorID){
+            formData.delete('floorID');
+        }
 
         await propertyService
             .adminCreateProperty(formData)

@@ -328,7 +328,7 @@ function ContractList() {
                             </div>
                             <div className="modal-body">
                                 <div className="form-group">
-                                    <label>Description</label>
+                                    <label>Payment Rate</label>
                                     <input
                                         type="text"
                                         name="description"
@@ -338,7 +338,7 @@ function ContractList() {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label>Payment Rate</label>
+                                    <label>Description</label>
                                     <input
                                         type="number"
                                         name="paymentRate"

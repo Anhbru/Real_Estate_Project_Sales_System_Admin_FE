@@ -133,7 +133,7 @@ function ProjectCreate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="GeneralContractor">GeneralContractor</label>
+                                            <label htmlFor="GeneralContractor">General Contractor</label>
                                             <input type="text" className="form-control" name="GeneralContractor"
                                                    id="GeneralContractor"
                                                    placeholder="Enter your General Contractor"/>
@@ -143,14 +143,14 @@ function ProjectCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="DesignUnit">DesignUnit</label>
+                                            <label htmlFor="DesignUnit">Design Unit</label>
                                             <input type="text" className="form-control" name="DesignUnit" id="DesignUnit"
                                                    placeholder="Enter your DesignUnit"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="TotalArea">TotalArea</label>
+                                            <label htmlFor="TotalArea">Total Area</label>
                                             <input type="text" className="form-control" name="TotalArea" id="TotalArea"
                                                    placeholder="Enter your TotalArea"/>
                                         </div>
@@ -166,7 +166,7 @@ function ProjectCreate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BuildingDensity">BuildingDensity</label>
+                                            <label htmlFor="BuildingDensity">Building Density</label>
                                             <input type="text" className="form-control" name="BuildingDensity"
                                                    id="BuildingDensity"
                                                    placeholder="Enter your Building Density"/>
@@ -176,7 +176,7 @@ function ProjectCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="TotalNumberOfApartment">TotalNumberOfApartment</label>
+                                            <label htmlFor="TotalNumberOfApartment">Total Number Of Apartment</label>
                                             <input type="text" className="form-control" name="TotalNumberOfApartment"
                                                    id="TotalNumberOfApartment"
                                                    placeholder="Enter your TotalNumberOfApartment"/>
@@ -184,7 +184,7 @@ function ProjectCreate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="LegalStatus">LegalStatus</label>
+                                            <label htmlFor="LegalStatus">Legal Status</label>
                                             <input type="text" className="form-control" name="LegalStatus"
                                                    id="LegalStatus"
                                                    placeholder="Enter your LegalStatus"/>
@@ -194,7 +194,7 @@ function ProjectCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="HandOver">HandOver</label>
+                                            <label htmlFor="HandOver">Hand Over</label>
                                             <input type="text" className="form-control" name="HandOver"
                                                    id="HandOver"
                                                    placeholder="Enter your HandOver"/>

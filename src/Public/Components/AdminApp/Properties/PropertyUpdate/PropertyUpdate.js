@@ -175,7 +175,7 @@ function PropertyUpdate() {
     const updateProperty = async () => {
         $('#btnUpdate').prop('disabled', true).text('Đang lưu...');
 
-        let inputs = $('#formUpdate input, #formUpdate textarea, #formUpdate select');
+        let inputs = $('#formUpdate input, #formUpdate textarea');
         for (let i = 0; i < inputs.length; i++) {
             if (!$(inputs[i]).val() && $(inputs[i]).attr('type') !== 'file') {
                 let text = $(inputs[i]).prev().text();
@@ -186,6 +186,16 @@ function PropertyUpdate() {
         }
 
         const formData = new FormData($('#formUpdate')[0]);
+
+        let blockID = $("#blockID").val();
+        if (!blockID){
+            formData.delete('blockID');
+        }
+
+        let floorID = $("#floorID").val();
+        if (!floorID){
+            formData.delete('floorID');
+        }
 
         await propertyService.adminUpdateProperty(id, formData)
             .then((res) => {
@@ -350,6 +360,7 @@ function PropertyUpdate() {
                                                 id="blockID"
                                                 className="form-control"
                                             >
+                                                <option value="">Không chọn</option>
                                                 {blocks.map((block) => {
                                                     return (
                                                         <option key={block.blockID} value={block.blockID}>
@@ -389,6 +400,7 @@ function PropertyUpdate() {
                                                 id="floorID"
                                                 className="form-control"
                                             >
+                                                <option value="">Không chọn</option>
                                                 {floors.map((floor) => {
                                                     return (
                                                         <option key={floor.floorID} value={floor.floorID}>
