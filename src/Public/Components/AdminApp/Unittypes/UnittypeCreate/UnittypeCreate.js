@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import propertyTypeService from "../../../Service/PropertyTypeService";
 import unitTypeService from "../../../Service/UnitTypeService";
+import BackButton from "../../../../Utils/BackButton";
 
 function UnittypeCreate() {
     const [propertyTypes, setPropertyTypes] = useState([]);
@@ -188,7 +189,7 @@ function UnittypeCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

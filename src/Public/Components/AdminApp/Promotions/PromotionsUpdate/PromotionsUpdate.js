@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, message } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams, useSearchParams} from 'react-router-dom';
+import {Form, message} from 'antd';
 import promotionService from '../../../Service/PromotionService';
 import salesPolicyService from '../../../Service/SalePolicyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import BackButton from '../../../../Utils/BackButton';
 
 function PromotionUpdate() {
     const [promotion, setPromotion] = useState([]);
     const [salesPolicies, setSalesPolicies] = useState([]);
     const navigate = useNavigate();
-    const { id } = useParams();
+    const {id} = useParams();
     const [form] = Form.useForm();
 
     const detailPromotion = async () => {
         try {
-            
+
             const resPromotion = await promotionService.adminDetailPromotion(id);
             setPromotion(resPromotion.data);
 
-            
+
             const resSalesPolicies = await salesPolicyService.adminListSalesPolicy();
             setSalesPolicies(resSalesPolicies.data);
 
@@ -51,8 +52,8 @@ function PromotionUpdate() {
 
     return (
         <>
-            <Header />
-            <Sidebar />
+            <Header/>
+            <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
                     <h1>Update Promotion</h1>
@@ -66,20 +67,21 @@ function PromotionUpdate() {
                                 <div className="form-group">
                                     <label htmlFor="promotionName">Promotion Name</label>
                                     <input type="text" className="form-control" name="promotionName"
-                                        id="promotionName" defaultValue={promotion?.promotionName}
-                                        placeholder="Enter Promotion Name" />
+                                           id="promotionName" defaultValue={promotion?.promotionName}
+                                           placeholder="Enter Promotion Name"/>
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="description">Description</label>
                                     <textarea className="form-control" name="description" id="description"
-                                        defaultValue={promotion?.description}
-                                        placeholder="Enter Description" />
+                                              defaultValue={promotion?.description}
+                                              placeholder="Enter Description"/>
                                 </div>
 
                                 <div className="form-group">
                                     <label htmlFor="status">Status</label>
-                                    <select className="form-control" name="status" id="status" defaultValue={promotion?.status}>
+                                    <select className="form-control" name="status" id="status"
+                                            defaultValue={promotion?.status}>
                                         <option value="true">Active</option>
                                         <option value="false">Inactive</option>
                                     </select>
@@ -88,7 +90,7 @@ function PromotionUpdate() {
                                 <div className="form-group">
                                     <label htmlFor="salesPolicyType">Sales Policy Type</label>
                                     <select className="form-control" name="salesPolicyType" id="salesPolicyType"
-                                        defaultValue={promotion?.salesPolicyID}>
+                                            defaultValue={promotion?.salesPolicyID}>
                                         {salesPolicies.map(policy => (
                                             <option key={policy.id} value={policy.id}>
                                                 {policy.salesPolicyType}
@@ -100,7 +102,7 @@ function PromotionUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                <BackButton/>
                                 <button className="btn_create" id="btnUpdate" type="submit">Save</button>
                             </div>
                         </Form>

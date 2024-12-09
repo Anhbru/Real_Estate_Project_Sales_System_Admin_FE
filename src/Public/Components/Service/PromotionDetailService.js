@@ -32,6 +32,7 @@ class PromotionDetailService {
     delete = (id) => {
         return axios.delete(BASE_URL_SERVER + API_ENDPOINT.DELETE + id, configTokenJson);
     };
+
     getListByPromotionID = (promotionID) => {
         return axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST_PROMTIONID + promotionID, configTokenJson);
     }

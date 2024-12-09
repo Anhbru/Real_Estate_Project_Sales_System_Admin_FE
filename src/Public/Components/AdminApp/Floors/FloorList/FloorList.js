@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Form, message} from 'antd';
 import floorService from '../../../Service/FloorService';
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from 'jquery';
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function FloorList() {
@@ -31,6 +27,27 @@ function FloorList() {
             })
 
     }
+
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await floorService.adminDeleteFloor(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
+                    getListFloor(currentPage);
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
 
     const handlePageChange = (page) => {
         if (page > 0 && page <= totalPages) {
@@ -96,8 +113,11 @@ function FloorList() {
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item" href="/floors/create">Create
-                                                            floors</a></li>
+                                                        <li><a className="dropdown-item"
+                                                               onClick={event => handleDelete(event, item.floorID)}
+                                                               href="#">
+                                                            Delete
+                                                        </a></li>
                                                     </ul>
                                                 </p>
                                             </td>

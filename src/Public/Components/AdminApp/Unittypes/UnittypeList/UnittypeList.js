@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Form, message} from 'antd';
 import unitTypeService from '../../../Service/UnitTypeService';
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from 'jquery';
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function UnittypeList() {
@@ -36,6 +32,27 @@ function UnittypeList() {
         if (page > 0 && page <= totalPages) {
             setCurrentPage(page);
         }
+    };
+
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await unitTypeService.adminDeleteUnit(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
+                    getList();
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
     };
 
     useEffect(() => {
@@ -104,8 +121,13 @@ function UnittypeList() {
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item" href="/unittypes/create">Create
-                                                            unittypes</a></li>
+                                                        <li>
+                                                            <a className="dropdown-item"
+                                                               onClick={event => handleDelete(event, item.unitTypeID)}
+                                                               href="#">
+                                                                Delete Unit Types
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </p>
                                             </td>

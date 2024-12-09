@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import promotionService from '../../../Service/PromotionService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -48,7 +48,7 @@ function PromotionsList() {
         if (window.confirm("Are you sure you want to delete this promotion?")) {
             try {
                 setLoading(true);
-                const res = await promotionService.adminUpdatePromotion(promotionID, { status: false });
+                const res = await promotionService.adminUpdatePromotion(promotionID, {status: false});
                 if (res.status === 200) {
                     alert("Promotion marked as Inactive successfully!");
                     getListPromotions(); // Refresh the list after deletion
@@ -78,8 +78,8 @@ function PromotionsList() {
 
     return (
         <>
-            <Header />
-            <Sidebar />
+            <Header/>
+            <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
                     <h1>Promotions List</h1>
@@ -94,7 +94,7 @@ function PromotionsList() {
                             onChange={handleSearch}  // Trigger search on input change
                         />
                         <a href="/promotions/create" className="btn_go_">
-                            ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
+                            ADD NEW <img src="/assets/icon/plus_icon.png" alt=""/>
                         </a>
                     </div>
 

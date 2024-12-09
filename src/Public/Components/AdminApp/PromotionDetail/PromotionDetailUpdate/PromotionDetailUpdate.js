@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {Form, message} from 'antd';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -7,6 +7,7 @@ import $ from 'jquery';
 import promotionDetailService from "../../../Service/PromotionDetailService";
 import promotionService from "../../../Service/PromotionService";
 import propertyTypeService from "../../../Service/PropertyTypeService";
+import BackButton from '../../../../Utils/BackButton';
 
 function PromotionDetailUpdate() {
     const [promotions, setPromotions] = useState([]);
@@ -16,6 +17,9 @@ function PromotionDetailUpdate() {
     const {id} = useParams();
     const [form] = Form.useForm();
     const [promotionDetail, setPromotionDetail] = useState([]);
+    const [searchParams] = useSearchParams();
+
+    let promotionID = searchParams.get('promotionID');
 
     const getListProject = async () => {
         await promotionService
@@ -72,7 +76,11 @@ function PromotionDetailUpdate() {
             .then((res) => {
                 console.log("create promotion detail", res.data)
                 message.success("chỉnh sửa promotion details thành công!")
-                navigate("/promotiondetails/list")
+                if (promotionID){
+                    navigate(`/promotiondetails/list?promotionID=${promotionID}`)
+                } else {
+                    navigate("/promotiondetails/list")
+                }
             })
             .catch((err) => {
                 console.log(err)
@@ -144,33 +152,50 @@ function PromotionDetailUpdate() {
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    {!promotionID ? (
+                                        <div className="col-md-5">
+                                            <div className="form-group">
+                                                <label htmlFor="PromotionID">Promotion</label>
+                                                <select
+                                                    name="PromotionID"
+                                                    id="PromotionID"
+                                                    className="form-control"
+                                                >
+                                                    {promotions.map((project) => {
+                                                        return (
+                                                            <option
+                                                                key={project.promotionID}
+                                                                value={project.promotionID}
+                                                            >
+                                                                {project.promotionName}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            className="d-flex justify-content-between align-items-center form_el mt-3 d-none">
+                                            <div className="col-md-5">
+                                                <div className="form-group">
+                                                    <label htmlFor="promotionID">Promotion</label>
+                                                    <input value={promotionID} readOnly={true}
+                                                           type="text"
+                                                           id="promotionID"
+                                                           name="promotionID"
+                                                           className="form-control"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="PropertyTypeID">Promotion</label>
+                                            <label htmlFor="PropertyTypeID">Property Type</label>
                                             <select
                                                 name="PropertyTypeID"
                                                 id="PropertyTypeID"
-                                                className="form-control"
-                                            >
-                                                {promotions.map((project) => {
-                                                    return (
-                                                        <option
-                                                            key={project.promotionID}
-                                                            value={project.promotionID}
-                                                        >
-                                                            {project.promotionName}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="PromotionID">Property Type</label>
-                                            <select
-                                                name="PromotionID"
-                                                id="PromotionID"
                                                 className="form-control"
                                             >
                                                 {propertyTypes.map((project) => {
@@ -190,9 +215,7 @@ function PromotionDetailUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">
-                                    Back
-                                </button>
+                               <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">
                                     Save
                                 </button>

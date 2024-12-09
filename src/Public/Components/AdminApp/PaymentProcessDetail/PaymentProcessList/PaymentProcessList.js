@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {Form, message} from "antd";
+import {useParams} from "react-router-dom";
 import paymentProcessDetailService from "../../../Service/PaymentProcessDetailService";
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from "jquery";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function PaymentProcessList() {
@@ -51,6 +48,27 @@ function PaymentProcessList() {
                 setLoading(false);
                 console.log(err);
             });
+    };
+
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await paymentProcessDetailService.adminDelete(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
+                    getList();
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
     };
 
     const handlePageChange = (page) => {
@@ -165,11 +183,10 @@ function PaymentProcessList() {
                                                         <hr className="dropdown-divider"/>
                                                     </li>
                                                     <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="/paymentprocessesdetail/create"
-                                                        >
-                                                            Create payment processes
+                                                        <a onClick={event => handleDelete(event, item.paymentProcessDetailID)}
+                                                           className="dropdown-item"
+                                                           href="#">
+                                                            Delete payment processes
                                                         </a>
                                                     </li>
                                                 </ul>

@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import BackButton from "../../../../Utils/BackButton";
 
 function ProjectDetail() {
   const [project, setProject] = useState([]);
@@ -382,13 +383,7 @@ function ProjectDetail() {
               />
             </div>
             <div className="modal-footer d-flex justify-content-around align-items-center">
-              <button
-                type="button"
-                className="btn_back"
-                data-bs-dismiss="modal"
-              >
-                Back
-              </button>
+              <BackButton />
               <button type="button" className="btn_create">
                 Save
               </button>
