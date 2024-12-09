@@ -5,6 +5,7 @@ import customerService from '../../../Service/CustomerService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import BackButton from "../../../../Utils/BackButton";
 
 function CustomerUpdate() {
     const [customer, setCustomer] = useState([]);
@@ -107,7 +108,7 @@ function CustomerUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button" onClick={() => navigate("/customers/list")}>Back</button>
+                                <BackButton/>
                                 <button className="btn_create" id="btnUpdate" type="submit">Save</button>
                             </div>
                         </Form>

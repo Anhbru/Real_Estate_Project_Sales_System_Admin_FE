@@ -8,6 +8,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import { useState,useEffect } from 'react';
 import paymentPolicyService from '../../../Service/PaymentPolicyService';
+import BackButton from '../../../../Utils/BackButton';
 
 function ProjectCreate() {
     const navigate = useNavigate();
@@ -264,7 +265,7 @@ function ProjectCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button className="btn_create" id="btnCreate" type="submit">Save</button>
                             </div>
                         </Form>

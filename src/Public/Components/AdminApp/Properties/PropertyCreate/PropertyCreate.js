@@ -12,6 +12,7 @@ import floorService from "../../../Service/FloorService";
 import unitTypeService from "../../../Service/UnitTypeService";
 import zoneService from "../../../Service/ZoneService";
 import projectCategoryDetailService from "../../../Service/ProjectCategoryDetailService";
+import BackButton from "../../../../Utils/BackButton";
 
 function PropertyCreate() {
     const [projects, setProjects] = useState([]);
@@ -438,9 +439,7 @@ function PropertyCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">
-                                    Back
-                                </button>
+                                <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">
                                     Save
                                 </button>

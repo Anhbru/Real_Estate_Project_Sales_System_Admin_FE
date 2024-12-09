@@ -7,6 +7,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import paymentProcessService from "../../../Service/PaymentProcessService";
 import paymentProcessDetailService from "../../../Service/PaymentProcessDetailService";
+import BackButton from '../../../../Utils/BackButton';
 
 function PaymentProcessCreate() {
     const [paymentProcesses, setPaymentProcesses] = useState([]);
@@ -104,7 +105,7 @@ function PaymentProcessCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="paymentStage">PaymentStage</label>
+                                            <label htmlFor="paymentStage">Payment Stage</label>
                                             <input type="text" className="form-control" name="paymentStage"
                                                    id="paymentStage"
                                                    placeholder="Enter your paymentStage"/>
@@ -123,7 +124,7 @@ function PaymentProcessCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="durationDate">DurationDate</label>
+                                            <label htmlFor="durationDate">Duration Date</label>
                                             <input type="text" className="form-control" name="durationDate"
                                                    id="durationDate"
                                                    placeholder="Enter your durationDate"/>
@@ -151,7 +152,7 @@ function PaymentProcessCreate() {
                                     <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                         <div className="col-md-5">
                                             <div className="form-group">
-                                                <label htmlFor="paymentProcessID">Payment Process ID</label>
+                                                <label htmlFor="paymentProcessID">Payment Process Name</label>
                                                 <select
                                                     name="paymentProcessID"
                                                     id="paymentProcessID"
@@ -173,7 +174,7 @@ function PaymentProcessCreate() {
                                     <div className="d-flex justify-content-between align-items-center form_el mt-3 d-none">
                                         <div className="col-md-5">
                                             <div className="form-group">
-                                                <label htmlFor="paymentProcessID">Payment Process ID</label>
+                                                <label htmlFor="paymentProcessID">Payment Process Name</label>
                                                 <input value={paymentProcessID} readOnly={true}
                                                     type="text"
                                                     id="paymentProcessID"
@@ -189,7 +190,7 @@ function PaymentProcessCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

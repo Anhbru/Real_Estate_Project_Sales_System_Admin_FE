@@ -1,11 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {Form, message} from 'antd';
 import blockService from '../../../Service/BlockService';
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from 'jquery';
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 
 function BlockList() {
@@ -45,7 +41,8 @@ function BlockList() {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    alert(res.data.message);
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
                     getListBlock(currentPage);
                     setLoading(false)
                 } else {

@@ -8,6 +8,7 @@ import propertyTypeService from "../../../Service/PropertyTypeService";
 import unitTypeService from "../../../Service/UnitTypeService";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper/modules";
+import BackButton from '../../../../Utils/BackButton';
 
 function UnittypeUpdate() {
     const [unittype, setUnittype] = useState([]);
@@ -213,7 +214,7 @@ function UnittypeUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

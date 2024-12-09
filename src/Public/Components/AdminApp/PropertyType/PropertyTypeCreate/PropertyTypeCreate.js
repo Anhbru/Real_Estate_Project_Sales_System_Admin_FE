@@ -7,6 +7,7 @@ import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
+import BackButton from "../../../../Utils/BackButton";
 
 function PropertyTypeCreate() {
     const navigate = useNavigate();
@@ -89,7 +90,7 @@ function PropertyTypeCreate() {
                             </div>
 
                             <div className="footer_form_ mt-4">
-                                <button className="btn_back" type="button" onClick={() => navigate(-1)}>Back</button>
+                                <BackButton />
                                 <button className="btn_create" id="btnCreate" type="submit">Save</button>
                             </div>
                         </Form>

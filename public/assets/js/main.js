@@ -312,3 +312,7 @@
     }
 
 })();
+
+// $(document).on('click', 'button:contains("Back")', function () {
+//     window.history.back();
+// });

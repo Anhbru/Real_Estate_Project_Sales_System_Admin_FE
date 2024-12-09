@@ -12,6 +12,7 @@ import blockService from "../../../Service/BlockService";
 import floorService from "../../../Service/FloorService";
 import zoneService from "../../../Service/ZoneService";
 import unitTypeService from "../../../Service/UnitTypeService";
+import BackButton from "../../../../Utils/BackButton";
 
 function PropertyUpdate() {
     const [property, setProperty] = useState([]);
@@ -478,7 +479,7 @@ function PropertyUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button" onClick={deleteProperty}>Delete</button>
+                                <BackButton />
                                 <button id="btnUpdate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

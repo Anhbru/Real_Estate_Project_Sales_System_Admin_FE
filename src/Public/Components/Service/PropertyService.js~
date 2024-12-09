@@ -61,7 +61,7 @@ class PropertyService {
                 Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
             },
         };
-        return axios.put(
+        return axios.post(
             BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_PROPERTY + id,
             data,
             config

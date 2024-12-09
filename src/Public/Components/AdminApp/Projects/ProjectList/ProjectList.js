@@ -49,7 +49,8 @@ function ProjectList() {
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    alert(res.data.message);
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
                     getListProject(currentPage);
                     setLoading(false)
                 } else {
@@ -140,9 +141,9 @@ function ProjectList() {
                                         <td>{item.totalArea}</td>
                                         <td>{item.location}</td>
                                         <td>
-                        <span className="success_btn_ text-nowrap">
-                          {item.status}
-                        </span>
+                                            <span className="success_btn_ text-nowrap">
+                                              {item.status}
+                                            </span>
                                         </td>
                                         <td>
                                             <p className="nav-item dropdown">
@@ -179,11 +180,10 @@ function ProjectList() {
                                                         <hr className="dropdown-divider"/>
                                                     </li>
                                                     <li>
-                                                        <a
-                                                            className="dropdown-item"
-                                                            href="/projects/create"
-                                                        >
-                                                            Create project
+                                                        <a onClick={event => handleDelete(event, item.projectID)}
+                                                           className="dropdown-item"
+                                                           href="#">
+                                                            Delete project
                                                         </a>
                                                     </li>
                                                 </ul>

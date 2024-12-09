@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import paymentProcessService from "../../../Service/PaymentProcessService";
 import salesPolicyService from "../../../Service/SalePolicyService";
+import BackButton from '../../../../Utils/BackButton';
 
 function PaymentProcessCreate() {
     const [sales, setSales] = useState([]);
@@ -124,7 +125,7 @@ function PaymentProcessCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="paymentProcessName">PaymentProcessName</label>
+                                            <label htmlFor="paymentProcessName">Payment Process Name</label>
                                             <input type="text" className="form-control" name="paymentProcessName"
                                                    id="paymentProcessName"
                                                    placeholder="Enter your PaymentProcessName"/>
@@ -135,7 +136,7 @@ function PaymentProcessCreate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="salesPolicyID">SalesPolicyID</label>
+                                            <label htmlFor="salesPolicyID">Sales Policy </label>
                                             <select name="salesPolicyID" id="salesPolicyID" className="form-control">
                                                 {
                                                     sales.map((sale) => {
@@ -154,7 +155,7 @@ function PaymentProcessCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

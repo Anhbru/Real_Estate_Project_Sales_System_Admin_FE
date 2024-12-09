@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import salesPolicyService from "../../../Service/SalePolicyService";
 import paymentProcessService from "../../../Service/PaymentProcessService";
+import BackButton from '../../../../Utils/BackButton';
 
 function PaymentProcessUpdate() {
     const [paymentprocess, setPaymentProcess] = useState([]);
@@ -106,7 +107,7 @@ function PaymentProcessUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="paymentProcessName">PaymentProcessName</label>
+                                            <label htmlFor="paymentProcessName">Payment Process Name</label>
                                             <input type="text" className="form-control" name="paymentProcessName"
                                                    id="paymentProcessName"
                                                    defaultValue={paymentprocess.paymentProcessName}
@@ -115,7 +116,7 @@ function PaymentProcessUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="status">status</label>
+                                            <label htmlFor="status">Status</label>
                                             <select name="status" id="status" className="form-select">
                                                 <option value="true">True</option>
                                                 <option value="false">False</option>
@@ -127,7 +128,7 @@ function PaymentProcessUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="salesPolicyID">SalesPolicyID</label>
+                                            <label htmlFor="salesPolicyID">Sales Policy</label>
                                             <select name="salesPolicyID" id="salesPolicyID" className="form-control">
                                                 {
                                                     sales.map((sale) => {
@@ -146,7 +147,7 @@ function PaymentProcessUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>
