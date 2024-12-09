@@ -135,7 +135,7 @@ function Bookings() {
             marginLeft: "16rem",
           }}
         >
-          <Typography variant="h5">Bookings</Typography>
+          <Typography variant="h5">Booking List</Typography>
         </Box>
         <ButtonJs
           title="Create"

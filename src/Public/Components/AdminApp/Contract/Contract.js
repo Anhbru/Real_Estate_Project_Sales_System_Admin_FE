@@ -29,7 +29,7 @@ function Contract() {
             marginLeft: "16rem",
           }}
         >
-          <Typography variant="h5">Contract</Typography>
+          <Typography variant="h5">Contract List</Typography>
         </Box>
         <ButtonJs
           title="Create"
