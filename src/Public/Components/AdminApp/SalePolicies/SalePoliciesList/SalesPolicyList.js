@@ -63,6 +63,11 @@ function SalesPolicyList() {
         expressTime: values.expressTime ? values.expressTime : undefined,
       };
 
+      // Nếu đang chỉnh sửa, không thay đổi giá trị status, nếu không thì mặc định là true (Active)
+      if (!editingPolicy) {
+        formattedValues.status = true;  // Mặc định status là true (Active)
+      }
+
       console.log("Submitting values:", formattedValues);
 
       if (editingPolicy) {
@@ -197,10 +202,17 @@ function SalesPolicyList() {
               name="status"
               id="status"
               label="Status"
-              rules={[{ required: true, message: "Please enter status" }]}
+              rules={[{ required: true, message: "Please select status" }]}
             >
-              <Input />
+              <Select
+                placeholder="Select status"
+                options={[
+                  { label: "Active", value: true },
+                  { label: "Inactive", value: false },
+                ]}
+              />
             </Form.Item>
+
             <Form.Item
               name="projectID"
               id="projectID"

@@ -200,14 +200,8 @@ function OpenForSaleDetailList() {
                                             <td>
                                                 <div className="btn-group">
                                                     <button
-                                                        className="btn btn-info"
-                                                        onClick={() => navigate(`/open-for-sale-details/detail/${item.openingForSaleID}`)}
-                                                    >
-                                                        Detail
-                                                    </button>
-                                                    <button
                                                         className="btn btn-warning"
-                                                        onClick={() => navigate(`/open-for-sale-details/update/${item.openingForSaleID}`)}
+                                                        onClick={() => navigate(`/openforsaledetails/update/${item.propertyID}/${item.openingForSaleID}`)}
                                                     >
                                                         Update
                                                     </button>
