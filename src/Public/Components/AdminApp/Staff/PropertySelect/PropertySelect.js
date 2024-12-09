@@ -14,7 +14,7 @@ function StaffProperty() {
     const location = useLocation();
     const [message, setMessage] = useState("");
     const [showModal, setShowModal] = useState(false);
-    const navigate = useNavigate(); // useNavigate hook
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (location.state && location.state.customerID) {
@@ -75,8 +75,7 @@ function StaffProperty() {
                 setCustomerID("");
                 handleCloseModal();
                 getListProperties();
-                // Quay lại trang trước khi thao tác
-                navigate(-1); // Quay lại trang trước
+                navigate(-1); 
             } else {
                 setMessage(`Failed to update CustomerID for PropertyID: ${selectedPropertyID}`);
             }

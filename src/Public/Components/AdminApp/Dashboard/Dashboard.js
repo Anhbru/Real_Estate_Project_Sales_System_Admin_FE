@@ -112,7 +112,7 @@ function Dashboard() {
                 <div className="card-body">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
-                      <h5 className="title_revenue_">Total User</h5>
+                      <h5 className="title_revenue_">Total Price</h5>
                       <h6>{totalUser}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -128,7 +128,7 @@ function Dashboard() {
                 <div className="card-body">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
-                      <h5 className="title_revenue_">Total Order</h5>
+                      <h5 className="title_revenue_">Total Property</h5>
                       <h6>{totalOrder}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -144,7 +144,7 @@ function Dashboard() {
                 <div className="card-body">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
-                      <h5 className="title_revenue_">Total Sales</h5>
+                      <h5 className="title_revenue_">Total Customer</h5>
                       <h6>{totalSales}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -160,7 +160,7 @@ function Dashboard() {
                 <div className="card-body">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="">
-                      <h5 className="title_revenue_">Total Pending</h5>
+                      <h5 className="title_revenue_">Out Standing Amount</h5>
                       <h6>{totalPending}</h6>
                     </div>
                     <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
