@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import blockService from "../../../Service/BlockService";
 import floorService from "../../../Service/FloorService";
+import BackButton from '../../../../Utils/BackButton';
 
 function FloorUpdate() {
     const [floor, setFloor] = useState([]);
@@ -138,7 +139,7 @@ function FloorUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BlockID">BlockID</label>
+                                            <label htmlFor="BlockID">Block Name</label>
                                             <select name="BlockID" id="BlockID" className="form-control">
                                                 {
                                                     blocks.map((block) => {
@@ -166,7 +167,7 @@ function FloorUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                   <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

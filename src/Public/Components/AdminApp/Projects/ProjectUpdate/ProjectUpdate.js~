@@ -6,7 +6,6 @@ import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import paymentPolicyService from "../../../Service/PaymentPolicyService";
-import BackButton from '../../../../Utils/BackButton';
 
 function ProjectUpdate() {
     const [project, setProject] = useState([]);

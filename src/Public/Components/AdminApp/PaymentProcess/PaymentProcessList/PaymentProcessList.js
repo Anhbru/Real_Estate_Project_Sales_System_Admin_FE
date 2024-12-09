@@ -7,6 +7,7 @@ import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import openSaleService from "../../../Service/OpenForSaleService";
 
 function PaymentProcessList() {
     const [data, setData] = useState([]);
@@ -36,6 +37,27 @@ function PaymentProcessList() {
         if (page > 0 && page <= totalPages) {
             setCurrentPage(page);
         }
+    };
+
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await paymentProcessService.adminDelete(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
+                    getList();
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
     };
 
     useEffect(() => {
@@ -86,22 +108,27 @@ function PaymentProcessList() {
                                                     <ul className="dropdown-menu">
                                                         <li><a className="dropdown-item"
                                                                href={'/paymentprocesses/detail/' + item.paymentProcessID}>Detail
-                                                            </a></li>
-                                                            <li><a className="dropdown-item"
-                                                               href={'/paymentprocessesdetail/list/' + item.paymentProcessID}> Payment Process Detail
-                                                            </a></li>
+                                                        </a></li>
+                                                        <li><a className="dropdown-item"
+                                                               href={'/paymentprocessesdetail/list/' + item.paymentProcessID}> Payment
+                                                            Process Detail
+                                                        </a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
                                                                href={'/paymentprocesses/update/' + item.paymentProcessID}>Update
-                                                            </a></li>
+                                                        </a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
-                                                        <li><a className="dropdown-item"
-                                                               href="/paymentprocesses/create">Create
-                                                            </a></li>
+                                                        <li>
+                                                            <a className="dropdown-item"
+                                                               onClick={(event) => handleDelete(event, item.paymentProcessID)}
+                                                               href="#">
+                                                                Delete
+                                                            </a>
+                                                        </li>
                                                     </ul>
                                                 </p>
                                             </td>

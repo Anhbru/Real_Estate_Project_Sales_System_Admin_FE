@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import blockService from "../../../Service/BlockService";
 import zoneService from "../../../Service/ZoneService";
+import BackButton from "../../../../Utils/BackButton";
 
 function BlockCreate() {
     const [zones, setZones] = useState([]);
@@ -129,7 +130,7 @@ function BlockCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                <BackButton />
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

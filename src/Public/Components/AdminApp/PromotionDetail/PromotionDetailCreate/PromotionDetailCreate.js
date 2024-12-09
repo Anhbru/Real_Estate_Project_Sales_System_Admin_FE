@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import {Form, message} from "antd";
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -7,12 +7,16 @@ import $ from "jquery";
 import promotionDetailService from "../../../Service/PromotionDetailService";
 import propertyTypeService from "../../../Service/PropertyTypeService";
 import promotionService from "../../../Service/PromotionService";
+import BackButton from '../../../../Utils/BackButton';
 
 function PromotionDetailCreate() {
     const [promotions, setPromotions] = useState([]);
     const [propertyTypes, setPropertyTypes] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [searchParams] = useSearchParams();
+
+    let promotionID = searchParams.get('promotionID');
 
     const getListProject = async () => {
         await promotionService
@@ -72,7 +76,11 @@ function PromotionDetailCreate() {
             .then((res) => {
                 console.log("create promotion detail", res.data);
                 message.success("Tạo promotion detail thành công!");
-                navigate("/promotiondetails/list");
+                if (promotionID){
+                    navigate(`/promotiondetails/list?promotionID=${promotionID}`)
+                } else {
+                    navigate("/promotiondetails/list")
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -134,27 +142,45 @@ function PromotionDetailCreate() {
                                 </div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="promotionID">Promotion</label>
-                                            <select
-                                                name="promotionID"
-                                                id="promotionID"
-                                                className="form-control"
-                                            >
-                                                {promotions.map((project) => {
-                                                    return (
-                                                        <option
-                                                            key={project.promotionID}
-                                                            value={project.promotionID}
-                                                        >
-                                                            {project.promotionName}
-                                                        </option>
-                                                    );
-                                                })}
-                                            </select>
+                                    {!promotionID ? (
+                                        <div className="col-md-5">
+                                            <div className="form-group">
+                                                <label htmlFor="promotionID">Promotion</label>
+                                                <select
+                                                    name="promotionID"
+                                                    id="promotionID"
+                                                    className="form-control"
+                                                >
+                                                    {promotions.map((project) => {
+                                                        return (
+                                                            <option
+                                                                key={project.promotionID}
+                                                                value={project.promotionID}
+                                                            >
+                                                                {project.promotionName}
+                                                            </option>
+                                                        );
+                                                    })}
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    ) : (
+                                        <div
+                                            className="d-flex justify-content-between align-items-center form_el mt-3 d-none">
+                                            <div className="col-md-5">
+                                                <div className="form-group">
+                                                    <label htmlFor="promotionID">Promotion</label>
+                                                    <input value={promotionID} readOnly={true}
+                                                           type="text"
+                                                           id="promotionID"
+                                                           name="promotionID"
+                                                           className="form-control"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <div className="col-md-5">
                                         <div className="form-group">
                                             <label htmlFor="propertyTypeID">Property Type</label>
@@ -180,9 +206,7 @@ function PromotionDetailCreate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">
-                                    Back
-                                </button>
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">
                                     Save
                                 </button>

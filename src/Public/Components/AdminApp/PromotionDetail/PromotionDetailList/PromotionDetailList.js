@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
-import {Form, message} from "antd";
 import promotionDetailService from "../../../Service/PromotionDetailService";
 import Header from "../../../Shared/Admin/Header/Header";
-import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from "jquery";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import {useParams, useSearchParams} from "react-router-dom";
 
 function PromotionDetailList() {
     const [data, setData] = useState([]);
@@ -14,9 +11,31 @@ function PromotionDetailList() {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const getListZone = async (page) => {
+    const [searchParams] = useSearchParams();
+
+    let promotionID = searchParams.get('promotionID');
+
+    const getListPromotionDetail = async (page) => {
         await promotionDetailService
             .getList(page)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log(res.data);
+                    setData(res.data);
+                    setLoading(false);
+                } else {
+                    setLoading(false);
+                }
+            })
+            .catch((err) => {
+                setLoading(false);
+                console.log(err);
+            });
+    };
+
+    const getListPromotionDetailById = async (promotionID) => {
+        await promotionDetailService
+            .getListByPromotionID(promotionID)
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res.data);
@@ -38,9 +57,38 @@ function PromotionDetailList() {
         }
     };
 
+    const handleDelete = async (event, id) => {
+        event.preventDefault();
+
+        await promotionDetailService.delete(id)
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                     let message = res.data.message ?? 'Delete successfully!';
+                    alert(message);
+                    getListPromotionDetail();
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+    };
+
     useEffect(() => {
-        getListZone(currentPage);
-    }, [currentPage, loading]);
+        if (!promotionID) {
+            getListPromotionDetail();
+        }
+    }, [currentPage]);
+
+    useEffect(() => {
+        if (promotionID) {
+            getListPromotionDetailById(promotionID);
+        }
+    }, [currentPage, loading, promotionID]);
     return (
         <>
             <Header/>
@@ -58,7 +106,14 @@ function PromotionDetailList() {
                             placeholder="Search zones name"
                         />
 
-                        <a href="/promotiondetails/create" className="btn_go_">
+                        <a
+                            href={
+                                promotionID
+                                    ? `/promotiondetails/create?promotionID=${promotionID}`
+                                    : "/promotiondetails/create"
+                            }
+                            className="btn_go_"
+                        >
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt=""/>
                         </a>
                     </div>
@@ -108,7 +163,11 @@ function PromotionDetailList() {
                                                     <li>
                                                         <a
                                                             className="dropdown-item"
-                                                            href={"/promotiondetails/update/" + item.promotionDetailID}
+                                                            href={
+                                                                promotionID
+                                                                    ? `/promotiondetails/update/` + item.promotionDetailID + `?promotionID=${promotionID}`
+                                                                    : "/promotiondetails/update/" + item.promotionDetailID
+                                                            }
                                                         >
                                                             Update promotion
                                                         </a>
@@ -117,8 +176,10 @@ function PromotionDetailList() {
                                                         <hr className="dropdown-divider"/>
                                                     </li>
                                                     <li>
-                                                        <a className="dropdown-item" href="/promotiondetails/create">
-                                                            Create promotion
+                                                        <a className="dropdown-item"
+                                                           onClick={event => handleDelete(event, item.promotionDetailID)}
+                                                           href="#">
+                                                            Delete promotion
                                                         </a>
                                                     </li>
                                                 </ul>

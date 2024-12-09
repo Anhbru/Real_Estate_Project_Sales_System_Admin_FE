@@ -6,6 +6,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import projectService from "../../../Service/ProjectService";
 import zoneService from "../../../Service/ZoneService";
+import BackButton from '../../../../Utils/BackButton';
 
 function ZoneUpdate() {
     const [zone, setZone] = useState([]);
@@ -138,7 +139,7 @@ function ZoneUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="ProjectID">ProjectID</label>
+                                            <label htmlFor="ProjectID">Project Name</label>
                                             <select name="ProjectID" id="ProjectID" className="form-control">
                                                 {
                                                     projects.map((project) => {
@@ -158,7 +159,7 @@ function ZoneUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

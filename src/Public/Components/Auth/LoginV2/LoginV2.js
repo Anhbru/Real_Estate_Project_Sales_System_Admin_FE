@@ -95,7 +95,14 @@ export default function LoginV2(props) {
         />
 
         {/* Right Side */}
-        <Grid item xs={12} sm={8} md={3} component={Paper} elevation={6} square>
+        <Grid item sx={{
+            my: 12,
+            display: "flex",
+            justifyContent: "center",
+            height: "100%",
+            margin: 0,
+            alignItems: "center",
+        }} sm={8} md={3}  component={Paper} elevation={6} square>
           <Box
             sx={{
               my: 8,
