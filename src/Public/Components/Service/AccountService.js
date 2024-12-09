@@ -3,28 +3,32 @@ import { BASE_URL_SERVER } from "../config/server";
 import { configTokenApi } from "./ContractService";
 
 const API_ENDPOINT = {
-  LIST: "/api/staffs",
-  CREATE: "/api/staffs",
-  UPDATE: "/api/staffs/",
-  DELETE: "/api/staffs/",
-  DETAIL: "/api/staffs/",
+  LIST: "/api/accounts",
+  CREATE: "/api/accounts",
+  UPDATE: "/api/accounts/",
+  DELETE: "/api/accounts/",
+  DETAIL: "/api/accounts/",
 };
 
-class StaffService {
+class AccountService {
   getList = async () => {
     return await axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST, configTokenApi);
   };
-  
-  
-  create = (data) => {
+
+  create = async (data) => {  
     const config = {
-        headers: {
-            'content-type': 'multipart/form-data',
-            'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
-        }
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
     };
-    return axios.post(BASE_URL_SERVER + API_ENDPOINT.CREATE, data, config);
-};
+    return await axios.post(
+      BASE_URL_SERVER + API_ENDPOINT.CREATE,
+      data,
+      config
+    );
+  };
+
   update = async (data, id) => {
     const config = {
       headers: {
@@ -54,7 +58,6 @@ class StaffService {
   };
 }
 
+const accountService = new AccountService();
 
-const staffService = new StaffService();
-
-export default staffService;
+export default accountService;

@@ -102,25 +102,6 @@ function OpenForSaleUpdate() {
                                     </Select>
                                 </Form.Item>
 
-                                <Form.Item
-                                    label="Project Category"
-                                    name="projectCategoryDetailID"
-                                    rules={[{ required: true, message: 'Please select a Project Category' }]}
-                                >
-                                    <Select
-                                        placeholder="Select Project Category"
-                                        onClick={handleSelectOpenForSale}
-                                    >
-                                        {filteredCategories.map((category) => (
-                                            <Option
-                                                key={category.projectCategoryDetailID}
-                                                value={category.projectCategoryDetailID}
-                                            >
-                                                {`${category.projectName} - ${category.propertyCategoryName}`}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Form.Item>
 
                                 <Form.Item
                                     label="Start Date"
@@ -171,7 +152,29 @@ function OpenForSaleUpdate() {
                                 >
                                     <Input.TextArea placeholder="Enter Description" />
                                 </Form.Item>
+
+                                
+                                <Form.Item
+                                    label="Project Category"
+                                    name="projectCategoryDetailID"
+                                    rules={[{ required: true, message: 'Please select a Project Category' }]}
+                                >
+                                    <Select
+                                        placeholder="Select Project Category"
+                                        onClick={handleSelectOpenForSale}
+                                    >
+                                        {filteredCategories.map((category) => (
+                                            <Option
+                                                key={category.projectCategoryDetailID}
+                                                value={category.projectCategoryDetailID}
+                                            >
+                                                {`${category.projectName} - ${category.propertyCategoryName}`}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
                             </div>
+
 
                             <div className="footer_form_">
                                 <Link to="/openforsales/list" className="btn_back">Back</Link>

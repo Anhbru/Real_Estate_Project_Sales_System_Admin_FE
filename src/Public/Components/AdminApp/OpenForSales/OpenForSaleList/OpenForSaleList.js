@@ -8,7 +8,7 @@ function OpenForSaleList() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [projectCategoryID, setProjectCategoryID] = useState(null); // State for projectCategoryID
+    const [searchQuery, setSearchQuery] = useState(""); // State cho tìm kiếm theo Decision Name
 
     const formatDateTime = (date) => {
         const d = new Date(date);
@@ -29,14 +29,9 @@ function OpenForSaleList() {
             const res = await openSaleService.adminListOpenSales();
             console.log("Open Sales Response:", res.data);
             if (res.status === 200) {
-                
                 const sortedData = res.data
                     .sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
                 setData(Array.isArray(sortedData) ? sortedData : []);
-
-                if (res.data.length > 0) {
-                    setProjectCategoryID(res.data[0].projectCategoryID); 
-                }
             } else {
                 setError("Failed to fetch open sales.");
             }
@@ -59,6 +54,34 @@ function OpenForSaleList() {
         return now >= checkinStart && now <= checkinEnd;
     };
 
+    const handleDelete = async (openingForSaleID) => {
+        try {
+            const res = await openSaleService.adminUpdateOpenSale(openingForSaleID, { status: false });
+            if (res.status === 200) {
+                setData(prevData =>
+                    prevData.map(item =>
+                        item.openingForSaleID === openingForSaleID
+                            ? { ...item, status: false }
+                            : item
+                    )
+                );
+            } else {
+                setError("Failed to update the sale status.");
+            }
+        } catch (err) {
+            setError("Error updating sale status: " + err.message);
+            console.error("Error updating sale status:", err);
+        }
+    };
+
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const filteredData = data.filter(item =>
+        item.decisionName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     useEffect(() => {
         getListOpenSales();
     }, []);
@@ -73,7 +96,13 @@ function OpenForSaleList() {
                 </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search open sales" />
+                        <input
+                            type="text"
+                            className="input_search"
+                            placeholder="Search by Decision Name"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                        />
                         <a href="/openforsales/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
                         </a>
@@ -86,7 +115,7 @@ function OpenForSaleList() {
                             <div className="error">{error}</div>
                         ) : (
                             <>
-                                {data.length === 0 ? (
+                                {filteredData.length === 0 ? (
                                     <p>No open sales found.</p>
                                 ) : (
                                     <table className="table datatable">
@@ -116,7 +145,7 @@ function OpenForSaleList() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {data.map((item, index) => (
+                                            {filteredData.map((item, index) => (
                                                 <tr key={item.openingForSaleID}>
                                                     <th>{index + 1}</th>
                                                     <td>{item.decisionName}</td>
@@ -148,7 +177,8 @@ function OpenForSaleList() {
                                                                         <li><hr className="dropdown-divider" /></li>
                                                                     </>
                                                                 )}
-                                                                <li><a className="dropdown-item" href="/openforsales/create">Create</a></li>
+                                                                
+                                                                <li><a className="dropdown-item" onClick={() => handleDelete(item.openingForSaleID)}>Delete</a></li>
                                                             </ul>
                                                         </p>
                                                     </td>

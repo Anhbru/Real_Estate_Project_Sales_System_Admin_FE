@@ -134,13 +134,16 @@ function Sidebar() {
             '/staff/list',
             '/staff/create',
             '/staff/detail/',
-            '/staff/propertylist/'];
+            '/staff/propertylist/',
+            '/staff/update/'];
 
         let array_openforsaledetail = [
             '/openforsaledetails/list/',
             '/openforsaledetails/create',
             '/openforsaledetails/update/',
-            '/openforsaledetails/detail/'];
+            '/openforsaledetails/list',
+            '/openforsaledetails/detail/']
+            ;
 
         let array_contractpaymentdetail = [
             '/contractpaymentdetail/list/',
@@ -152,7 +155,9 @@ function Sidebar() {
             '/promotiondetails/list',
             '/promotiondetails/create',
             '/promotiondetails/detail/',
-            '/promotiondetails/update/'];
+            '/promotiondetails/update/',
+            '/promotiondetails/list/'
+        ];
 
 
         let array_document = [
@@ -172,6 +177,18 @@ function Sidebar() {
             '/paymentpolicy/create',
             '/paymentpolicy/detail/',
             '/paymentpolicy/update/'];
+
+        let array_Account = [
+            '/accounts/list',
+            '/accounts/create',
+            '/accounts/detail/',
+            '/accounts/update/'];
+        let array_Notification = [
+            '/notification/list',
+            '/notification/list/',
+            '/notification/create',
+            '/notification/detail/',
+            '/notification/update/'];
 
         let key = "";
 
@@ -261,6 +278,12 @@ function Sidebar() {
         if (array_paymentpolicy.some(route => path_name.startsWith(route))) {
             key = 'paymentpolicy';
         }
+        if (array_Account.some(route => path_name.startsWith(route))) {
+            key = 'account';
+        }
+        if (array_Notification.some(route => path_name.startsWith(route))) {
+            key = 'notification';
+        }
 
 
         $("#sidebar-nav .nav-link").removeClass("active");
@@ -272,7 +295,7 @@ function Sidebar() {
             case "property":
                 $('a[data-key="property"]').addClass("active");
                 break;
-            case "opensales":
+            case "openforsales":
                 $('a[data-key="openforsales"]').addClass("active");
                 break;
             case "promotions":
@@ -332,6 +355,12 @@ function Sidebar() {
             case "paymentpolicy":
                 $('a[data-key="paymentpolicy"]').addClass('active');
                 break;
+            case "account":
+                $('a[data-key="account"]').addClass('active');
+                break;
+            case "notification":
+                $('a[data-key="notification"]').addClass('active');
+                break;
             default:
                 $('a[data-key="main"]').addClass("active");
                 break;
@@ -386,6 +415,17 @@ function Sidebar() {
                 </li>
 
                 <li className="nav-item">
+                    <a data-key="zones" href="/zones/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Zones</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
                     <a data-key="blocks" href="/blocks/list" className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
@@ -405,16 +445,7 @@ function Sidebar() {
                         <span>Floors</span>
                     </a>
                 </li>
-                <li className="nav-item">
-                    <a data-key="zones" href="/zones/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Zones</span>
-                    </a>
-                </li>
+
 
                 <li className="nav-item">
                     <a data-key="unittypes" href="/unittypes/list" className="nav-link collapsed">
@@ -426,7 +457,7 @@ function Sidebar() {
                         <span>UnitType</span>
                     </a>
                 </li>
-                
+
                 <li className="nav-item">
                     <a
                         data-key="property"
@@ -474,6 +505,21 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a
+                        data-key="openforsaledetails"
+                        className="nav-link collapsed"
+                        href="/openforsaledetails/list"
+                    >
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/open_sale_icon.png"
+                            alt=""
+                        />
+                        <span>Opening For Sale Detail</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a
                         data-key="salepolicys"
                         className="nav-link collapsed"
                         href="/salepolicy/list"
@@ -515,38 +561,6 @@ function Sidebar() {
                     </a>
                 </li>
 
-                <li className="nav-item">
-                    <a className="nav-link collapsed" href="#">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/report_icon.png"
-                            alt=""
-                        />
-                        <span>Report</span>
-                    </a>
-                </li>
-
-                <li className="nav-item">
-                    <a className="nav-link collapsed" href="/customers/list">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/customer_icon.png"
-                            alt=""
-                        />
-                        <span>Customer</span>
-                    </a>
-                </li>
-
-                <li className="nav-item">
-                    <a className="nav-link collapsed" href="#">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/employee_icon.png"
-                            alt=""
-                        />
-                        <span>Employee</span>
-                    </a>
-                </li>
 
                 <li className="nav-item">
                     <a data-key="paymentprocesses" href="/paymentprocesses/list" className="nav-link collapsed">
@@ -558,6 +572,31 @@ function Sidebar() {
                         <span>Payment Process</span>
                     </a>
                 </li>
+
+
+                <li className="nav-item">
+                    <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
+                        className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Processes Detail</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a data-key="paymentpolicy" href="/paymentpolicy/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payment Policy</span>
+                    </a>
+                </li>
+
                 <li className="nav-item">
                     <a className="nav-link collapsed" href="/document/list">
                         <img
@@ -568,6 +607,19 @@ function Sidebar() {
                         <span>Document</span>
                     </a>
                 </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="/notification/list">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/comment_icon.png"
+                            alt=""
+                        />
+                        <span>Notification</span>
+                    </a>
+                </li>
+
+
                 <li className="nav-item">
                     <a data-key="bookings" href="/bookings" className="nav-link collapsed">
                         <img
@@ -591,36 +643,31 @@ function Sidebar() {
                 </li>
 
                 <li className="nav-item">
+                    <a data-key="account" className="nav-link collapsed" href="/accounts/list">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/report_icon.png"
+                            alt=""
+                        />
+                        <span>Account</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a className="nav-link collapsed" href="/customers/list">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/customer_icon.png"
+                            alt=""
+                        />
+                        <span>Customer</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
                     <a data-key="staff" className="nav-link collapsed" href="/staff/list">
-                        <img className="icon_sidebar_" src="/assets/icon/booking_icon.png" alt="" />
+                        <img className="icon_sidebar_" src="/assets/icon/employee_icon.png" alt="" />
                         <span>Staff</span>
-                    </a>
-                </li>
-
-                
-             
-               
-
-                <li className="nav-item">
-                    <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
-                        className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Payment Processes Detail</span>
-                    </a>
-                </li>
-
-                <li className="nav-item">
-                    <a data-key="paymentpolicy" href="/paymentpolicy/list" className="nav-link collapsed">
-                        <img
-                            className="icon_sidebar_"
-                            src="/assets/icon/contact_icon.png"
-                            alt=""
-                        />
-                        <span>Payment Policy</span>
                     </a>
                 </li>
 

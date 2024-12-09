@@ -21,16 +21,19 @@ class OpenSaleDetailsService {
         return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_LIST_OPENFORSALEDETAILS, config);
     };
 
-    adminDetailOpenSaleDetail = (id) => {
+    adminDetailsOpenSaleDetail = (propertyID, openingForSaleID, data) => {
         const config = {
             headers: {
                 'content-type': 'application/json',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.get(BASE_URL_SERVER + API_ENDPOINT.ADMIN_DETAIL_OPENFORSALEDETAIL + id, config);
+        return axios.get(
+            `${BASE_URL_SERVER}/api/open-for-sale-details/${propertyID}/${openingForSaleID}`, 
+            data, 
+            config
+        );
     };
-
     adminCreateOpenSaleDetail = (data) => {
         const config = {
             headers: {
@@ -41,14 +44,18 @@ class OpenSaleDetailsService {
         return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_POST_OPENFORSALEDETAILS, data, config);
     };
 
-    adminUpdateOpenSaleDetail = (id, data) => {
+    adminUpdateOpenSaleDetail = (propertyID, openingForSaleID, data) => {
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
                 'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
             }
         };
-        return axios.post(BASE_URL_SERVER + API_ENDPOINT.ADMIN_UPDATE_OPENFORSALEDETAILS + id, data, config);
+        return axios.put(
+            `${BASE_URL_SERVER}/api/open-for-sale-details/${propertyID}/${openingForSaleID}`, 
+            data, 
+            config
+        );
     };
 
     adminDeleteOpenSaleDetail = (propertyID, openingForSaleID) => {
