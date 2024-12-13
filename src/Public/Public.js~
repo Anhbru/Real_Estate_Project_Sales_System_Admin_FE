@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import {Route, Routes, useNavigate} from "react-router-dom";
 /* Auth Page */
+import Login from "./Components/Auth/Login/Login";
 /* Dashboard Page */
 import Dashboard from "./Components/AdminApp/Dashboard/Dashboard";
 /* Projects Page */
@@ -30,12 +31,11 @@ import SalePoliciesList from "./Components/AdminApp/SalePolicies/SalePoliciesLis
 // Project category detail
 import ProjectCategoryDetail from "./Components/AdminApp/ProjectCategoryDetail/ProjectCategoryDetail";
 import Contract from "./Components/AdminApp/Contract/Contract";
-import FormContractUpdate from "./Components/AdminApp/Contract/Components/Form/FormContractUpdate";
 import FormContractCreate from "./Components/AdminApp/Contract/Components/Form/FormContractCreate";
-import ContractDetail from "./Components/AdminApp/Contract/Components/Detail/ContractDetail";
 
 // Bookings
 import Bookings from "./Components/AdminApp/Bookings/Bookings";
+import FormContractUpdate from "./Components/AdminApp/Contract/Components/Form/FormContractUpdate";
 import FormUpdateBookings from "./Components/AdminApp/Bookings/Form/FormUpdateBookings";
 import LoginV2 from "./Components/Auth/LoginV2/LoginV2";
 
@@ -91,25 +91,26 @@ import CustomerUpdate from './Components/AdminApp/Customer/CustomerUpdate/Custom
 import CustomerCreate from './Components/AdminApp/Customer/CustomerCreate/CustomerCreate';
 
 import OpenForSaleDetailList from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailList/OpenForSaleDetailList';
-import OpenForSaleDetailAllList
-    from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetail/OpenForSaleDetailAllList';
+import OpenForSaleDetailAllList from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetail/OpenForSaleDetailAllList';
 import ContractPaymentDetailList
     from './Components/AdminApp/ContractPaymentDetail/ContractPaymentDetailList/ContractPaymentDetailList';
 import ContractPaymentDetailUpdate
     from './Components/AdminApp/ContractPaymentDetail/ContractPaymentUpdate/ContractPaymentUpdate';
+/* Main Page */
+
 /*  PromotionDetail Page */
 import PromotionDetailList from './Components/AdminApp/PromotionDetail/PromotionDetailList/PromotionDetailList';
 import PromotionDetailDetail from './Components/AdminApp/PromotionDetail/PromotionDetailDetail/PromotionDetailDetail';
 import PromotionDetailUpdate from './Components/AdminApp/PromotionDetail/PromotionDetailUpdate/PromotionDetailUpdate';
 import PromotionDetailCreate from './Components/AdminApp/PromotionDetail/PromotionDetailCreate/PromotionDetailCreate';
-import PromotionDetailListByPromotionID
-    from './Components/AdminApp/PromotionDetail/PromotionListByPromotionID/ProtionListByPromtionID';
+import PromotionDetailListByPromotionID from './Components/AdminApp/PromotionDetail/PromotionListByPromotionID/ProtionListByPromtionID';
 
 import DocumentList from './Components/AdminApp/Document/DocumentList';
 import DocumentShow from './Components/AdminApp/Document/DocumentShow';
 
-import OpenForSaleDetailUpdate
-    from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailDetail/OpenForSaleDetailDetail';
+import OpenForSaleDetailUpdate from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailDetail/OpenForSaleDetailDetail';
+
+
 
 import PropertyTypeList from './Components/AdminApp/PropertyType/PropertyTypeList/PropertyTypeList';
 import PropertyTypeDetail from './Components/AdminApp/PropertyType/PropertyTypeDetails/PropertyTypeDetails';
@@ -127,8 +128,7 @@ import NotificationList from './Components/AdminApp/Notification/NotificationLis
 import NotificationDetail from './Components/AdminApp/Notification/NotificationDetail/NotificationDetail';
 import NotificationUpdate from './Components/AdminApp/Notification/NotificationUpdate/NotificationUpdate';
 import NotificationCreate from './Components/AdminApp/Notification/NotificactionCreate/NotificationCreate';
-import NotificationListByCustomerID
-    from './Components/AdminApp/Notification/NotificationListByCustomerID/NotificationListByCumtomerID';
+import NotificationListByCustomerID from './Components/AdminApp/Notification/NotificationListByCustomerID/NotificationListByCumtomerID';
 
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
@@ -174,7 +174,6 @@ function Public() {
             <Route path="/contract" element={<Contract/>}/>
             <Route path="/contract/create" element={<FormContractCreate/>}/>
             <Route path="/contract/edit/:id" element={<FormContractUpdate/>}/>
-            <Route path="/contract/detail/:id" element={<ContractDetail/>}/>
 
             {/* Bookings */}
             <Route path="/bookings" element={<Bookings/>}/>
@@ -218,10 +217,9 @@ function Public() {
 
             <Route path='/openforsaledetails/list/:openingForSaleID' element={<OpenForSaleDetailList/>}/>
             <Route path='/openforsaledetails/list' element={<OpenForSaleDetailAllList/>}/>
-            <Route path="/contractpaymentdetail/list/:contractID" element={<ContractPaymentDetailList/>}/>
-            <Route path="/contractpaymentdetail/update/:contractID/:id" element={<ContractPaymentDetailUpdate/>}/>
-            <Route path='/openforsaledetails/update/:propertyID/:openingForSaleID'
-                   element={<OpenForSaleDetailUpdate/>}/>
+            <Route path="/contractpaymentdetail/list/:contractID" element={<ContractPaymentDetailList />} />
+            <Route path="/contractpaymentdetail/update/:contractID/:id" element={<ContractPaymentDetailUpdate />} />
+            <Route path='/openforsaledetails/update/:propertyID/:openingForSaleID' element={<OpenForSaleDetailUpdate/>}/>
 
             {/* Payment Processes */}
             <Route path="/paymentprocesses/list" element={<PaymentProcessList/>}/>
@@ -243,27 +241,27 @@ function Public() {
             <Route path="/promotiondetails/update/:id" element={<PromotionDetailUpdate/>}/>
             <Route path="/promotiondetails/list/:promotionID" element={<PromotionDetailListByPromotionID/>}/>
 
-            <Route path='/document/list/' element={<DocumentList/>}/>
-            <Route path='/document/detail/:id' element={<DocumentShow/>}/>
+            <Route path='/document/list/' element={<DocumentList />}/>
+            <Route path='/document/detail/:id' element={<DocumentShow />}/>
 
-            <Route path='/propertytype/list' element={<PropertyTypeList/>}/>
-            <Route path='/propertytype/detail/:id' element={<PropertyTypeDetail/>}/>
-            <Route path='/propertytype/update/:id' element={<PropertyTypeUpdate/>}/>
-            <Route path='/propertytype/create' element={<PropertyTypeCreate/>}/>
+            <Route path='/propertytype/list' element={<PropertyTypeList />}/>
+            <Route path='/propertytype/detail/:id' element={<PropertyTypeDetail />}/>
+            <Route path='/propertytype/update/:id' element={<PropertyTypeUpdate />}/>
+            <Route path='/propertytype/create' element={<PropertyTypeCreate />}/>
 
 
-            <Route path='/paymentpolicy/list' element={<PaymentPolicy/>}/>
+            <Route path='/paymentpolicy/list' element={<PaymentPolicy />}/>
 
-            <Route path='/accounts/list' element={<AccountList/>}/>
-            <Route path='/accounts/detail/:id' element={<AccountDetail/>}/>
-            <Route path='/accounts/update/:id' element={<AccountUpdate/>}/>
-            <Route path='/accounts/create' element={<AccountCreate/>}/>
+            <Route path='/accounts/list' element={<AccountList />}/>
+            <Route path='/accounts/detail/:id' element={<AccountDetail />}/>
+            <Route path='/accounts/update/:id' element={<AccountUpdate />}/>
+            <Route path='/accounts/create' element={<AccountCreate />}/>
 
-            <Route path='/notification/list' element={<NotificationList/>}/>
-            <Route path='/notification/detail/:id' element={<NotificationDetail/>}/>
-            <Route path='/notification/update/:id' element={<NotificationUpdate/>}/>
-            <Route path='/notification/create' element={<NotificationCreate/>}/>
-            <Route path='/notification/list/:customerID' element={<NotificationListByCustomerID/>}/>
+            <Route path='/notification/list' element={<NotificationList />}/>
+            <Route path='/notification/detail/:id' element={<NotificationDetail />}/>
+            <Route path='/notification/update/:id' element={<NotificationUpdate />}/>
+            <Route path='/notification/create' element={<NotificationCreate />}/>
+            <Route path='/notification/list/:customerID' element={<NotificationListByCustomerID />}/>
         </Routes>
     );
 }

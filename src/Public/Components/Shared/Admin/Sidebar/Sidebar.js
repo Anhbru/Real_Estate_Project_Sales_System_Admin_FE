@@ -389,7 +389,7 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a
-                        data-key="salepolicy"
+                        data-key="project"
                         id="project_tab"
                         className="nav-link collapsed"
                         href="/projects/list"

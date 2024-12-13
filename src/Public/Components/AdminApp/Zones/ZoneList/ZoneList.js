@@ -64,7 +64,7 @@ function ZoneList() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Floor List</h1>
+                    <h1>Zone List</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section">

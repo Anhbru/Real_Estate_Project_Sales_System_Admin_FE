@@ -64,7 +64,7 @@ function BlockList() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Property List</h1>
+                    <h1>Block List</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section">
