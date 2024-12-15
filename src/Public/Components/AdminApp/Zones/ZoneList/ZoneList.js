@@ -3,6 +3,7 @@ import zoneService from "../../../Service/ZoneService";
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ZoneList() {
     const [data, setData] = useState([]);
@@ -51,6 +52,7 @@ function ZoneList() {
             })
             .catch((err) => {
                 setLoading(false)
+                AlertMessageError(err);
                 console.log(err)
             })
     };
@@ -87,6 +89,7 @@ function ZoneList() {
                                 <th scope="col">STT</th>
                                 <th scope="col">ZoneName</th>
                                 <th scope="col">ProjectName</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -97,6 +100,7 @@ function ZoneList() {
                                         <td>{index + 1}</td>
                                         <td>{item.zoneName}</td>
                                         <td>{item.projectName}</td>
+                                        <td>{item.status ? 'Active' : 'Inactive'}</td>
                                         <td>
                                             <p className="nav-item dropdown">
                                                 <a

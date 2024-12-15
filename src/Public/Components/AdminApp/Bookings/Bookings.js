@@ -14,6 +14,7 @@ import SelectJs from "../../../Utils/Select";
 import projectCategoryDetailService from "../../Service/ProjectCategoryDetailService";
 import bookingService from "../../Service/BookingService";
 import { toast } from "react-toastify";
+import AlertMessageError from "../../../Utils/AlertMessageError";
 
 function Bookings() {
   const [data, setData] = useState([]);
@@ -60,6 +61,7 @@ function Bookings() {
         console.log(err);
         toast.error(err.response.data.message);
         setOpenDialog(false);
+          AlertMessageError(err);
       });
   };
 

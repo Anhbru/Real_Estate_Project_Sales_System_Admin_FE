@@ -4,26 +4,43 @@ import {Form, message} from 'antd';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
-import blockService from "../../../Service/BlockService";
-import floorService from "../../../Service/FloorService";
+import paymentService from "../../../Service/PaymentService";
+import bookingService from "../../../Service/BookingService";
+import customerService from "../../../Service/CustomerService";
 import BackButton from '../../../../Utils/BackButton';
-import AlertMessageError from "../../../../Utils/AlertMessageError";
 
-function FloorUpdate() {
-    const [floor, setFloor] = useState([]);
+function PaymentUpdate() {
+    const [bookings, setBookings] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const {id} = useParams();
     const [form] = Form.useForm();
-    const [blocks, setBlocks] = useState([]);
-    const [fileName, setFileName] = useState("default_image_name.jpg");
+    const [payment, setPayment] = useState([]);
 
-    const getListBlock = async () => {
-        await blockService.adminListBlock()
+    const getListBooking = async () => {
+        await bookingService.getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setBlocks(res.data)
+                    setBookings(res.data)
+                    setLoading(false)
+                } else {
+                    setLoading(false)
+                }
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
+
+    }
+    const getListCustomer = async () => {
+        await customerService.adminListCustomer()
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log("data", res.data)
+                    setCustomers(res.data)
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -36,7 +53,7 @@ function FloorUpdate() {
 
     }
 
-    const createFloor = async () => {
+    const createPayment = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang chỉnh sửa...');
 
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
@@ -51,36 +68,24 @@ function FloorUpdate() {
 
         const formData = new FormData($('#formCreate')[0]);
 
-        await floorService.adminUpdateFloor(id, formData)
+        await paymentService.adminUpdatePayment(id, formData)
             .then((res) => {
-                console.log("create block", res.data)
-                message.success("chỉnh sửa floors thành công!")
-                navigate("/floors/list")
+                console.log("create payment", res.data)
+                message.success("chỉnh sửa payment thành công!")
+                navigate("/payments/list")
             })
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
-                AlertMessageError(err);
             })
     }
 
-    const preUploadImage = (evt, imgInp) => {
-        const imagePreview = document.getElementById('imagePreview')
-        const [file] = imgInp.files
-        if (file) {
-            imagePreview.src = URL.createObjectURL(file)
-            setFileName(file.name);
-        }
-    }
-
-    const detailFloor = async () => {
-        await floorService.adminDetailFloor(id)
+    const detailPayment = async () => {
+        await paymentService.adminDetail(id)
             .then((res) => {
-                console.log("detail Floor", res.data);
-                setFloor(res.data)
+                console.log("detail payment", res.data);
+                setPayment(res.data)
                 setLoading(false)
-                const lastPath = res.data.imageFloor.split('/').pop();
-                setFileName(lastPath)
             })
             .catch((err) => {
                 setLoading(false)
@@ -89,8 +94,9 @@ function FloorUpdate() {
     };
 
     useEffect(() => {
-        getListBlock();
-        detailFloor();
+        getListCustomer();
+        getListBooking();
+        detailPayment();
     }, [form, id, loading])
 
     return (
@@ -99,33 +105,24 @@ function FloorUpdate() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/floors/list" className="back__url_">
-                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to list
+                    <Link to="/payments/list" className="back__url_">
+                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to payment list
                     </Link>
                 </div>
                 {/* End Page Title */}
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formCreate" className="form_create_custom_" onFinish={createFloor}>
+                        <Form id="formCreate" className="form_create_custom_" onFinish={createPayment}>
                             <div className="form_area_">
                                 <div className="title_form_">General Information</div>
 
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                <div className="d-flex justify-content-between align-items-start form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="ImageFloor">Image Floor</label>
-                                            <label className="form-control" htmlFor="ImageFloor">{fileName}</label>
-                                            <input type="file" className="form-control" name="ImageFloor"
-                                                   onChange={event => preUploadImage(event, event.target)}
-                                                   style={{display: 'none'}}
-                                                   id="ImageFloor" placeholder="Enter yourImageFloor"/>
-                                            <div className="col-md-3">
-                                                <button type="button" className="btn btn-primary mt-3"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal">
-                                                    Xem hình ảnh
-                                                </button>
-                                            </div>
+                                            <label htmlFor="Amount">Amount</label>
+                                            <input type="text" className="form-control" name="Amount"
+                                                   id="Amount" defaultValue={payment.amount}
+                                                   placeholder="Enter your Amount"/>
                                         </div>
                                     </div>
                                     <div className="col-md-5">
@@ -139,17 +136,28 @@ function FloorUpdate() {
                                     </div>
                                 </div>
 
+                                <div className="d-flex justify-content-between align-items-start form_el mt-3">
+                                    <div className="col-md-12">
+                                        <div className="form-group">
+                                            <label htmlFor="Content">Content</label>
+                                            <textarea name="Content" className="form-control" id="Content" rows="10">
+                                                {payment.content}
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BlockID">Block Name</label>
-                                            <select name="BlockID" id="BlockID" className="form-control">
+                                            <label htmlFor="BookingID">Booking</label>
+                                            <select name="BookingID" id="BookingID" className="form-control">
                                                 {
-                                                    blocks.map((block) => {
+                                                    bookings.map((booking) => {
                                                         return (
-                                                            <option key={block.blockID}
-                                                                    value={block.blockID}>
-                                                                {block.blockName}
+                                                            <option key={booking.bookingID}
+                                                                    value={booking.bookingID}>
+                                                                {booking.customerName} - {booking.projectName}
                                                             </option>
                                                         )
                                                     })
@@ -160,17 +168,26 @@ function FloorUpdate() {
 
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="NumFloor">NumFloor</label>
-                                            <input type="number" className="form-control" name="NumFloor"
-                                                   defaultValue={floor.numFloor}
-                                                   id="NumFloor" placeholder="Enter NumFloor"/>
+                                            <label htmlFor="CustomerID">Customer</label>
+                                            <select name="CustomerID" id="CustomerID" className="form-control">
+                                                {
+                                                    customers.map((customer) => {
+                                                        return (
+                                                            <option key={customer.customersID}
+                                                                    value={customer.customersID}>
+                                                                {customer.customersName}
+                                                            </option>
+                                                        )
+                                                    })
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="footer_form_">
-                                   <BackButton />
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>
@@ -189,7 +206,7 @@ function FloorUpdate() {
                         <div className="modal-body">
                             <div className="row">
                                 <div className="row">
-                                    <img src={floor.imageFloor} alt="" id="imagePreview"
+                                    <img src={payment.imagePayment} alt="" id="imagePreview"
                                          style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                 </div>
                             </div>
@@ -204,4 +221,4 @@ function FloorUpdate() {
     )
 }
 
-export default FloorUpdate
+export default PaymentUpdate

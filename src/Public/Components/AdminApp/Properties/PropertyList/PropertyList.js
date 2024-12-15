@@ -8,6 +8,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import projectService from "../../../Service/ProjectService";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PropertyList() {
     const [data, setData] = useState([]);
@@ -53,7 +54,7 @@ function PropertyList() {
                 }
             })
             .catch((err) => {
-                alert('Delete property error!')
+                AlertMessageError(err);
                 setLoading(false)
                 console.log(err)
             })

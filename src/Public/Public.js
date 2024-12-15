@@ -130,6 +130,12 @@ import NotificationCreate from './Components/AdminApp/Notification/Notificaction
 import NotificationListByCustomerID
     from './Components/AdminApp/Notification/NotificationListByCustomerID/NotificationListByCumtomerID';
 
+/*  Payment Page */
+import PaymentList from "./Components/AdminApp/Payment/PaymentList/PaymentList";
+import PaymentDetail from "./Components/AdminApp/Payment/PaymentDetail/PaymentDetail";
+import PaymentCreate from "./Components/AdminApp/Payment/PaymentCreate/PaymentCreate";
+import PaymentUpdate from "./Components/AdminApp/Payment/PaymentUpdate/PaymentUpdate";
+
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -264,6 +270,12 @@ function Public() {
             <Route path='/notification/update/:id' element={<NotificationUpdate/>}/>
             <Route path='/notification/create' element={<NotificationCreate/>}/>
             <Route path='/notification/list/:customerID' element={<NotificationListByCustomerID/>}/>
+
+            {/* Payment Detail */}
+            <Route path="/payments/list" element={<PaymentList/>}/>
+            <Route path="/payments/create" element={<PaymentCreate/>}/>
+            <Route path="/payments/detail/:id" element={<PaymentDetail/>}/>
+            <Route path="/payments/update/:id" element={<PaymentUpdate/>}/>
         </Routes>
     );
 }

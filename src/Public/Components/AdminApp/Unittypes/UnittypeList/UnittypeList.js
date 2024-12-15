@@ -3,6 +3,7 @@ import unitTypeService from '../../../Service/UnitTypeService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function UnittypeList() {
     const [data, setData] = useState([]);
@@ -50,6 +51,7 @@ function UnittypeList() {
                 }
             })
             .catch((err) => {
+                AlertMessageError(err);
                 setLoading(false)
                 console.log(err)
             })
@@ -87,6 +89,7 @@ function UnittypeList() {
                                 <th scope="col">LivingRoom</th>
                                 <th scope="col">KitchenRoom</th>
                                 <th scope="col">GrossFloorArea</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -102,6 +105,7 @@ function UnittypeList() {
                                             <td>{item.livingRoom}</td>
                                             <td>{item.kitchenRoom}</td>
                                             <td>{item.grossFloorArea}</td>
+                                            <td>{item.status ? 'Active' : 'Inactive'}</td>
                                             <td>
                                                 <p className="nav-item dropdown">
                                                     <a className="nav-link" data-bs-toggle="dropdown" href="#"

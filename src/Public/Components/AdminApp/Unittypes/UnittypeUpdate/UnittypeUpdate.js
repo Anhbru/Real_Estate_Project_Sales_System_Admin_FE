@@ -9,6 +9,7 @@ import unitTypeService from "../../../Service/UnitTypeService";
 import {Swiper, SwiperSlide} from "swiper/react";
 import {Pagination} from "swiper/modules";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function UnittypeUpdate() {
     const [unittype, setUnittype] = useState([]);
@@ -61,6 +62,7 @@ function UnittypeUpdate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                AlertMessageError(err);
             })
     }
 
@@ -211,10 +213,21 @@ function UnittypeUpdate() {
                                     </div>
 
                                 </div>
+                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Status">Status</label>
+                                            <select name="Status" id="Status" className="form-control">
+                                                <option value="true">ACTIVE</option>
+                                                <option value="false">INACTIVE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="footer_form_">
-                                   <BackButton />
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>
@@ -225,7 +238,7 @@ function UnittypeUpdate() {
             <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-lg">
-                    <div className="modal-content">
+                <div className="modal-content">
                         <div className="modal-header">
                             <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"

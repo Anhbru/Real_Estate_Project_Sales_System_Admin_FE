@@ -9,6 +9,7 @@ import $ from 'jquery';
 import { useState,useEffect } from 'react';
 import paymentPolicyService from '../../../Service/PaymentPolicyService';
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ProjectCreate() {
     const navigate = useNavigate();
@@ -79,6 +80,7 @@ function ProjectCreate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
+                AlertMessageError(err);
             })
     };
         useEffect(() => {
