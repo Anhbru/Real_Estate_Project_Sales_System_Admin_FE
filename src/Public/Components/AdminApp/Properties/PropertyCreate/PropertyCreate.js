@@ -13,6 +13,7 @@ import unitTypeService from "../../../Service/UnitTypeService";
 import zoneService from "../../../Service/ZoneService";
 import projectCategoryDetailService from "../../../Service/ProjectCategoryDetailService";
 import BackButton from "../../../../Utils/BackButton";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PropertyCreate() {
     const [projects, setProjects] = useState([]);
@@ -194,6 +195,7 @@ function PropertyCreate() {
             .catch((err) => {
                 console.log(err);
                 $("#btnCreate").prop("disabled", false).text("Tạo mới");
+                AlertMessageError(err);
             });
     };
 

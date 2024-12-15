@@ -61,13 +61,17 @@ function UnittypeDetail() {
 
                             <div className="content_">
                                 <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
                                         <p className="key_">PropertyType Name: </p>
                                         <p className="val_ text-truncate">{unittype.propertyTypeName}</p>
                                     </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
                                         <p className="key_">NumberFloor: </p>
                                         <p className="val_ text-truncate">{unittype.numberFloor}</p>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
+                                        <p className="key_">Status: </p>
+                                        <p className="val_ text-truncate">{unittype.status ? "Active" : "Inactive"}</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -115,12 +119,6 @@ function UnittypeDetail() {
                                                 Xem hình ảnh
                                             </button>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-4">
-                                        <p className="key_">Status: </p>
-                                        <p className="val_ text-truncate">{unittype.status ? "Active" : "Inactive"}</p>
                                     </div>
                                 </div>
                             </div>

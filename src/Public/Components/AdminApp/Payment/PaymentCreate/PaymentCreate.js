@@ -4,20 +4,21 @@ import {Form, message} from 'antd';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
-import blockService from "../../../Service/BlockService";
-import zoneService from "../../../Service/ZoneService";
+import bookingService from "../../../Service/BookingService";
+import paymentService from "../../../Service/PaymentService";
+import BackButton from "../../../../Utils/BackButton";
 
-function BlockCreate() {
-    const [zones, setZones] = useState([]);
+function PaymentCreate() {
+    const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 
     const getListZone = async () => {
-        await zoneService.adminListZone()
+        await bookingService.getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
-                    setZones(res.data)
+                    setBookings(res.data)
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -30,7 +31,7 @@ function BlockCreate() {
 
     }
 
-    const createBlock = async () => {
+    const createPayment = async () => {
         $('#btnCreate').prop('disabled', true).text('Đang tạo mới...');
 
         let inputs = $('#formCreate input, #formCreate textarea, #formCreate select');
@@ -45,11 +46,11 @@ function BlockCreate() {
 
         const formData = new FormData($('#formCreate')[0]);
 
-        await blockService.adminCreateBlock(formData)
+        await paymentService.adminCreate(formData)
             .then((res) => {
                 console.log("create property", res.data)
-                message.success("Tạo biến thể thành công!")
-                navigate("/blocks/list")
+                message.success("Create payment success!")
+                navigate("/payments/list")
             })
             .catch((err) => {
                 console.log(err)
@@ -67,49 +68,31 @@ function BlockCreate() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/blocks/list" className="back__url_">
-                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to block list
+                    <Link to="/payments/list" className="back__url_">
+                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to payment list
                     </Link>
                 </div>
                 <div className="pagetitle">
-                    <h1>Add New Blocks</h1>
+                    <h1>Add New Payments</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section">
                     <div className="content_page_">
-                        <Form id="formCreate" className="form_create_custom_" onFinish={createBlock}>
+                        <Form id="formCreate" className="form_create_custom_" onFinish={createPayment}>
                             <div className="form_area_">
                                 <div className="title_form_">General Information</div>
 
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BlockName">Block Name</label>
-                                            <input type="text" className="form-control" name="BlockName"
-                                                   id="BlockName"
-                                                   placeholder="Enter your Block Name"/>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="ImageBlock">Image Block</label>
-                                            <input type="file" className="form-control" name="ImageBlock"
-                                                   id="ImageBlock" placeholder="Enter yourImageBlock"/>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex justify-content-between align-items-center form_el mt-3">
-                                    <div className="col-md-5">
-                                        <div className="form-group">
-                                            <label htmlFor="zoneID">Zone</label>
-                                            <select name="zoneID" id="zoneID" className="form-control">
+                                            <label htmlFor="bookingId">Booking</label>
+                                            <select name="bookingId" id="bookingId" className="form-control">
                                                 {
-                                                    zones.map((zone) => {
+                                                    bookings.map((booking) => {
                                                         return (
-                                                            <option key={zone.zoneID}
-                                                                    value={zone.zoneID}>
-                                                                {zone.zoneName} - {zone.projectName}
+                                                            <option key={booking.bookingID}
+                                                                    value={booking.bookingID}>
+                                                                {booking.customerName} - {booking.projectName}
                                                             </option>
                                                         )
                                                     })
@@ -117,19 +100,11 @@ function BlockCreate() {
                                             </select>
                                         </div>
                                     </div>
-
-                                    {/*<div className="col-md-5">*/}
-                                    {/*    <div className="form-group">*/}
-                                    {/*        <label htmlFor="Status">Status</label>*/}
-                                    {/*        <input type="text" className="form-control" name="Status"*/}
-                                    {/*               id="Status" placeholder="Enter Status"/>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
                                 </div>
                             </div>
 
                             <div className="footer_form_">
-                                <button className="btn_back" type="button">Back</button>
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>
@@ -140,4 +115,4 @@ function BlockCreate() {
     )
 }
 
-export default BlockCreate
+export default PaymentCreate

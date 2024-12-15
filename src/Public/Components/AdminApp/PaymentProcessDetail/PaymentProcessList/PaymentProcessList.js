@@ -4,6 +4,7 @@ import paymentProcessDetailService from "../../../Service/PaymentProcessDetailSe
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PaymentProcessList() {
     const [data, setData] = useState([]);
@@ -68,6 +69,7 @@ function PaymentProcessList() {
             .catch((err) => {
                 setLoading(false)
                 console.log(err)
+                AlertMessageError(err);
             })
     };
 

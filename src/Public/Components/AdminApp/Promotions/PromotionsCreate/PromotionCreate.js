@@ -8,6 +8,7 @@ import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import BackButton from "../../../../Utils/BackButton";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PromotionCreate() {
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ function PromotionCreate() {
             .catch((err) => {
                 console.log(err);
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
+                AlertMessageError(err);
             });
     };
 

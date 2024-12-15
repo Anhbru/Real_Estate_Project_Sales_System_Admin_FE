@@ -7,6 +7,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
 import paymentPolicyService from "../../../Service/PaymentPolicyService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ProjectUpdate() {
     const [project, setProject] = useState([]);
@@ -84,6 +85,7 @@ function ProjectUpdate() {
                 console.log(err)
                 message.error(err.response.data.message)
                 $('#btnUpdate').prop('disabled', false).text('Lưu thay đổi');
+                AlertMessageError(err);
             })
     };
 

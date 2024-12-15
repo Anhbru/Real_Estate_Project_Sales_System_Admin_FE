@@ -7,6 +7,7 @@ import $ from 'jquery';
 import paymentProcessService from "../../../Service/PaymentProcessService";
 import paymentProcessDetailService from "../../../Service/PaymentProcessDetailService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PaymentProcessUpdate() {
     const [process, setProcess] = useState([]);
@@ -79,6 +80,7 @@ function PaymentProcessUpdate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                AlertMessageError(err);
             })
     }
 

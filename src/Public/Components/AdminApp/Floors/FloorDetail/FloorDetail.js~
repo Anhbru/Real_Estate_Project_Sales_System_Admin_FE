@@ -63,7 +63,7 @@ function FloorDetail() {
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Status: </p>
-                                        <p className="val_ text-truncate">{floor.status ? "Active" : "Inactive"}</p>
+                                        <p className="val_ text-truncate">{floor.status}</p>
                                     </div>
                                 </div>
                                 <div className="row">

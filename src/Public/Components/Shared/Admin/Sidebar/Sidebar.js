@@ -1,12 +1,12 @@
-import { Form, message } from "antd";
-import React, { useEffect, useState } from "react";
+import {Form, message} from "antd";
+import React, {useEffect, useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
+import {useLocation, Link, useNavigate, useParams} from "react-router-dom";
 import $ from "jquery";
 
 function Sidebar() {
-    const { id } = useParams();
+    const {id} = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -23,6 +23,13 @@ function Sidebar() {
             "/projects/create",
             "/projects/update/",
             "/projects/detail/",
+        ];
+
+        let array_payment = [
+            "/payments/list",
+            "/payments/create",
+            "/payments/update/",
+            "/payments/detail/",
         ];
 
         let array_property = [
@@ -143,7 +150,7 @@ function Sidebar() {
             '/openforsaledetails/update/',
             '/openforsaledetails/list',
             '/openforsaledetails/detail/']
-            ;
+        ;
 
         let array_contractpaymentdetail = [
             '/contractpaymentdetail/list/',
@@ -202,6 +209,10 @@ function Sidebar() {
 
         if (array_main.some((route) => path_name.startsWith(route))) {
             key = "main";
+        }
+
+        if (array_payment.some((route) => path_name.startsWith(route))) {
+            key = "payments";
         }
 
         if (array_openforsale.some((route) => path_name.startsWith(route))) {
@@ -304,6 +315,9 @@ function Sidebar() {
             case "salepolicys":
                 $('a[data-key="salepolicys"]').addClass("active");
                 break;
+            case "payments":
+                $('a[data-key="payments"]').addClass("active");
+                break;
             case "floors":
                 $('a[data-key="floors"]').addClass("active");
                 break;
@@ -400,6 +414,17 @@ function Sidebar() {
                             alt=""
                         />
                         <span>Project</span>
+                    </a>
+                </li>
+
+                <li className="nav-item">
+                    <a data-key="payments" href="/payments/list" className="nav-link collapsed">
+                        <img
+                            className="icon_sidebar_"
+                            src="/assets/icon/contact_icon.png"
+                            alt=""
+                        />
+                        <span>Payments</span>
                     </a>
                 </li>
 
@@ -551,7 +576,7 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a data-key="promotiondetails" href="/promotiondetails/list"
-                        className="nav-link collapsed">
+                       className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/contact_icon.png"
@@ -576,7 +601,7 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a data-key="paymentprocessesdetail" href="/paymentprocessesdetail/list"
-                        className="nav-link collapsed">
+                       className="nav-link collapsed">
                         <img
                             className="icon_sidebar_"
                             src="/assets/icon/contact_icon.png"
@@ -666,11 +691,10 @@ function Sidebar() {
 
                 <li className="nav-item">
                     <a data-key="staff" className="nav-link collapsed" href="/staff/list">
-                        <img className="icon_sidebar_" src="/assets/icon/employee_icon.png" alt="" />
+                        <img className="icon_sidebar_" src="/assets/icon/employee_icon.png" alt=""/>
                         <span>Staff</span>
                     </a>
                 </li>
-
 
 
                 <li>

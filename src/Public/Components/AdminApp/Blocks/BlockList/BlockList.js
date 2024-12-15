@@ -3,6 +3,7 @@ import blockService from '../../../Service/BlockService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function BlockList() {
     const [data, setData] = useState([]);
@@ -51,7 +52,7 @@ function BlockList() {
             })
             .catch((err) => {
                 setLoading(false)
-                console.log(err)
+                AlertMessageError(err);
             })
     };
 
@@ -83,6 +84,7 @@ function BlockList() {
                                 <th scope="col">STT</th>
                                 <th scope="col">BlockName</th>
                                 <th scope="col">ZoneName</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -94,6 +96,7 @@ function BlockList() {
                                             <td>{index + 1}</td>
                                             <td>{item.blockName}</td>
                                             <td>{item.zoneName}</td>
+                                            <td>{item.status ? 'Active' : 'Inactive'}</td>
                                             <td>
                                                 <p className="nav-item dropdown">
                                                     <a className="nav-link" data-bs-toggle="dropdown" href="#"

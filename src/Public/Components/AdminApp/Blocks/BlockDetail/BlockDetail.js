@@ -59,13 +59,17 @@ function BlockDetail() {
 
                             <div className="content_">
                                 <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
                                         <p className="key_">Block Name: </p>
                                         <p className="val_ text-truncate">{block.blockName}</p>
                                     </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
                                         <p className="key_">Zone: </p>
                                         <p className="val_ text-truncate">{block.zoneName}</p>
+                                    </div>
+                                    <div className="d-flex align-items-center justify-content-start col-md-4">
+                                        <p className="key_">Status: </p>
+                                        <p className="val_ text-truncate">{block.status ? "Active" : "Inactive"}</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -99,7 +103,7 @@ function BlockDetail() {
                             </div>
                         </div>
                         <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>

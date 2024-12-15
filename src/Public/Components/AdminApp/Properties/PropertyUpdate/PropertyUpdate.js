@@ -13,6 +13,7 @@ import floorService from "../../../Service/FloorService";
 import zoneService from "../../../Service/ZoneService";
 import unitTypeService from "../../../Service/UnitTypeService";
 import BackButton from "../../../../Utils/BackButton";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PropertyUpdate() {
     const [property, setProperty] = useState([]);
@@ -207,6 +208,7 @@ function PropertyUpdate() {
                 console.log(err)
                 message.error(err.response.data.message)
                 $('#btnUpdate').prop('disabled', false).text('Lưu thay đổi');
+                AlertMessageError(err);
             })
     };
 
@@ -230,6 +232,7 @@ function PropertyUpdate() {
             })
             .catch((err) => {
                 alert('Delete property error!')
+                AlertMessageError(err);
                 setLoading(false)
                 console.log(err)
             })

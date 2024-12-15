@@ -7,6 +7,7 @@ import $ from 'jquery';
 import propertyTypeService from "../../../Service/PropertyTypeService";
 import unitTypeService from "../../../Service/UnitTypeService";
 import BackButton from "../../../../Utils/BackButton";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function UnittypeCreate() {
     const [propertyTypes, setPropertyTypes] = useState([]);
@@ -56,6 +57,7 @@ function UnittypeCreate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
+                AlertMessageError(err);
             })
     }
 

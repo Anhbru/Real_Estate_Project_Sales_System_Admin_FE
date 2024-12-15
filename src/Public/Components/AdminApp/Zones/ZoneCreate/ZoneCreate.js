@@ -7,6 +7,7 @@ import $ from "jquery";
 import zoneService from "../../../Service/ZoneService";
 import projectService from "../../../Service/ProjectService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ZoneCreate() {
     const [projects, setProjects] = useState([]);
@@ -57,6 +58,7 @@ function ZoneCreate() {
             .catch((err) => {
                 console.log(err);
                 $("#btnCreate").prop("disabled", false).text("Tạo mới");
+                AlertMessageError(err);
             });
     };
 

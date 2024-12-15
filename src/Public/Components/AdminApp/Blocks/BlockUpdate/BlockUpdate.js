@@ -7,6 +7,7 @@ import $ from 'jquery';
 import blockService from "../../../Service/BlockService";
 import zoneService from "../../../Service/ZoneService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function BlockUpdate() {
     const [zones, setZones] = useState([]);
@@ -68,6 +69,7 @@ function BlockUpdate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                AlertMessageError(err);
             })
     }
 
@@ -155,19 +157,20 @@ function BlockUpdate() {
                                         </div>
                                     </div>
 
-                                    {/*<div className="col-md-5">*/}
-                                    {/*    <div className="form-group">*/}
-                                    {/*        <label htmlFor="Status">Status</label>*/}
-                                    {/*        <input type="text" className="form-control" name="Status"*/}
-                                    {/*               defaultValue={block.status}*/}
-                                    {/*               id="Status" placeholder="Enter Status"/>*/}
-                                    {/*    </div>*/}
-                                    {/*</div>*/}
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Status">Status</label>
+                                            <select name="Status" id="Status" className="form-control">
+                                                <option value="true">ACTIVE</option>
+                                                <option value="false">INACTIVE</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div className="footer_form_">
-                                <BackButton />
+                                <BackButton/>
                                 <button id="btnCreate" className="btn_create" type="submit">Save</button>
                             </div>
                         </Form>

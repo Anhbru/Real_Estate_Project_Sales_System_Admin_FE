@@ -7,6 +7,7 @@ import $ from 'jquery';
 import blockService from "../../../Service/BlockService";
 import zoneService from "../../../Service/ZoneService";
 import BackButton from "../../../../Utils/BackButton";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function BlockCreate() {
     const [zones, setZones] = useState([]);
@@ -53,7 +54,7 @@ function BlockCreate() {
                 navigate("/blocks/list")
             })
             .catch((err) => {
-                console.log(err)
+                AlertMessageError(err);
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
             })
     }

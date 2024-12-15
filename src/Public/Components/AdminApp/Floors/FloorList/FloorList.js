@@ -3,6 +3,7 @@ import floorService from '../../../Service/FloorService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function FloorList() {
     const [data, setData] = useState([]);
@@ -45,7 +46,7 @@ function FloorList() {
             })
             .catch((err) => {
                 setLoading(false)
-                console.log(err)
+                AlertMessageError(err);
             })
     };
 
@@ -83,6 +84,7 @@ function FloorList() {
                                 <th scope="col">STT</th>
                                 <th scope="col">BlockName</th>
                                 <th scope="col">NumFloor</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -94,6 +96,7 @@ function FloorList() {
                                             <td>{index + 1}</td>
                                             <td>{item.blockName}</td>
                                             <td>{item.numFloor}</td>
+                                            <td>{item.status ? 'Active' : 'Inactive'}</td>
                                             <td>
                                                 <p className="nav-item dropdown">
                                                     <a className="nav-link" data-bs-toggle="dropdown" href="#"

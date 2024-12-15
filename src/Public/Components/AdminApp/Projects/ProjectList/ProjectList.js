@@ -8,6 +8,7 @@ import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from "jquery";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 import blockService from "../../../Service/BlockService";
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ProjectList() {
     const [data, setData] = useState([]);
@@ -60,6 +61,7 @@ function ProjectList() {
             .catch((err) => {
                 setLoading(false)
                 console.log(err)
+                AlertMessageError(err);
             })
     };
 

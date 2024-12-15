@@ -7,6 +7,7 @@ import $ from 'jquery';
 import blockService from "../../../Service/BlockService";
 import floorService from "../../../Service/FloorService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from '../../../../Utils/AlertMessageError';
 
 function FloorCreate() {
     const [blocks, setBlocks] = useState([]);
@@ -55,6 +56,7 @@ function FloorCreate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
+                AlertMessageError(err);
             })
     }
 

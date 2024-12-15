@@ -7,6 +7,7 @@ import $ from 'jquery';
 import projectService from "../../../Service/ProjectService";
 import zoneService from "../../../Service/ZoneService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function ZoneUpdate() {
     const [zone, setZone] = useState([]);
@@ -68,6 +69,7 @@ function ZoneUpdate() {
             .catch((err) => {
                 console.log(err)
                 $('#btnCreate').prop('disabled', false).text('Chỉnh sửa');
+                AlertMessageError(err);
             })
     }
 
@@ -155,6 +157,15 @@ function ZoneUpdate() {
                                         </div>
                                     </div>
 
+                                    <div className="col-md-5">
+                                        <div className="form-group">
+                                            <label htmlFor="Status">Status</label>
+                                            <select name="Status" id="Status" className="form-control">
+                                                <option value="true">ACTIVE</option>
+                                                <option value="false">INACTIVE</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -177,7 +188,7 @@ function ZoneUpdate() {
                         </div>
                         <div className="modal-body">
                             <div className="row">
-                                <div className="row">
+                            <div className="row">
                                     <img src={zone.imageZone} alt="" id="imagePreview"
                                          style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
                                 </div>

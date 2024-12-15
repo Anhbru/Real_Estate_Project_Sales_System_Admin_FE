@@ -7,6 +7,7 @@ import $ from 'jquery';
 import paymentProcessService from "../../../Service/PaymentProcessService";
 import salesPolicyService from "../../../Service/SalePolicyService";
 import BackButton from '../../../../Utils/BackButton';
+import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PaymentProcessCreate() {
     const [sales, setSales] = useState([]);
@@ -74,7 +75,7 @@ function PaymentProcessCreate() {
             navigate("/paymentprocesses/list");
         } catch (err) {
             console.error("Error creating payment process:", err);
-            alert("Có lỗi xảy ra. Vui lòng thử lại!");
+            AlertMessageError(err);
         } finally {
             $('#btnCreate').prop('disabled', false).text('Tạo mới');
         }
