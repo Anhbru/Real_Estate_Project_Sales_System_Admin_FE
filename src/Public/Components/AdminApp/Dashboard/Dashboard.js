@@ -35,13 +35,13 @@ function Dashboard() {
         const monthlyData = responses[4].data;
   
         
-        const USD_TO_VND = 24000;  
+       
   
         
         const transformedData = Array(12).fill(0);
         monthlyData.forEach((item) => {
           const { month, totalPrice } = item;
-          transformedData[month - 1] = totalPrice * USD_TO_VND; 
+          transformedData[month - 1] = totalPrice; 
         });
   
         setMonthlySales(transformedData);
