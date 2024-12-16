@@ -136,6 +136,8 @@ import PaymentDetail from "./Components/AdminApp/Payment/PaymentDetail/PaymentDe
 import PaymentCreate from "./Components/AdminApp/Payment/PaymentCreate/PaymentCreate";
 import PaymentUpdate from "./Components/AdminApp/Payment/PaymentUpdate/PaymentUpdate";
 
+import OpenForSaleDetailByID
+    from './Components/AdminApp/OpenForSaleDetail/OpenForSaleDetailByID/OpenForSaleDetailByID';
 function Public() {
     const authen = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
@@ -276,6 +278,9 @@ function Public() {
             <Route path="/payments/create" element={<PaymentCreate/>}/>
             <Route path="/payments/detail/:id" element={<PaymentDetail/>}/>
             <Route path="/payments/update/:id" element={<PaymentUpdate/>}/>
+
+            <Route path='/openforsaledetails/detail/:propertyID/:openingForSaleID'
+                   element={<OpenForSaleDetailByID/>}/>
         </Routes>
     );
 }
