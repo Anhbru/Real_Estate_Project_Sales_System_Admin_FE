@@ -90,10 +90,10 @@ function PromotionDetail() {
                                             {promotion.status ? 'Active' : 'Inactive'}
                                         </p>
                                     </div>
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    {/* <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Sales Policy ID: </p>
                                         <p className="val_ text-truncate">{promotion.salesPolicyID}</p>
-                                    </div>
+                                    </div> */}
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">

@@ -125,10 +125,10 @@ function PaymentProcessList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">PaymentProcessName</th>
-                                <th scope="col">PaymentStage</th>
+                                <th scope="col">Payment Process Name</th>
+                                <th scope="col">Payment Stage</th>
                                 <th scope="col">Percentage</th>
-                                <th scope="col">DurationDate</th>
+                                <th scope="col">Duration Date</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Action</th>
                             </tr>

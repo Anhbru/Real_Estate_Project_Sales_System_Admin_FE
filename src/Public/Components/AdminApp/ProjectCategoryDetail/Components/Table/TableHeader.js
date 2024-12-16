@@ -4,19 +4,19 @@ import TableHead from "@mui/material/TableHead";
 const headCells = [
   {
     id: "stt",
-    label: "Stt",
+    label: "STT",
   },
   {
     id: "projectName",
-    label: "Tên dự án",
+    label: "Project Name",
   },
   {
     id: "propertyCategoryName",
-    label: "Thuộc tính danh mục",
+    label: "Property Category Name",
   },
   {
     id: "openForSale",
-    label: "Trạng thái",
+    label: "Status",
   },
   {
     id: "action",
