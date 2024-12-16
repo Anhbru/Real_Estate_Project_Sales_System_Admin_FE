@@ -155,6 +155,8 @@ function OpenForSaleDetailAllList() {
                                                                 <li><hr className="dropdown-divider" /></li>
                                                                 <li><a className="dropdown-item" href="/openforsaledetails/create">Create</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
+                                                                <li><a className="dropdown-item" href={`/openforsaledetails/detail/${item.propertyID}/${item.openingForSaleID}`}>Dettail</a></li>
+                                                                <li><hr className="dropdown-divider" /></li>
                                                                 <li><a
                                                                     className="dropdown-item"
                                                                     onClick={() => handleDeleteOpenSaleDetail(item.propertyID, item.openingForSaleID)}
