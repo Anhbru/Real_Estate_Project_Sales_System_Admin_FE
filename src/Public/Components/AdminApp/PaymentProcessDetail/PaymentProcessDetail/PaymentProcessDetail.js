@@ -59,7 +59,7 @@ function PaymentProcessDetail() {
                             <div className="content_">
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">PaymentProcessName: </p>
+                                        <p className="key_">Payment Process Name: </p>
                                         <p className="val_ text-truncate">{paymentprocess.paymentProcessName}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
@@ -69,11 +69,11 @@ function PaymentProcessDetail() {
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">PaymentStage: </p>
+                                        <p className="key_">Payment Stage: </p>
                                         <p className="val_ text-truncate">{paymentprocess.paymentStage}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">DurationDate: </p>
+                                        <p className="key_">Duration Date: </p>
                                         <p className="val_ text-truncate">{paymentprocess.durationDate}</p>
                                     </div>
                                 </div>

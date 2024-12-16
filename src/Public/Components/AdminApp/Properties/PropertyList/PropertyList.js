@@ -128,15 +128,15 @@ function PropertyList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">Mã căn hộ</th>
+                                <th scope="col">Property Code</th>
                                  <th scope="col">Zone</th>
-                                <th scope="col">Khu/Block</th>
-                                <th scope="col">Tầng</th>
-                                <th scope="col">Phòng ngủ</th>
-                                <th scope="col">Phòng tắm</th>
-                                <th scope="col">Phí bảo trì</th>
-                                <th scope="col">Tổng giá trị</th>
-                                <th scope="col">Trạng thái</th>
+                                <th scope="col">Block</th>
+                                <th scope="col">Floor</th>
+                                <th scope="col">Bed Room</th>
+                                <th scope="col">Bath Room</th>
+                                <th scope="col">Maintenance Fee</th>
+                                <th scope="col">Total price</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>

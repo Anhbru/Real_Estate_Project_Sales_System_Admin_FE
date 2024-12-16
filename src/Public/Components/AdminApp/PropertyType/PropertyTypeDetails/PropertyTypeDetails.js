@@ -61,20 +61,20 @@ function PropertyTypeDetail() {
                             </div>
                             <div className="content_">
                                 <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    {/* <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Property Type ID: </p>
                                         <p className="val_ text-truncate">{propertyType.propertyTypeID}</p>
-                                    </div>
+                                    </div> */}
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Property Type Name: </p>
                                         <p className="val_ text-truncate">{propertyType.propertyTypeName}</p>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="d-flex align-items-center justify-content-start col-md-6">
+                                    {/* <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Category ID: </p>
                                         <p className="val_ text-truncate">{propertyType.propertyCategoryID}</p>
-                                    </div>
+                                    </div> */}
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
                                         <p className="key_">Category Name: </p>
                                         <p className="val_ text-truncate">{propertyType.propertyCategoryName}</p>

@@ -4,41 +4,41 @@ import TableHead from "@mui/material/TableHead";
 const headCells = [
   {
     id: "stt",
-    label: "Stt",
+    label: "STT",
   },
   {
     id: "contractCode",
-    label: "Mã hợp đồng",
+    label: "Contract Code",
   },
   {
     id: "contractType",
-    label: "Loại hợp đồng",
+    label: "Contract Type",
   },
   {
     id: "fullName",
-    label: "Tên khách hàng",
+    label: "Full Name",
   },
   {
     id: "totalPrice",
-    label: "Tổng giá",
+    label: "Total Price",
   },
   {
     id: "paymentProcessName",
-    label: "Quy trình thanh toán",
+    label: "Payment Process Name",
   },
   {
     id: "documentName",
-    label: "Tài liệu",
+    label: "Document Name",
   },
 
   {
     id: "status",
-    label: "Trạng thái",
+    label: "Status",
   },
 
   {
     id: "expiredTime",
-    label: "Thời gian hết hạn",
+    label: "Expired Time",
   },
   {
     id: "Action",

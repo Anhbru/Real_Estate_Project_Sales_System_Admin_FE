@@ -83,12 +83,12 @@ function UnittypeList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">PropertyTypeName</th>
-                                <th scope="col">NumberFloor</th>
-                                <th scope="col">NetFloorArea</th>
-                                <th scope="col">LivingRoom</th>
-                                <th scope="col">KitchenRoom</th>
-                                <th scope="col">GrossFloorArea</th>
+                                <th scope="col">Property Type Name</th>
+                                <th scope="col">Number Floor</th>
+                                <th scope="col">Net Floor Area</th>
+                                <th scope="col">Living Room</th>
+                                <th scope="col">Kitchen Room</th>
+                                <th scope="col">Gross Floor Area</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>

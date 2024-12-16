@@ -122,13 +122,13 @@ function PropertyDetail() {
                 </div>
                 <div className="row">
                   <div className="d-flex align-items-center justify-content-start col-md-6">
-                    <p className="key_">NetFloorArea: </p>
+                    <p className="key_">Net Floor Area: </p>
                     <p className="val_ text-truncate">
                       {property.netFloorArea}
                     </p>
                   </div>
                   <div className="d-flex align-items-center justify-content-start col-md-6">
-                    <p className="key_">GrossFloorArea: </p>
+                    <p className="key_">Gross Floor Area: </p>
                     <p className="val_ text-truncate">
                       {property.grossFloorArea}
                     </p>
@@ -136,7 +136,7 @@ function PropertyDetail() {
                 </div>
                 <div className="row">
                   <div className="d-flex align-items-center justify-content-start col-md-6">
-                    <p className="key_">PriceSold: </p>
+                    <p className="key_">Price Sold: </p>
                     <p className="val_ text-truncate">{property.priceSold}</p>
                   </div>
                   <div className="d-flex align-items-center justify-content-start col-md-6">
@@ -149,12 +149,12 @@ function PropertyDetail() {
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                   >
-                    Xem hình ảnh
+                    See image
                   </button>
                 </div>
               </div>
             </div>
-            <div className="table_data_area_">
+            {/* <div className="table_data_area_">
               <div className="header_table_">
                 <nav className="nav align-items-center justify-content-between">
                   <a className="nav-link active" aria-current="page" href="#">
@@ -184,8 +184,8 @@ function PropertyDetail() {
                     ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
                   </button>
                 </nav>
-              </div>
-              <div className="table_content_">
+              </div> */}
+              {/* <div className="table_content_">
                 <table className="table datatable">
                   <thead>
                     <tr>
@@ -249,8 +249,8 @@ function PropertyDetail() {
                     </tr>
                   </tbody>
                 </table>
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
         </section>
       </main>
