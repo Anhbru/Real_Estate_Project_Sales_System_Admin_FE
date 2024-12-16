@@ -63,7 +63,7 @@ function SalesPolicyList() {
         expressTime: values.expressTime ? values.expressTime : undefined,
       };
 
-      // Nếu đang chỉnh sửa, không thay đổi giá trị status, nếu không thì mặc định là true (Active)
+     
       if (!editingPolicy) {
         formattedValues.status = true;  // Mặc định status là true (Active)
       }
