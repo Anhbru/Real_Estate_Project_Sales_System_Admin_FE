@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import openSaleDetailsService from '../../../Service/OpenForSaleDetailsService';
 import openSaleService from '../../../Service/OpenForSaleService';
-import propertyService from '../../../Service/PropertyService';  // Đảm bảo import service này
+import propertyService from '../../../Service/PropertyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 
@@ -16,7 +16,7 @@ function OpenForSaleDetailList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [showPopup, setShowPopup] = useState(false);
     const [newSaleDetail, setNewSaleDetail] = useState({
-        openingForSaleID: openingForSaleID,     
+        openingForSaleID: openingForSaleID,
         propertyID: '',
         price: '',
         note: ''
@@ -33,7 +33,7 @@ function OpenForSaleDetailList() {
                     openingForSaleName: res.data.openingForSaleName,
                 }));
                 setProjectCategoryID(res.data.projectCategoryDetailID);
-            } else {        
+            } else {
                 setError("Failed to fetch open-for-sale info.");
             }
         } catch (err) {
@@ -205,11 +205,19 @@ function OpenForSaleDetailList() {
                                                     >
                                                         Update
                                                     </button>
+
                                                     <button
                                                         className="btn btn-danger"
                                                         onClick={() => handleDeleteOpenSaleDetail(item.propertyID, item.openingForSaleID)}
                                                     >
                                                         Delete
+                                                    </button>
+
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        onClick={() => navigate(`/open-for-sale/details/${item.openingForSaleID}`)}
+                                                    >
+                                                        View Details
                                                     </button>
                                                 </div>
                                             </td>

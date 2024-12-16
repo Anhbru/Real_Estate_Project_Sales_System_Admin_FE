@@ -110,7 +110,7 @@ function ProjectList() {
                     <div className="content_ table_list_">
                         <table className="table datatable">
                             <colgroup>
-                                <col width="5%"/>
+                                
                                 <col width="5%"/>
                                 <col width="10%"/>
                                 <col width="12%"/>
@@ -122,9 +122,7 @@ function ProjectList() {
                             </colgroup>
                             <thead>
                             <tr>
-                                <th scope="col">
-                                    <input type="checkbox" id="checkAll" onClick={checkAll}/>
-                                </th>
+                                
                                 <th scope="col">STT</th>
                                 <th scope="col">Investor</th>
                                 <th scope="col">Project Name</th>
@@ -139,13 +137,7 @@ function ProjectList() {
                             {data.map((item, index) => {
                                 return (
                                     <tr>
-                                        <td>
-                                            <input
-                                                type="checkbox"
-                                                className="checkbox_item_"
-                                                value={item.projectID}
-                                            />
-                                        </td>
+                                        
                                         <th>{index + 1}</th>
                                         <td>{item.investor}</td>
                                         <td>{item.projectName}</td>
