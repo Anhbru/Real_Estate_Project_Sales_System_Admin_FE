@@ -18,7 +18,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true); 
+        setIsLoading(true);
         const responses = await Promise.all([
           dashboardService.getTotalPrice(),
           dashboardService.getCountProperty(),
@@ -32,24 +32,30 @@ function Dashboard() {
         setTotalSales(responses[2].data);
         setTotalPending(responses[3].data);
   
-        const monthlyData = responses[4].data; 
-        const transformedData = Array(12).fill(0); 
+        const monthlyData = responses[4].data;
   
+        
+        const USD_TO_VND = 24000;  
+  
+        
+        const transformedData = Array(12).fill(0);
         monthlyData.forEach((item) => {
           const { month, totalPrice } = item;
-          transformedData[month - 1] = totalPrice; 
+          transformedData[month - 1] = totalPrice * USD_TO_VND; 
         });
   
-        setMonthlySales(transformedData); 
+        setMonthlySales(transformedData);
+  
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
   
     fetchData();
   }, []);
+  
 
   useEffect(() => {
     if (monthlySales.length > 0) {
@@ -67,18 +73,18 @@ function Dashboard() {
           yAxis: {
             type: "value",
             min: 0,
-            axisLabel: { formatter: "{value} USD" },
+            axisLabel: { formatter: "{value} VND" },  
           },
           grid: { top: 20, left: 20, right: 20, bottom: 20, containLabel: true },
           series: [
             {
-              data: monthlySales, // Dữ liệu đã xử lý
+              data: monthlySales, 
               type: "line",
               areaStyle: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                   { offset: 0, color: "rgba(67,121,238,0.16)" },
                   { offset: 1, color: "rgba(255,255,255,0.18)" },
-                ]), 
+                ]),
               },
               lineStyle: { color: "#4379EE", width: 2 },
             },
@@ -96,6 +102,7 @@ function Dashboard() {
       }
     }
   }, [monthlySales]);
+  
 
   return (
     <>
