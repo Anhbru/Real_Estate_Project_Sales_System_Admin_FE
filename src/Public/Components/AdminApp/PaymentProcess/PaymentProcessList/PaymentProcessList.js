@@ -88,8 +88,8 @@ function PaymentProcessList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">PaymentProcessName</th>
-                                <th scope="col">SalesPolicyType</th>
+                                <th scope="col">Payment Process Name</th>
+                                <th scope="col">Sales Policy Type</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>

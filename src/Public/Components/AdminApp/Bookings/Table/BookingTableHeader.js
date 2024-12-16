@@ -4,37 +4,37 @@ import TableHead from "@mui/material/TableHead";
 const headCells = [
   {
     id: "stt",
-    label: "Stt",
+    label: "STT",
   },
   {
     id: "customerName",
-    label: "Tên khách hàng",
+    label: "Customer Name",
   },
 
   {
     id: "projectName",
-    label: "Tên dự án",
+    label: "Project Name",
   },
   {
     id: "propertyCategoryName",
-    label: "Thuộc tính danh mục",
+    label: "Property Category Name",
   },
   {
     id: "documentName",
-    label: "Tên tài liệu",
+    label: "Document Name",
   },
 
   {
     id: "Giá ký gửi",
-    label: "Tổng giá",
+    label: "Total Prices",
   },
   {
     id: "depositedTimed",
-    label: "Thời gian ký gửi",
+    label: "Deposited Timed",
   },
   {
     id: "status",
-    label: "Trạng thái",
+    label: "Status",
   },
   {
     id: "Action",

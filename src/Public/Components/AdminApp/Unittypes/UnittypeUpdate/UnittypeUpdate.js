@@ -105,7 +105,7 @@ function UnittypeUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BathRoom">BathRoom</label>
+                                            <label htmlFor="BathRoom">Bath Room</label>
                                             <input type="text" className="form-control" name="BathRoom"
                                                    id="BathRoom" defaultValue={unittype.bathRoom}
                                                    placeholder="Enter your BathRoom"/>
@@ -113,7 +113,7 @@ function UnittypeUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="BedRoom">BedRoom</label>
+                                            <label htmlFor="BedRoom">Bed Room</label>
                                             <input type="text" className="form-control" name="BedRoom"
                                                    id="BedRoom" defaultValue={unittype.bedRoom}
                                                    placeholder="Enter your BedRoom"/>
@@ -124,7 +124,7 @@ function UnittypeUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="NetFloorArea">NetFloorArea</label>
+                                            <label htmlFor="NetFloorArea">Net Floor Area</label>
                                             <input type="text" className="form-control" name="NetFloorArea"
                                                    id="NetFloorArea" defaultValue={unittype.netFloorArea}
                                                    placeholder="Enter your NetFloorArea"/>
@@ -132,7 +132,7 @@ function UnittypeUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="GrossFloorArea">GrossFloorArea</label>
+                                            <label htmlFor="GrossFloorArea">Gross Floor Area</label>
                                             <input type="text" className="form-control" name="GrossFloorArea"
                                                    id="GrossFloorArea" defaultValue={unittype.grossFloorArea}
                                                    placeholder="Enter your GrossFloorArea"/>
@@ -143,7 +143,7 @@ function UnittypeUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="KitchenRoom">KitchenRoom</label>
+                                            <label htmlFor="KitchenRoom">Kitchen Room</label>
                                             <input type="text" className="form-control" name="KitchenRoom"
                                                    id="KitchenRoom" defaultValue={unittype.kitchenRoom}
                                                    placeholder="Enter your KitchenRoom"/>
@@ -151,7 +151,7 @@ function UnittypeUpdate() {
                                     </div>
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="LivingRoom">LivingRoom</label>
+                                            <label htmlFor="LivingRoom">Living Room</label>
                                             <input type="text" className="form-control" name="LivingRoom"
                                                    id="LivingRoom" defaultValue={unittype.livingRoom}
                                                    placeholder="Enter your LivingRoom"/>
@@ -162,7 +162,7 @@ function UnittypeUpdate() {
                                 <div className="d-flex justify-content-between align-items-center form_el mt-3">
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="NumberFloor">NumberFloor</label>
+                                            <label htmlFor="NumberFloor">Number Floor</label>
                                             <input type="text" className="form-control" name="NumberFloor"
                                                    id="NumberFloor" defaultValue={unittype.numberFloor}
                                                    placeholder="Enter your NumberFloor"/>
@@ -188,7 +188,7 @@ function UnittypeUpdate() {
                                                 <button type="button" className="btn btn-primary mt-3"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#exampleModal">
-                                                    Xem hình ảnh
+                                                    See image
                                                 </button>
                                             </div>
                                         </div>
@@ -196,7 +196,7 @@ function UnittypeUpdate() {
 
                                     <div className="col-md-5">
                                         <div className="form-group">
-                                            <label htmlFor="PropertyTypeID">PropertyTypeID</label>
+                                            <label htmlFor="PropertyTypeID">Property Type Name</label>
                                             <select name="PropertyTypeID" id="PropertyTypeID" className="form-control">
                                                 {
                                                     propertyTypes.map((property) => {
@@ -240,7 +240,7 @@ function UnittypeUpdate() {
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Hình ảnh</h1>
+                            <h1 className="modal-title fs-5" id="exampleModalLabel">Image</h1>
                             <button type="button" className="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                         </div>

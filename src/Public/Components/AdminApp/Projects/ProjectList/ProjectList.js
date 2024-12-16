@@ -15,11 +15,12 @@ function ProjectList() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchQuery, setSearchQuery] = useState(""); 
 
-    const getListProject = async (page) => {
+    const getListProject = async (page, query) => {
         setLoading(true);
         await projectService
-            .adminListProject(page)
+            .adminListProject(page, query) // Truyền search query vào đây
             .then((res) => {
                 if (res.status === 200) {
                     setData(res.data.projects);
@@ -34,6 +35,13 @@ function ProjectList() {
                 console.log(err);
             });
     };
+    
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);  // Cập nhật giá trị tìm kiếm
+        getListProject(currentPage, e.target.value);  // Gọi lại API với query mới
+    };
+    
+    
 
     const checkAll = () => {
         if ($("#checkAll").is(":checked")) {
@@ -72,8 +80,9 @@ function ProjectList() {
     };
 
     useEffect(() => {
-        getListProject(currentPage);
-    }, [currentPage]);
+        getListProject(currentPage, searchQuery);  // Truyền searchQuery vào mỗi lần render
+    }, [currentPage, searchQuery]);  // Mỗi khi currentPage hoặc searchQuery thay đổi
+    
 
     return (
         <>
@@ -90,6 +99,7 @@ function ProjectList() {
                             type="text"
                             className="input_search"
                             placeholder="Search project name"
+                            onChange={handleSearch}
                         />
 
                         <a href="/projects/create" className="btn_go_">
@@ -115,10 +125,10 @@ function ProjectList() {
                                 
                                 <th scope="col">STT</th>
                                 <th scope="col">Investor</th>
-                                <th scope="col">Tên dự án</th>
-                                <th scope="col">designUnit</th>
-                                <th scope="col">TotalArea</th>
-                                <th scope="col">Địa chỉ</th>
+                                <th scope="col">Project Name</th>
+                                <th scope="col">Design Unit</th>
+                                <th scope="col">Total Area</th>
+                                <th scope="col">Address</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>

@@ -62,41 +62,41 @@ function UnittypeDetail() {
                             <div className="content_">
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">PropertyType Name: </p>
+                                        <p className="key_">Property Type Name: </p>
                                         <p className="val_ text-truncate">{unittype.propertyTypeName}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">NumberFloor: </p>
+                                        <p className="key_">Number Floor: </p>
                                         <p className="val_ text-truncate">{unittype.numberFloor}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">NetFloorArea: </p>
+                                        <p className="key_">Net Floor Area: </p>
                                         <p className="val_ text-truncate">{unittype.netFloorArea}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">GrossFloorArea: </p>
+                                        <p className="key_">Gross Floor Area: </p>
                                         <p className="val_ text-truncate">{unittype.grossFloorArea}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">LivingRoom: </p>
+                                        <p className="key_">Living Room: </p>
                                         <p className="val_ text-truncate">{unittype.livingRoom}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">KitchenRoom: </p>
+                                        <p className="key_">Kitchen Room: </p>
                                         <p className="val_ text-truncate">{unittype.kitchenRoom}</p>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">BedRoom: </p>
+                                        <p className="key_">Bed Room: </p>
                                         <p className="val_ text-truncate">{unittype.bedRoom}</p>
                                     </div>
                                     <div className="d-flex align-items-center justify-content-start col-md-6">
-                                        <p className="key_">BathRoom: </p>
+                                        <p className="key_">Bath Room: </p>
                                         <p className="val_ text-truncate">{unittype.bathRoom}</p>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@ function UnittypeDetail() {
                                             <button type="button" className="btn btn-primary mt-3"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal">
-                                                Xem hình ảnh
+                                                See image
                                             </button>
                                         </div>
                                     </div>

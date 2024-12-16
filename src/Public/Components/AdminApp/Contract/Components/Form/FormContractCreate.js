@@ -183,13 +183,13 @@ function FormContractCreate() {
           handleSubmit={handleSubmit(onSubmitForm)}
         >
           <CardJs>
-            <Typography variant="h6">Tạo mới hợp đồng</Typography>
+            <Typography variant="h6">Add new contract</Typography>
             <Grid container item xs={12} spacing={2} sx={{ mt: 2 }}>
               <Grid item xs={3}>
                 <InputField
                   register={register}
                   name="contractCode"
-                  label="Mã hợp đồng"
+                  label="Contract Code"
                   errors={errors.contractCode}
                 />
               </Grid>
@@ -197,7 +197,7 @@ function FormContractCreate() {
                 <InputField
                   register={register}
                   name="contractType"
-                  label="Loại hợp đồng"
+                  label="Contract Type"
                   errors={errors.contractType}
                 />
               </Grid>
@@ -205,7 +205,7 @@ function FormContractCreate() {
                 <InputField
                   register={register}
                   name="totalPrice"
-                  label="Giá"
+                  label="Total Price"
                   type="number"
                   errors={errors.totalPrice}
                 />
@@ -215,7 +215,7 @@ function FormContractCreate() {
                   control={control}
                   arrayValue={documentTemplateData}
                   name="documentTemplateID"
-                  label="Mẫu tài liệu"
+                  label="Document Template"
                   errors={errors.documentTemplateID}
                 />
               </Grid>
@@ -225,7 +225,7 @@ function FormContractCreate() {
                   arrayValue={paymentProcessData}
                   register={register}
                   name="paymentProcessID"
-                  label="Quy trình thanh toán"
+                  label="Payment Process"
                   errors={errors.paymentProcessID}
                 />
               </Grid>
@@ -235,7 +235,7 @@ function FormContractCreate() {
                   arrayValue={bookingData}
                   register={register}
                   name="bookingID"
-                  label="Đặt chỗ"
+                  label="Booking"
                   errors={errors.bookingID}
                 />
               </Grid>
@@ -245,7 +245,7 @@ function FormContractCreate() {
                   arrayValue={customerData}
                   register={register}
                   name="customerID"
-                  label="khách hàng"
+                  label="Customer"
                   errors={errors.customerID}
                 />
               </Grid>
@@ -255,7 +255,7 @@ function FormContractCreate() {
                   arrayValue={promotionDetailData}
                   register={register}
                   name="promotionDetailID"
-                  label="khuyến mãi"
+                  label="Promotion Detail"
                   errors={errors.promotionDetailID}
                 />
               </Grid>
@@ -265,7 +265,7 @@ function FormContractCreate() {
                   register={register}
                   errors={errors.expiredTime}
                   name="expiredTime"
-                  label="Thời gian hết hạn"
+                  label="Expired Time"
                 />
               </Grid>
               <Grid item xs={3}>
@@ -293,7 +293,7 @@ function FormContractCreate() {
                   rows={5}
                   register={register}
                   name="description"
-                  label="Mô tả"
+                  label="Description"
                   errors={errors.description}
                 />
               </Grid>

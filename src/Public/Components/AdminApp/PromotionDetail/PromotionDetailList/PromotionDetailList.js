@@ -123,8 +123,8 @@ function PromotionDetailList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">PromotionName</th>
-                                <th scope="col">PropertyTypeName</th>
+                                <th scope="col">Promotion Name</th>
+                                <th scope="col">Property Type Name</th>
                                 <th scope="col">Amount</th>
                                 <th scope="col">Action</th>
                             </tr>
