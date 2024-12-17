@@ -9,21 +9,25 @@ import $ from 'jquery';
 function OpenForSaleDetailUpdate() {
     const [openSaleDetail, setOpenSaleDetail] = useState([]);
     const navigate = useNavigate();
-    const { propertyID, openingForSaleID } = useParams(); // Destructure both parameters
+    const { propertyID, openingForSaleID } = useParams(); 
     const [form] = Form.useForm();
 
-    // Fetch the details based on propertyID and openingForSaleID
+   
     const detailOpenSaleDetail = async () => {
         try {
             const resOpenSaleDetail = await openSaleDetailsService.adminDetailsOpenSaleDetail(propertyID, openingForSaleID);
-            setOpenSaleDetail(resOpenSaleDetail.data);
+            console.log("API Response:", resOpenSaleDetail); // Kiểm tra dữ liệu trả về
+            if (resOpenSaleDetail && resOpenSaleDetail.data) {
+                setOpenSaleDetail(resOpenSaleDetail.data);
+            } else {
+                throw new Error("No data returned from API");
+            }
         } catch (err) {
-            console.error(err);
+            console.error("Error loading data:", err); // Log lỗi rõ hơn
             message.error("Failed to load Open For Sale Detail");
         }
     };
-
-    // Handle the update logic
+   
     const updateOpenSaleDetail = async () => {
         $('#btnUpdate').prop('disabled', true).text('Saving...');
 
@@ -65,12 +69,6 @@ function OpenForSaleDetailUpdate() {
                                         placeholder="Enter Opening For Sale Name" />
                                 </div>
 
-                                <div className="form-group">
-                                    <label htmlFor="propertyID">Property ID</label>
-                                    <input type="text" className="form-control" name="propertyID"
-                                        id="propertyID" defaultValue={openSaleDetail?.propertyID}
-                                        placeholder="Enter Property ID" />
-                                </div>
 
                                 <div className="form-group">
                                     <label htmlFor="propertyName">Property Name</label>
