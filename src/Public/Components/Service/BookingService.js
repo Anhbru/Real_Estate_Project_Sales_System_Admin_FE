@@ -8,6 +8,7 @@ const API_ENDPOINT = {
   UPDATE: "/api/bookings/",
   DELETE: "/api/bookings/",
   DETAIL: "/api/bookings/",
+  UPLOAD_PAYMENT_ORDER: "/api/bookings/upload-payment-order/",
 };
 
 class BookingService {
@@ -48,6 +49,23 @@ class BookingService {
     return await axios.get(
       BASE_URL_SERVER + API_ENDPOINT.UPDATE + id,
       configTokenApi
+    );
+  };
+  uploadPaymentOrder = async (id, fileRefundImage) => {
+    const formData = new FormData();
+    formData.append("RefundImage", fileRefundImage);
+
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
+    };
+
+    return await axios.put(
+      BASE_URL_SERVER + API_ENDPOINT.UPLOAD_PAYMENT_ORDER + id,
+      formData,
+      config
     );
   };
 }
