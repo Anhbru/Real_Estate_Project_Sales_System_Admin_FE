@@ -35,7 +35,7 @@ function Header() {
       >
         <div className="d-flex align-items-center justify-content-between h-100">
           <a
-            href="/"
+            href="/dashboard"
             className="logo d-flex align-items-center justify-content-center"
           >
             <img src="/assets/img/logo.png" alt="" />

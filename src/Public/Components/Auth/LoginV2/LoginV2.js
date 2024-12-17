@@ -12,15 +12,7 @@ import FormProviderJs from "../../../Utils/FormProvider";
 import InputField from "../../../Utils/InputField";
 import EyeClose from "../../../Utils/EyeClose";
 import { CircularProgress } from "@mui/material";
-import {
-  Box,
-  Typography,
-  Button,
-  Link,
-  Paper,
-  Grid,
-  Alert,
-} from "@mui/material";
+import { Box, Typography, Button, Paper, Grid } from "@mui/material";
 
 export default function LoginV2(props) {
   const [typePassword, setTypePassword] = React.useState(true);
@@ -56,6 +48,7 @@ export default function LoginV2(props) {
       .loginAccount(data)
       .then((res) => {
         sessionStorage.setItem("accessToken", res.data.token);
+        sessionStorage.setItem("userRole", res.data.role);
         toast.success("Đăng nhập thành công!");
         navigate("/dashboard");
       })
@@ -95,14 +88,22 @@ export default function LoginV2(props) {
         />
 
         {/* Right Side */}
-        <Grid item sx={{
+        <Grid
+          item
+          sx={{
             my: 12,
             display: "flex",
             justifyContent: "center",
             height: "100%",
             margin: 0,
             alignItems: "center",
-        }} sm={8} md={3}  component={Paper} elevation={6} square>
+          }}
+          sm={8}
+          md={3}
+          component={Paper}
+          elevation={6}
+          square
+        >
           <Box
             sx={{
               my: 8,
@@ -112,12 +113,6 @@ export default function LoginV2(props) {
               alignItems: "center",
             }}
           >
-            {/* Alert */}
-            {/* <Alert severity="info" sx={{ mb: 3, width: "100%" }}>
-              Use <strong>admin@gmail.com</strong> with password{" "}
-              <strong>admin123</strong>
-            </Alert> */}
-
             <Typography component="h1" variant="h5">
               Sign in to your account
             </Typography>
