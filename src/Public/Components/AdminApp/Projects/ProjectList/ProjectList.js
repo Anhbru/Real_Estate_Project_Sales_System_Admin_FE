@@ -124,8 +124,8 @@ function ProjectList() {
                             <tr>
                                 
                                 <th scope="col">STT</th>
-                                <th scope="col">Investor</th>
                                 <th scope="col">Project Name</th>
+                                <th scope="col">Investor</th>
                                 <th scope="col">Design Unit</th>
                                 <th scope="col">Total Area</th>
                                 <th scope="col">Address</th>
@@ -139,8 +139,8 @@ function ProjectList() {
                                     <tr>
                                         
                                         <th>{index + 1}</th>
-                                        <td>{item.investor}</td>
                                         <td>{item.projectName}</td>
+                                        <td>{item.investor}</td>
                                         <td>{item.designUnit}</td>
                                         <td>{item.totalArea}</td>
                                         <td>{item.location}</td>

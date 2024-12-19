@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, DatePicker, Button, Select, message } from 'antd';
 import openSaleService from '../../../Service/OpenForSaleService';
-import projectCategoryService from '../../../Service/ProjectCategoryDetailService'; 
+import projectCategoryService from '../../../Service/ProjectCategoryDetailService';
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Header from "../../../Shared/Admin/Header/Header";
@@ -11,18 +11,18 @@ const { Option } = Select;
 
 const OpenForSaleCreate = () => {
     const [loading, setLoading] = useState(false);
-    const [projectCategories, setProjectCategories] = useState([]); 
+    const [projectCategories, setProjectCategories] = useState([]);
     const navigate = useNavigate();
 
-    
+
     useEffect(() => {
         const fetchProjectCategories = async () => {
             try {
-                const response = await projectCategoryService.getList(); 
+                const response = await projectCategoryService.getList();
                 const filteredCategories = response.data.filter(
                     (category) => category.existOpen === false
                 );
-                setProjectCategories(filteredCategories); 
+                setProjectCategories(filteredCategories);
             } catch (error) {
                 message.error('Failed to load project categories');
             }
@@ -73,7 +73,10 @@ const OpenForSaleCreate = () => {
                                 <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                             </Form.Item>
                             <Form.Item label="Sale Type" name="saleType">
-                                <Input />
+                                <Select>
+                                    <Select.Option value="online">Online</Select.Option>
+                                    <Select.Option value="offline">Offline</Select.Option>
+                                </Select>
                             </Form.Item>
                             <Form.Item label="Reservation Price" name="reservationPrice">
                                 <Input type="number" />
@@ -81,9 +84,9 @@ const OpenForSaleCreate = () => {
                             <Form.Item label="Description" name="description">
                                 <Input.TextArea />
                             </Form.Item>
-                            <Form.Item 
-                                label="Project Category Name" 
-                                name="projectCategoryDetailID" 
+                            <Form.Item
+                                label="Project Category Name"
+                                name="projectCategoryDetailID"
                                 rules={[{ required: true, message: 'Please select a project category' }]}
                             >
                                 <Select placeholder="Select a project category">

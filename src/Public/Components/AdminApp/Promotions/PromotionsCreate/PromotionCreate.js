@@ -1,14 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
-import {Form, message, Select} from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Form, message, Select } from 'antd';
 import promotionService from '../../../Service/PromotionService';
 import salesPolicyService from '../../../Service/SalePolicyService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Footer from "../../../Shared/Admin/Footer/Footer";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import $ from 'jquery';
-import BackButton from "../../../../Utils/BackButton";
-import AlertMessageError from "../../../../Utils/AlertMessageError";
 
 function PromotionCreate() {
     const navigate = useNavigate();
@@ -54,18 +52,17 @@ function PromotionCreate() {
             .catch((err) => {
                 console.log(err);
                 $('#btnCreate').prop('disabled', false).text('Tạo mới');
-                AlertMessageError(err);
             });
     };
 
     return (
         <>
-            <Header/>
-            <Sidebar/>
+            <Header />
+            <Sidebar />
             <main id="main" className="main">
                 <div className="back_to_page_">
                     <Link to="/promotions/list" className="back__url_">
-                        <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to promotion list
+                        <img src="/assets/icon/back_to_page_icon.png" alt="" /> Back to promotion list
                     </Link>
                 </div>
                 <div className="pagetitle">
@@ -89,7 +86,7 @@ function PromotionCreate() {
                                 <Form.Item
                                     label="Promotion Name"
                                     name="promotionName"
-                                    rules={[{required: true, message: "Please enter promotion name!"}]}
+                                    rules={[{ required: true, message: "Please enter promotion name!" }]}
                                 >
                                     <input
                                         type="text"
@@ -99,19 +96,9 @@ function PromotionCreate() {
                                 </Form.Item>
 
                                 <Form.Item
-                                    label="Description"
-                                    name="description" // Không có quy tắc bắt buộc nhập
-                                >
-                                    <textarea
-                                        className="form-control"
-                                        placeholder="Enter Description"
-                                    />
-                                </Form.Item>
-
-                                <Form.Item
                                     label="Sales Policy"
                                     name="salesPolicyID"
-                                    rules={[{required: true, message: "Please select a sales policy!"}]}
+                                    rules={[{ required: true, message: "Please select a sales policy!" }]}
                                 >
                                     <Select
                                         placeholder="Select a Sales Policy"
@@ -121,10 +108,20 @@ function PromotionCreate() {
                                         }))}
                                     />
                                 </Form.Item>
+
+                                <Form.Item
+                                    label="Description"
+                                    name="description" 
+                                >
+                                    <textarea
+                                        className="form-control"
+                                        placeholder="Enter Description"
+                                    />
+                                </Form.Item>
                             </div>
 
                             <div className="footer_form_">
-                                <BackButton/>
+                                <button className="btn_back" type="button" onClick={() => navigate(-1)}>Back</button>
                                 <button className="btn_create" id="btnCreate" type="submit">Save</button>
                             </div>
                         </Form>
@@ -132,7 +129,7 @@ function PromotionCreate() {
                     </div>
                 </section>
             </main>
-            <Footer/>
+            <Footer />
         </>
     );
 }
