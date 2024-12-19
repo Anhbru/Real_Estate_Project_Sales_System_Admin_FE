@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Sidebar() {
-  const handlePermistion = (allowedRoles, userRole) => {
+  const handlePermission = (allowedRoles, userRole) => {
     const isAccess = allowedRoles.includes(userRole);
     if (isAccess) {
       return isAccess;
     }
   };
 
-  const routerPermisition = [
+  const routerPermission = [
     {
       path: "/dashboard",
       icon: "/assets/icon/overview_icon.png",
@@ -160,6 +160,12 @@ function Sidebar() {
       name: "Staff",
       isAccess: ["Admin"],
     },
+    {
+      path: "/property-categories/list",
+      icon: "/assets/icon/house_icon.png",
+      name: "Property Categories",
+      isAccess: ["Admin", "Staff"],
+    },
   ];
 
   const userRole = sessionStorage.getItem("userRole");
@@ -168,10 +174,10 @@ function Sidebar() {
     <>
       <aside id="sidebar" className="sidebar">
         <ul className="sidebar-nav" id="sidebar-nav">
-          {routerPermisition
-            .filter((item) => handlePermistion(item.isAccess, userRole)) // Lọc các mục có quyền
+          {routerPermission
+            .filter((item) => handlePermission(item.isAccess, userRole)) // Lọc các mục có quyền
             .map((item) => (
-              <li className="nav-item" key={item.path}>
+              <li className="nav-item" key={item.key}>
                 <Link to={item.path} className="nav-link collapsed">
                   <img
                     className="icon_sidebar_"

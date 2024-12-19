@@ -119,6 +119,10 @@ function ProjectCategoryTable({
   };
 
   const handleDelete = async () => {
+    if (!window.confirm('Are you want to delete?')){
+      return;
+    }
+
     setIsLoading(true);
     await projectCategoryDetailService
       .delete(id)

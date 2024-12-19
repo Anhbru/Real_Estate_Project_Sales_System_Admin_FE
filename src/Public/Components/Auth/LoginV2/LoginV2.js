@@ -1,6 +1,4 @@
 import * as React from "react";
-import Divider from "@mui/material/Divider";
-import { GoogleIcon, FacebookIcon } from "./CustomIcons";
 import AppTheme from "./AppTheme";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +11,7 @@ import InputField from "../../../Utils/InputField";
 import EyeClose from "../../../Utils/EyeClose";
 import { CircularProgress } from "@mui/material";
 import { Box, Typography, Button, Paper, Grid } from "@mui/material";
+import { ROLE_ADMIN, ROLE_STAFF } from "../../../Contants/Contatns";
 
 export default function LoginV2(props) {
   const [typePassword, setTypePassword] = React.useState(true);
@@ -44,9 +43,14 @@ export default function LoginV2(props) {
       emailOrPhone: values.emailOrPhone,
       password: values.password,
     };
+
     await authService
       .loginAccount(data)
       .then((res) => {
+        if (res.data.role !== ROLE_STAFF && res.data.role !== ROLE_ADMIN) {
+          toast.error("You do not have permission to access the website");
+          return;
+        }
         sessionStorage.setItem("accessToken", res.data.token);
         sessionStorage.setItem("userRole", res.data.role);
         toast.success("Đăng nhập thành công!");
@@ -141,11 +145,6 @@ export default function LoginV2(props) {
                     clickEndIcon={handleClickShowPassword}
                   />
                 </Box>
-                {/* <Box display="flex" justifyContent="flex-end" sx={{ mt: 1 }}>
-                  <Link href="#" underline="hover">
-                    Forgot password?
-                  </Link>
-                </Box> */}
                 <Button
                   sx={{ mt: 2 }}
                   type="submit"
@@ -168,29 +167,6 @@ export default function LoginV2(props) {
                   {isSubmitting ? "" : "Sign in"}
                 </Button>
               </FormProviderJs>
-              {/* <Divider sx={{ mt: 2 }}>or</Divider> */}
-              {/* <Box
-                sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}
-              >
-                <Button fullWidth variant="outlined" startIcon={<GoogleIcon />}>
-                  Sign in with Google
-                </Button>
-                <Button
-                  fullWidth
-                  variant="outlined"
-                  startIcon={<FacebookIcon />}
-                >
-                  Sign in with Facebook
-                </Button>
-                <Divider sx={{ cursor: "pointer" }}>
-                  <Typography
-                    sx={{ textAlign: "center" }}
-                    onClick={() => navigate("/dashboard")}
-                  >
-                    Return to dashboard
-                  </Typography>
-                </Divider>
-              </Box> */}
             </Box>
           </Box>
         </Grid>

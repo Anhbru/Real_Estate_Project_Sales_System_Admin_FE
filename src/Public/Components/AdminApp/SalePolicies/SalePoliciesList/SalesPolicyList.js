@@ -91,6 +91,9 @@ function SalesPolicyList() {
   };
 
   const handleDelete = async (salesPolicyID) => {
+    if (!window.confirm('Are you want to delete?')){
+      return;
+    }
     await salesPolicyService.adminDeleteSalesPolicy(salesPolicyID);
     message.success("Sales policy deleted successfully");
     getListSalesPolicies();

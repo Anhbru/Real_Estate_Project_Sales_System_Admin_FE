@@ -36,6 +36,10 @@ function UnittypeList() {
     };
 
     const handleDelete = async (event, id) => {
+        if (!window.confirm('Are you want to delete?')){
+            return;
+        }
+
         event.preventDefault();
 
         await unitTypeService.adminDeleteUnit(id)

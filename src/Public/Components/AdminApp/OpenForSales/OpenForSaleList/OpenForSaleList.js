@@ -55,6 +55,10 @@ function OpenForSaleList() {
     };
 
     const handleDelete = async (openingForSaleID) => {
+        if (!window.confirm('Are you want to delete?')){
+            return;
+        }
+
         try {
             const res = await openSaleService.adminUpdateOpenSale(openingForSaleID, { status: false });
             if (res.status === 200) {
