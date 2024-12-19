@@ -106,26 +106,54 @@ function OpenForSaleUpdate() {
                                 <Form.Item
                                     label="Start Date"
                                     name="startDate"
-                                    rules={[{ required: true, message: 'Please enter Start Date' }]}
+                                    rules={[
+                                        { required: true, message: 'Please enter Start Date' },
+                                    ]}
                                 >
-                                    <Input placeholder="Enter Start Date" />
+                                    <Input placeholder="Enter Start Date (Input Format YYYY-MM-DD HH:mm:ss)" />
                                 </Form.Item>
 
                                 <Form.Item
                                     label="End Date"
                                     name="endDate"
-                                    rules={[{ required: true, message: 'Please enter End Date' }]}
+                                    dependencies={['startDate']}
+                                    rules={[
+                                        { required: true, message: 'Please enter End Date' },
+                                        ({ getFieldValue }) => ({
+                                            validator(_, value) {
+                                                const startDate = getFieldValue('startDate');
+                                                if (!value || (startDate && value >= startDate)) {
+                                                    return Promise.resolve();
+                                                }
+                                                return Promise.reject(new Error('End Date must be after Start Date'));
+                                            },
+                                        }),
+                                    ]}
                                 >
-                                    <Input placeholder="Enter End Date" />
+                                    <Input placeholder="Enter End Date (Input Format YYYY-MM-DD HH:mm:ss)" />
                                 </Form.Item>
 
                                 <Form.Item
                                     label="Check-in Date"
                                     name="checkinDate"
-                                    rules={[{ required: true, message: 'Please enter Check-in Date' }]}
+                                    dependencies={['startDate']}
+                                    rules={[
+                                        { required: true, message: 'Please enter Check-in Date' },
+                                        ({ getFieldValue }) => ({
+                                            validator(_, value) {
+                                                const startDate = getFieldValue('startDate');
+                                                if (!value || (startDate && value >= startDate)) {
+                                                    return Promise.resolve();
+                                                }
+                                                return Promise.reject(new Error('Check-in Date must be before Start Date'));
+                                            },
+                                        }),
+                                    ]}
                                 >
-                                    <Input placeholder="Enter Check-in Date" />
+                                    <Input placeholder="Enter Check-in Date (Input Format YYYY-MM-DD HH:mm:ss)" />
                                 </Form.Item>
+
+
 
                                 <Form.Item
                                     label="Reservation Price"
@@ -153,7 +181,7 @@ function OpenForSaleUpdate() {
                                     <Input.TextArea placeholder="Enter Description" />
                                 </Form.Item>
 
-                                
+
                                 <Form.Item
                                     label="Project Category"
                                     name="projectCategoryDetailID"

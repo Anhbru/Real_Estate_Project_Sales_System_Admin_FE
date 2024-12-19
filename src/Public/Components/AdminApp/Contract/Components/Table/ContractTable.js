@@ -216,6 +216,17 @@ export default function ContractTable() {
                             icon={<InfoIcon />}
                           />
                         </Grid>
+
+                        <Grid item>
+                          <ButtonJs
+                            title="ContractHistory"
+                            type="button"
+                            color="PRIMARY"
+                            leftIcon
+                            onClick={() => navigate(`/contractHistory/list/${row.contractID}`)}
+                            icon={<InfoIcon />}
+                          />
+                        </Grid>
                       </Grid>
                     </TableCell>
                   </TableRow>

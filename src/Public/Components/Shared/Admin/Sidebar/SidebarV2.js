@@ -1,12 +1,12 @@
-import {Form, message} from "antd";
-import React, {useEffect, useState} from "react";
+import { Form, message } from "antd";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import {useLocation, Link, useNavigate, useParams} from "react-router-dom";
+import { useLocation, Link, useNavigate, useParams } from "react-router-dom";
 import $ from "jquery";
 
 function Sidebar() {
-    const {id} = useParams();
+    const { id } = useParams();
     const [form] = Form.useForm();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -45,6 +45,8 @@ function Sidebar() {
         let array_contract = ["/contract/create", "/contract/edit", "/contract"];
 
         let array_bookings = ["/bookings", "/bookings/edit"];
+
+        let array_contractHistory = ["/contractHistory/list", "/contractHistory/create", "/contractHistory/update/", "/contractHistory/detail/", "/contractHistory/list/",];
 
         // let array_payment_process = [
         //     "/paymentprocesses/list",
@@ -186,6 +188,10 @@ function Sidebar() {
         if (array_Notification.some((route) => path_name.startsWith(route))) {
             key = "notification";
         }
+        if (array_contractHistory.some((route) => path_name.startsWith(route))) {
+            key = "contractHistory";
+        }
+        
 
         $("#sidebar-nav .nav-link").removeClass("active");
 
@@ -267,6 +273,9 @@ function Sidebar() {
                 break;
             case "notification":
                 $('a[data-key="notification"]').addClass("active");
+                break;
+            case "notification":
+                $('a[data-key="contractHistory"]').addClass("active");
                 break;
             default:
                 $('a[data-key="main"]').addClass("active");
