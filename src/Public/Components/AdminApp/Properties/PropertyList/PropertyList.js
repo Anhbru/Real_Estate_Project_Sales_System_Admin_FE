@@ -18,7 +18,7 @@ function PropertyList() {
     const [totalPages, setTotalPages] = useState(1);
 
     const getListProject = async (page) => {
-        await projectService.adminListProject(page)
+        await projectService.adminListProject(page, '')
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)

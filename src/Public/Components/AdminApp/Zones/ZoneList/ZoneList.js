@@ -35,6 +35,10 @@ function ZoneList() {
     };
 
     const handleDelete = async (event, id) => {
+        if (!window.confirm('Are you want to delete?')){
+            return;
+        }
+
         event.preventDefault();
 
         await zoneService

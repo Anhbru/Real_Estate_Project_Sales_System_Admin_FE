@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import floorService from '../../../Service/FloorService';
+import propertyCategoryService from '../../../Service/PropertyCategoryService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 import Pagination from "../../../Shared/Admin/Utils/Pagination";
 import AlertMessageError from "../../../../Utils/AlertMessageError";
 
-function FloorList() {
+function PropertyCategoryList() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
 
-    const getListFloor = async (page) => {
-        await floorService.adminListFloor(page)
+    const getList = async () => {
+        await propertyCategoryService.getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
@@ -36,13 +34,13 @@ function FloorList() {
 
         event.preventDefault();
 
-        await floorService.adminDeleteFloor(id)
+        await propertyCategoryService.delete(id)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)
                     let message = res.data.message ?? 'Delete successfully!';
                     alert(message);
-                    getListFloor(currentPage);
+                    getList();
                     setLoading(false)
                 } else {
                     setLoading(false)
@@ -54,29 +52,24 @@ function FloorList() {
             })
     };
 
-    const handlePageChange = (page) => {
-        if (page > 0 && page <= totalPages) {
-            setCurrentPage(page);
-        }
-    };
 
     useEffect(() => {
-        getListFloor(currentPage);
-    }, [currentPage]);
+        getList();
+    }, [loading]);
     return (
         <>
             <Header/>
             <Sidebar/>
             <main id="main" className="main">
                 <div className="pagetitle">
-                    <h1>Floor List</h1>
+                    <h1> List</h1>
                 </div>
                 {/* End Page Title */}
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search floors name"/>
+                        <input type="text" className="input_search" placeholder="Search property categories name"/>
 
-                        <a href="/floors/create" className="btn_go_">
+                        <a href="/property-categories/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt=""/>
                         </a>
                     </div>
@@ -86,8 +79,7 @@ function FloorList() {
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">BlockName</th>
-                                <th scope="col">NumFloor</th>
+                                <th scope="col">PropertyCategoryName</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -98,8 +90,7 @@ function FloorList() {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{item.blockName}</td>
-                                            <td>{item.numFloor}</td>
+                                            <td>{item.propertyCategoryName}</td>
                                             <td>{item.status ? 'Active' : 'Inactive'}</td>
                                             <td>
                                                 <p className="nav-item dropdown">
@@ -109,19 +100,19 @@ function FloorList() {
                                                         alt=""/></a>
                                                     <ul className="dropdown-menu">
                                                         <li><a className="dropdown-item"
-                                                               href={'/floors/detail/' + item.floorID}>Detail
-                                                            floors</a></li>
+                                                               href={'/property-categories/detail/' + item.propertyCategoryID}>Detail
+                                                            property</a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
-                                                               href={'/floors/update/' + item.floorID}>Update
-                                                            floors</a></li>
+                                                               href={'/property-categories/update/' + item.propertyCategoryID}>Update
+                                                            property</a></li>
                                                         <li>
                                                             <hr className="dropdown-divider"/>
                                                         </li>
                                                         <li><a className="dropdown-item"
-                                                               onClick={event => handleDelete(event, item.floorID)}
+                                                               onClick={event => handleDelete(event, item.propertyCategoryID)}
                                                                href="#">
                                                             Delete
                                                         </a></li>
@@ -134,13 +125,6 @@ function FloorList() {
                             }
                             </tbody>
                         </table>
-                        <div>
-                            <Pagination
-                                currentPage={currentPage}
-                                totalPages={totalPages}
-                                onPageChange={handlePageChange}
-                            />
-                        </div>
                     </div>
                 </section>
             </main>
@@ -148,4 +132,4 @@ function FloorList() {
     )
 }
 
-export default FloorList
+export default PropertyCategoryList

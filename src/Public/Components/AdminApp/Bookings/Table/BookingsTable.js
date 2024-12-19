@@ -49,6 +49,10 @@ export default function BookingsTable({ data, loading, getListBooking }) {
   };
 
   const handleDelete = async () => {
+    if (!window.confirm('Are you want to delete?')){
+      return;
+    }
+
     setIsLoading(true);
     await bookingService
       .delete(id)

@@ -19,7 +19,7 @@ function ZoneUpdate() {
     const [fileName, setFileName] = useState("default_image_name.jpg");
 
     const getListProject = async () => {
-        await projectService.adminListProject(1)
+        await projectService.adminListProject(1, '')
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data)

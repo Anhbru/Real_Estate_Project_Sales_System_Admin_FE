@@ -73,6 +73,10 @@ export default function ContractTable() {
   const id = params.get("id");
 
   const handleDelete = async () => {
+      if (!window.confirm('Are you want to delete?')){
+          return;
+      }
+
     setIsLoading(true);
     await contractService
       .delete(id)

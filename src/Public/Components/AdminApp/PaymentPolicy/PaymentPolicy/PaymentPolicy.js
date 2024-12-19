@@ -65,6 +65,10 @@ function PaymentPolicyList() {
   };
 
   const handleDelete = async (paymentPolicyID) => {
+    if (!window.confirm('Are you want to delete?')){
+      return;
+    }
+
     await paymentPolicyService.adminDeletePaymentPolicy(paymentPolicyID);
     message.success("Payment policy deleted successfully");
     getListPaymentPolicies();
