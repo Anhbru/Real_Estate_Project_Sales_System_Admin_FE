@@ -6,6 +6,7 @@ import InputField from "../../../../Utils/InputField";
 import {
   Box,
   CircularProgress,
+  Container,
   Grid,
   Skeleton,
   Typography,
@@ -202,11 +203,18 @@ function FormUpdateBookings() {
     <>
       <Header />
       <Sidebar />
-      <Box
+      <Container
+        maxWidth="xl"
         sx={{
-          marginLeft: "20rem",
-          marginTop: "10rem",
-          width: "95rem",
+          marginLeft: {
+            lg: "20rem",
+          },
+          marginTop: {
+            xs: "5rem",
+            sm: "7rem",
+            md: "8rem",
+            lg: "10rem",
+          },
         }}
       >
         <FormProviderJs
@@ -435,7 +443,7 @@ function FormUpdateBookings() {
             </Box>
           </CardJs>
         </FormProviderJs>
-      </Box>
+      </Container>
     </>
   );
 }

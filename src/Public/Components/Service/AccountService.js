@@ -8,6 +8,8 @@ const API_ENDPOINT = {
   UPDATE: "/api/accounts/",
   DELETE: "/api/accounts/",
   DETAIL: "/api/accounts/",
+  PROFILE: "/api/accounts/staff/",
+  GET_ID_ACCOUNT: "/api/auth/token/parse?token=",
 };
 
 class AccountService {
@@ -15,7 +17,17 @@ class AccountService {
     return await axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST, configTokenApi);
   };
 
-  create = async (data) => {  
+  getProfile = async (id) => {
+    return await axios.get(BASE_URL_SERVER + API_ENDPOINT.PROFILE + id);
+  };
+
+  getIdAccount = async (token) => {
+    return await axios.get(
+      BASE_URL_SERVER + API_ENDPOINT.GET_ID_ACCOUNT + token
+    );
+  };
+
+  create = async (data) => {
     const config = {
       headers: {
         "content-type": "application/json",

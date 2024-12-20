@@ -39,6 +39,7 @@ function AccountList() {
       if (res.status === 200) {
         setSuccessMessage("Staff deleted successfully.");
         setData(data.filter((item) => item.accountID !== accountID));
+        setError("");
       } else {
         setError("Failed to delete staff.");
       }

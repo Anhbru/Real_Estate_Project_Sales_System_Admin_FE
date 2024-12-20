@@ -14,17 +14,16 @@ class StaffService {
   getList = async () => {
     return await axios.get(BASE_URL_SERVER + API_ENDPOINT.LIST, configTokenApi);
   };
-  
-  
+
   create = (data) => {
     const config = {
-        headers: {
-            'content-type': 'multipart/form-data',
-            'Authorization': `Bearer ${sessionStorage.getItem("accessToken")}`
-        }
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+      },
     };
     return axios.post(BASE_URL_SERVER + API_ENDPOINT.CREATE, data, config);
-};
+  };
   update = async (data, id) => {
     const config = {
       headers: {
@@ -53,7 +52,6 @@ class StaffService {
     );
   };
 }
-
 
 const staffService = new StaffService();
 
