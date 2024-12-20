@@ -9,6 +9,18 @@ function ContractHistoryList() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState(""); // State cho tìm kiếm
+
+    const formatDateTime = (date) => {
+        const d = new Date(date);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        const hh = String(d.getHours()).padStart(2, "0");
+        const min = String(d.getMinutes()).padStart(2, "0");
+
+        return `${yyyy}-${mm}-${dd} ${hh}:${min}`;
+    };
 
     useEffect(() => {
         if (contractID) {
@@ -35,6 +47,14 @@ function ContractHistoryList() {
         }
     };
 
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const filteredData = data.filter(item =>
+        item.contractCode.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <>
             <Header />
@@ -45,7 +65,13 @@ function ContractHistoryList() {
                 </div>
                 <section className="section">
                     <div className="d-flex justify-content-between align-items-center">
-                        <input type="text" className="input_search" placeholder="Search contract history" />
+                        <input
+                            type="text"
+                            className="input_search"
+                            placeholder="Search by Contract Code"
+                            value={searchQuery}
+                            onChange={handleSearch}
+                        />
                         <a href="/contractHistory/create" className="btn_go_">
                             ADD NEW <img src="/assets/icon/plus_icon.png" alt="" />
                         </a>
@@ -58,72 +84,63 @@ function ContractHistoryList() {
                             <div className="error">{error}</div>
                         ) : (
                             <>
-                                {data.length === 0 ? (
-                                    <div className="no-data-found">
-                                        <p>No contract histories found.</p>
-                                    </div>
+                                {filteredData.length === 0 ? (
+                                    <p>No contract histories found.</p>
                                 ) : (
-                                    <div className="table-responsive">
-                                        <table className="table table-striped">
-                                            <colgroup>
-                                                <col width="5%" />
-                                                <col width="15%" />
-                                                <col width="10%" />
-                                                <col width="15%" />
-                                                <col width="20%" />
-                                                <col width="10%" />
-                                            </colgroup>
-                                            <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Contract Code</th>
-                                                    <th>Notarized ContractCode</th>
-                                                    <th>Note</th>
-                                                    <th>Created Time</th>
-                                                    <th>Attach File</th>
-                                                    <th>Action</th>
+                                    <table className="table datatable">
+                                        <colgroup>
+                                            <col width="4%" />
+                                            <col width="15%" />
+                                            <col width="15%" />
+                                            <col width="25%" />
+                                            <col width="20%" />
+                                            <col width="10%" />
+                                            <col width="11%" />
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Contract Code</th>
+                                                <th scope="col">Notarized Code</th>
+                                                <th scope="col">Note</th>
+                                                <th scope="col">Created Time</th>
+                                                <th scope="col">Attach File</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {filteredData.map((item, index) => (
+                                                <tr key={item.contractHistoryID}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{item.contractCode}</td>
+                                                    <td>{item.notarizedContractCode}</td>
+                                                    <td>{item.note}</td>
+                                                    <td>{formatDateTime(item.createdTime)}</td>
+                                                    <td>
+                                                        {item.attachFile ? (
+                                                            <a href={item.attachFile} target="_blank" rel="noopener noreferrer">
+                                                                View File
+                                                            </a>
+                                                        ) : (
+                                                            <span>No file attached</span>
+                                                        )}
+                                                    </td>
+                                                    <td>
+                                                        <p className="nav-item dropdown">
+                                                            <a className="nav-link" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                                                                <img src="/assets/icon/more_icon.png" alt="" />
+                                                            </a>
+                                                            <ul className="dropdown-menu">
+                                                                <li><a className="dropdown-item" href={`/contracthistory/detail/${item.contractHistoryID}`}>Detail</a></li>
+                                                                <li><a className="dropdown-item" href={`/contractHistory/update/${item.contractHistoryID}`}>Update</a></li>
+                                                                <li><hr className="dropdown-divider" /></li>
+                                                            </ul>
+                                                        </p>
+                                                    </td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                {data.map((item, index) => (
-                                                    <tr key={item.contractHistoryID}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{item.contractCode}</td>
-                                                        <td>{item.notarizedContractCode}</td>
-                                                        <td>{item.note}</td>
-                                                        <td>{item.createdTime}</td>
-                                                        <td>
-                                                            {item.attachFile ? (
-                                                                <a href={item.attachFile} target="_blank" rel="noopener noreferrer">
-                                                                    View File
-                                                                </a>
-                                                            ) : (
-                                                                <span>No file attached</span>
-                                                            )}
-                                                        </td>
-                                                        <td>
-                                                            <p className="nav-item dropdown">
-                                                                <a
-                                                                    className="nav-link"
-                                                                    data-bs-toggle="dropdown"
-                                                                    href="#"
-                                                                    role="button"
-                                                                    aria-expanded="false"
-                                                                >
-                                                                    <img src="/assets/icon/more_icon.png" alt="" />
-                                                                </a>
-                                                                <ul className="dropdown-menu">
-                                                                    <li><a className="dropdown-item" href={`/contract-history/detail/${item.contractHistoryID}`}>Detail</a></li>
-                                                                    <li><a className="dropdown-item" href={`/contract-history/update/${item.contractHistoryID}`}>Update</a></li>
-                                                                    <li><hr className="dropdown-divider" /></li>
-                                                                </ul>
-                                                            </p>
-                                                        </td>
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            ))}
+                                        </tbody>
+                                    </table>
                                 )}
                             </>
                         )}
