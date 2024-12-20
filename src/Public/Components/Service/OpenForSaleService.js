@@ -4,7 +4,7 @@ import { BASE_URL_SERVER } from "../config/server";
 const API_ENDPOINT = {
   ADMIN_LIST_OPENFORSALES: "/api/open-for-sales/",
   ADMIN_DETAIL_OPENFORSALE: "/api/open-for-sales/",
-  ADMIN_POST_OPENFORSALES: "/api/open-for-sales/",
+  ADMIN_POST_OPENFORSALES: "/api/open-for-sales",
   ADMIN_UPDATE_OPENFORSALES: "/api/open-for-sales/",
   ADMIN_DELETE_OPENFORSALES: "/api/open-for-sales/",
 };

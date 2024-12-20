@@ -14,42 +14,47 @@ function PaymentProcessList() {
     const {paymentProcessID} = useParams();
 
     const getList = async () => {
+        setLoading(true);
         await paymentProcessDetailService
             .getList()
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data", res.data);
-                    setData(res.data);
+                    // Sắp xếp theo paymentStage từ thấp đến cao
+                    const sortedData = res.data.sort((a, b) => a.paymentStage - b.paymentStage);
+                    setData(sortedData);
                     setLoading(false);
                 } else {
                     setLoading(false);
                 }
             })
-
             .catch((err) => {
                 setLoading(false);
                 console.log(err);
             });
-        // let res = await paymentProcessDetailService.adminGetByPaymentProcessId(paymentProcessID);
     };
+    
     const getIdItem = async () => {
-        let res = await paymentProcessDetailService
+        setLoading(true);
+        await paymentProcessDetailService
             .adminGetByPaymentProcessId(paymentProcessID)
             .then((res) => {
                 if (res.status === 200) {
                     console.log("data1", res.data);
-                    setData(res.data);
+                    // Sắp xếp theo paymentStage từ thấp đến cao
+                    const sortedData = res.data.sort((a, b) => a.paymentStage - b.paymentStage);
+                    setData(sortedData);
                     setLoading(false);
                 } else {
                     setLoading(false);
                 }
             })
-
             .catch((err) => {
                 setLoading(false);
                 console.log(err);
             });
     };
+    
 
     const handleDelete = async (event, id) => {
         if (!window.confirm('Are you want to delete?')){

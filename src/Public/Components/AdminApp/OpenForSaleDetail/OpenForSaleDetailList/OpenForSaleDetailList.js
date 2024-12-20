@@ -103,7 +103,8 @@ function OpenForSaleDetailList() {
             if (res.status === 200 || res.status === 201) {
                 setSuccessMessage("Successfully created a new open-for-sale detail!");
                 setShowPopup(false);
-                getListOpenForSaleDetails();
+                //getListOpenForSaleDetails();
+                window.location.reload();
             } else {
                 setErrorMessage("Failed to create a new open-for-sale detail.");
             }
@@ -213,12 +214,7 @@ function OpenForSaleDetailList() {
                                                         Delete
                                                     </button>
 
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        onClick={() => navigate(`/open-for-sale/details/${item.openingForSaleID}`)}
-                                                    >
-                                                        View Details
-                                                    </button>
+                                                    
                                                 </div>
                                             </td>
                                         </tr>
