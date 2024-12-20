@@ -57,13 +57,13 @@ export default function BookingsTable({ data, loading, getListBooking }) {
     await bookingService
       .delete(id)
       .then(() => {
-        toast.success("Xóa bản ghi thành công!");
+        toast.success("Xóa booking thành công!");
         setIsLoading(false);
         setOpenDialogConfirm(false);
         getListBooking();
       })
       .catch((err) => {
-        toast.error("Xóa bản ghi thất bại!");
+        toast.error("Xóa booking thất bại!");
         console.log(err);
         setIsLoading(false);
         setOpenDialogConfirm(false);
