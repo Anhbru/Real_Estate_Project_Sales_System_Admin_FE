@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Form, message } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {Form, message} from 'antd';
 import propertyTypeService from '../../../Service/PropertyTypeService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
@@ -12,15 +12,19 @@ function PropertyTypeUpdate() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     const detailPropertyType = async () => {
-        try {
-            const res = await propertyTypeService.adminDetailProperty(id);
-            setPropertyType(res.data);
-        } catch (err) {
-            console.error(err);
-            message.error("Failed to load property type details");
-        }
+        await propertyTypeService.adminDetailProperty(id)
+            .then((res) => {
+                console.log("detail property", res.data);
+                setPropertyType(res.data)
+                setLoading(false)
+            })
+            .catch((err) => {
+                setLoading(false)
+                console.log(err)
+            })
     };
 
     const updatePropertyType = async () => {
@@ -40,7 +44,7 @@ function PropertyTypeUpdate() {
 
     useEffect(() => {
         detailPropertyType();
-    }, [id]);
+    }, [form, id, loading]);
 
     return (
         <>

@@ -173,9 +173,9 @@ function PaymentUpdate() {
                                                 {
                                                     customers.map((customer) => {
                                                         return (
-                                                            <option key={customer.customersID}
-                                                                    value={customer.customersID}>
-                                                                {customer.customersName}
+                                                            <option key={customer.customerID}
+                                                                    value={customer.customerID}>
+                                                                {customer.fullName}
                                                             </option>
                                                         )
                                                     })

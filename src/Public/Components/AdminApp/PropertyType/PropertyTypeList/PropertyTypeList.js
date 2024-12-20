@@ -72,8 +72,7 @@ const PropertyTypeList = () => {
                                     <table className="table datatable">
                                         <colgroup>
                                             <col width="5%" />
-                                            <col width="25%" />
-                                            <col width="25%" />
+                                            <col width="x" />
                                             <col width="25%" />
                                             <col width="20%" />
                                         </colgroup>

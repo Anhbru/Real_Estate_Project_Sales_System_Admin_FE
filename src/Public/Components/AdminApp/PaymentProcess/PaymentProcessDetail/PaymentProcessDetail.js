@@ -37,7 +37,7 @@ function PaymentProcessDetail() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/paymentprocesss/list" className="back__url_">
+                    <Link to="/paymentprocesses/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to payment process list
                     </Link>
                 </div>
@@ -52,7 +52,7 @@ function PaymentProcessDetail() {
                                 <p className="title_">
                                     General information
                                 </p>
-                                <a href={"/paymentprocesss/update/" + paymentprocess.paymentProcessID} className="edit_tab_">Edit</a>
+                                <a href={"/paymentprocesses/update/" + paymentprocess.paymentProcessID} className="edit_tab_">Edit</a>
                             </div>
 
                             <div className="content_">

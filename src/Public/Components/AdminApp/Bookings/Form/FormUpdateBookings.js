@@ -399,7 +399,7 @@ function FormUpdateBookings() {
                 />
               ) : (
                 <ButtonJs
-                  title="Cancel"
+                  title="Back"
                   type="button"
                   variant="outlined"
                   color="default"
