@@ -66,7 +66,7 @@ function PropertyDetail() {
             <div className="info_area_">
               <div className="d-flex justify-content-between align-items-center">
                 <p className="title_">General information</p>
-                <a href="/projects/update/" className="edit_tab_">
+                <a href={"/properties/update/" + id} className="edit_tab_">
                   Edit
                 </a>
               </div>

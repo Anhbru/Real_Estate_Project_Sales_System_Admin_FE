@@ -45,7 +45,7 @@ function PropertyTypeDetail() {
             <Sidebar />
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/property-types/list" className="back__url_">
+                    <Link to="/propertytype/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt="" /> Back to property type list
                     </Link>
                 </div>
@@ -57,7 +57,7 @@ function PropertyTypeDetail() {
                         <div className="info_area_">
                             <div className="d-flex justify-content-between align-items-center">
                                 <p className="title_">General information</p>
-                                <Link to={`/property-types/update/${propertyType.propertyTypeID}`} className="edit_tab_">Edit</Link>
+                                <Link to={`/propertytype/update/${propertyType.propertyTypeID}`} className="edit_tab_">Edit</Link>
                             </div>
                             <div className="content_">
                                 <div className="row">

@@ -94,7 +94,7 @@ function PaymentProcessUpdate() {
             <Sidebar/>
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/paymentprocesss/list" className="back__url_">
+                    <Link to="/paymentprocesses/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt=""/> Back to list
                     </Link>
                 </div>

@@ -58,7 +58,7 @@ function PropertyTypeCreate() {
             <Sidebar />
             <main id="main" className="main">
                 <div className="back_to_page_">
-                    <Link to="/property-types/list" className="back__url_">
+                    <Link to="/propertytype/list" className="back__url_">
                         <img src="/assets/icon/back_to_page_icon.png" alt="" /> Back to property types list
                     </Link>
                 </div>
