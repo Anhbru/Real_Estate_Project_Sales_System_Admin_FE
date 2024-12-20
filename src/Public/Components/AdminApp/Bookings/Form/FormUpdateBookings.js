@@ -197,6 +197,11 @@ function FormUpdateBookings() {
       label: "Đã hủy",
       value: "7",
     },
+    {
+      id: 8,
+      label: "Đã hoàn tiền",
+      value: "8",
+    }
   ];
 
   return (
