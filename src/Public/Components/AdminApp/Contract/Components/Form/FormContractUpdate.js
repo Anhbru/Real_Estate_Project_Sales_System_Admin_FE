@@ -248,6 +248,11 @@ export default function FormContractUpdate() {
       label: "Đã hủy",
       value: "12",
     },
+    {
+      id: 13,
+      label: "Đã hết hạn",
+      value: "13",
+    }
   ];
 
   return (
