@@ -131,7 +131,7 @@ function ContractHistoryList() {
                                                                 <img src="/assets/icon/more_icon.png" alt="" />
                                                             </a>
                                                             <ul className="dropdown-menu">
-                                                                <li><a className="dropdown-item" href={`/contracthistory/detail/${item.contractHistoryID}`}>Detail</a></li>
+                                                                <li><a className="dropdown-item" href={`/contractHistory/detail/${item.contractHistoryID}`}>Detail</a></li>
                                                                 <li><a className="dropdown-item" href={`/contractHistory/update/${item.contractHistoryID}`}>Update</a></li>
                                                                 <li><hr className="dropdown-divider" /></li>
                                                             </ul>
