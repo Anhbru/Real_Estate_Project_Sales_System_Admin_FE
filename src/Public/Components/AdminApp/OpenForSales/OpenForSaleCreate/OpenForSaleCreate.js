@@ -38,12 +38,17 @@ const OpenForSaleCreate = () => {
             endDate: values.endDate.format('YYYY-MM-DD HH:mm:ss'),
             checkinDate: values.checkinDate.format('YYYY-MM-DD HH:mm:ss'),
         };
+    
+        console.log("Data to send:", data); // Log data gửi đi
+    
         try {
-            await openSaleService.adminCreateOpenSale(data);
+            const response = await openSaleService.adminCreateOpenSale(data);
+            console.log("API response:", response);
             message.success('Open For Sale created successfully!');
             navigate("/openforsales/list");
         } catch (error) {
-            message.error('Failed to create Open For Sale');
+            console.error("Error response:", error.response?.data || error.message);
+            message.error(error.response?.data?.message || 'Failed to create Open For Sale');
         } finally {
             setLoading(false);
         }
@@ -74,8 +79,8 @@ const OpenForSaleCreate = () => {
                             </Form.Item>
                             <Form.Item label="Sale Type" name="saleType">
                                 <Select>
-                                    <Select.Option value="online">Online</Select.Option>
-                                    <Select.Option value="offline">Offline</Select.Option>
+                                    <Select.Option value="Online">Online</Select.Option>
+                                    <Select.Option value="Offline">Offline</Select.Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item label="Reservation Price" name="reservationPrice">
