@@ -206,14 +206,14 @@ function OpenForSaleUpdate() {
 
                             <div className="footer_form_">
                                 <Link to="/openforsales/list" className="btn_back">Back</Link>
-                                <Button
+                                <Link
                                     type="primary"
                                     htmlType="submit"
                                     className="btn_create"
                                     loading={loading}
                                 >
                                     Save
-                                </Button>
+                                </Link>
                             </div>
                         </Form>
                     </div>
