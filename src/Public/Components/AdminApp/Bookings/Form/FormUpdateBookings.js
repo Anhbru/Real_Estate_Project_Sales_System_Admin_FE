@@ -204,8 +204,8 @@ function FormUpdateBookings() {
       <Header />
       <Sidebar />
       <Container
-        maxWidth="xl"
         sx={{
+          width:"75%",
           marginLeft: {
             lg: "20rem",
           },

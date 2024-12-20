@@ -110,9 +110,8 @@ function Header() {
                   alt="Profile"
                   className="rounded-circle"
                 />
-                <div className="d-none d-md-block ps-4 pe-4 dropdown_action_">
-                  <p className="name_">{dataUser.name || "Admin"}</p>
-                  <span className="position_">Staff</span>
+                <div className="d-none d-md-block ps-4  dropdown_action_">
+                 
                 </div>
               </a>
 

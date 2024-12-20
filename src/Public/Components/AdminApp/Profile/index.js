@@ -46,8 +46,9 @@ function ProfileAccont() {
       <Header />
       <Sidebar />
       <Container
-        maxWidth="xl"
         sx={{
+          width:"75%",
+
           mt: 10,
           padding: { xs: 2, sm: 4, md: 6 },
           marginLeft: { xs: 0, md: 30 },

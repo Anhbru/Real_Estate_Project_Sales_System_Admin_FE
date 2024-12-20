@@ -102,7 +102,6 @@ function Bookings() {
         const data = res.data.map((item) => {
           return {
             id: item.projectCategoryDetailID,
-
             label: `${item.projectName} - ${item.propertyCategoryName}`, // Gộp projectName và propertyCategoryName
             value: item.projectCategoryDetailID,
            
