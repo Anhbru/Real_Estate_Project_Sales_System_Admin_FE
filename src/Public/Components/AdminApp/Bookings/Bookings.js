@@ -24,6 +24,7 @@ function Bookings() {
   const [projectCategoryDetailData, setProjectCategoryDetailData] = useState(
     []
   );
+  const [propertyCategoryData, setPropertyCategoryData] = useState([]);
 
   const SchemaCreate = yup.object({
     categoryDetailId: yup.string().required("Vui lòng chọn thông tin"),
@@ -101,8 +102,10 @@ function Bookings() {
         const data = res.data.map((item) => {
           return {
             id: item.projectCategoryDetailID,
-            label: item.projectName,
+
+            label: `${item.projectName} - ${item.propertyCategoryName}`, // Gộp projectName và propertyCategoryName
             value: item.projectCategoryDetailID,
+           
           };
         });
         setProjectCategoryDetailData(data);
@@ -188,7 +191,7 @@ function Bookings() {
           </Grid>
           <Grid item xs={12}>
             <SelectJs
-              arrayValue={projectCategoryDetailData}
+              arrayValue={projectCategoryDetailData} 
               name="categoryDetailId"
               control={control}
               label="Dự án"
