@@ -16,7 +16,9 @@ function ContractHistoryUpdate() {
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
-
+    const [selectedContractCode, setSelectedContractCode] = useState('');
+    const [selectedCustomerName, setSelectedCustomerName] = useState('');
+    
     // Fetch danh sách contracts
     const fetchContracts = async () => {
         try {
@@ -64,7 +66,16 @@ function ContractHistoryUpdate() {
             setLoading(false);
         }
     };
-
+    const handleContractChange = (contractID) => {
+        const selectedContract = contracts.find(contract => contract.contractID === contractID);
+        setSelectedContractCode(selectedContract ? selectedContract.contractCode : '');
+    };
+    
+    const handleCustomerChange = (customerID) => {
+        const selectedCustomer = customers.find(customer => customer.customerID === customerID);
+        setSelectedCustomerName(selectedCustomer ? selectedCustomer.fullName : '');
+    };
+    
     useEffect(() => {
         fetchContracts();
         fetchCustomers();
@@ -90,33 +101,31 @@ function ContractHistoryUpdate() {
                             <div className="form_area_">
                                 <div className="title_form_">Contract History Information</div>
 
-                                <Form.Item
-                                    label="Contract Code"
-                                    name="contractID"
-                                    rules={[{ required: true, message: 'Please select the Contract Code' }]}
-                                >
-                                    <Select placeholder="Select Contract Code">
-                                        {contracts.map((contract) => (
-                                            <Option key={contract.id} value={contract.id}>
-                                                {contract.contractCode}
+                                <Form.Item label="Contract" name="contractID" rules={[{ required: true, message: 'Please select a contract' }]}>
+                                    <Select onChange={handleContractChange} placeholder="Select a contract">
+                                        {contracts
+                                            .filter(contract =>
+                                                contract.status === 'Đã xác nhận hợp đồng mua bán' ||
+                                                contract.status === 'Đã bàn giao quyền sở hữu đất'
+                                            )
+                                            .map(contract => (
+                                                <Option key={contract.contractID} value={contract.contractID}>
+                                                    {contract.contractCode} - {contract.fullName}
+                                                </Option>
+                                            ))}
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item label="Customer" name="customerID" rules={[{ required: true, message: 'Please select a customer' }]}>
+                                    <Select onChange={handleCustomerChange} placeholder="Select a customer">
+                                        {customers.map(customer => (
+                                            <Option key={customer.customerID} value={customer.customerID}>
+                                                {customer.fullName} - {customer.identityCardNumber}
                                             </Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
 
-                                <Form.Item
-                                    label="Customer"
-                                    name="customerID"
-                                    rules={[{ required: true, message: 'Please select the Customer' }]}
-                                >
-                                    <Select placeholder="Select Customer">
-                                        {customers.map((customer) => (
-                                            <Option key={customer.id} value={customer.id}>
-                                                {customer.fullName}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Form.Item>
 
                                 <Form.Item
                                     label="Notarized Contract Code"
