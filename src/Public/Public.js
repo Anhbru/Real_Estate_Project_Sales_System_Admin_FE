@@ -137,6 +137,7 @@ import PropertyCategoryUpdate from "./Components/AdminApp/PropertyCategory/Prope
 
 import ContractHistoryList from "./Components/AdminApp/ContractHistory/ContractHistoryList/ContractHistoryList";
 import ContractHistoryCreate from "./Components/AdminApp/ContractHistory/ContractHistoryCreate/ContractHistoryCreate";
+import ContractHistoryUpdate from "./Components/AdminApp/ContractHistory/ContractHistoryUpdate/ContractHistoryUpdate";
 function Public() {
   const authen = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
@@ -368,6 +369,10 @@ function Public() {
       <Route
         path="/contractHistory/create"
         element={<ContractHistoryCreate />}
+      />
+      <Route
+        path="/contractHistory/update/:id"
+        element={<ContractHistoryUpdate />}
       />
     </Routes>
   );
