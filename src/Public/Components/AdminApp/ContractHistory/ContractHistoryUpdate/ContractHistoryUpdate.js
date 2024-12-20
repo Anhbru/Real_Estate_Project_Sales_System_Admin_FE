@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Input, message, Select, Button } from 'antd';
 import contractHistoryService from '../../../Service/ContractHistoryService';
+import contractService from '../../../Service/ContractService'; // Service để lấy contract list
+import customerService from '../../../Service/CustomerService'; // Service để lấy customer list
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
 
@@ -9,11 +11,35 @@ const { Option } = Select;
 
 function ContractHistoryUpdate() {
     const [loading, setLoading] = useState(false);
+    const [contracts, setContracts] = useState([]);
+    const [customers, setCustomers] = useState([]);
     const navigate = useNavigate();
     const { id } = useParams();
     const [form] = Form.useForm();
 
-    // Fetch details of the contract history
+    // Fetch danh sách contracts
+    const fetchContracts = async () => {
+        try {
+            const res = await contractService.getList();
+            setContracts(res.data);
+        } catch (err) {
+            console.error(err);
+            message.error("Failed to load Contracts");
+        }
+    };
+
+    // Fetch danh sách customers
+    const fetchCustomers = async () => {
+        try {
+            const res = await customerService.adminListCustomer();
+            setCustomers(res.data);
+        } catch (err) {
+            console.error(err);
+            message.error("Failed to load Customers");
+        }
+    };
+
+    // Fetch chi tiết Contract History
     const detailContractHistory = async () => {
         try {
             const res = await contractHistoryService.adminDetailContractHistory(id);
@@ -24,7 +50,7 @@ function ContractHistoryUpdate() {
         }
     };
 
-    // Update the contract history
+    // Update Contract History
     const updateContractHistory = async (values) => {
         setLoading(true);
         try {
@@ -40,6 +66,8 @@ function ContractHistoryUpdate() {
     };
 
     useEffect(() => {
+        fetchContracts();
+        fetchCustomers();
         detailContractHistory();
     }, [id]);
 
@@ -64,10 +92,30 @@ function ContractHistoryUpdate() {
 
                                 <Form.Item
                                     label="Contract Code"
-                                    name="contractCode"
-                                    rules={[{ required: true, message: 'Please enter the Contract Code' }]}
+                                    name="contractID"
+                                    rules={[{ required: true, message: 'Please select the Contract Code' }]}
                                 >
-                                    <Input placeholder="Enter Contract Code" />
+                                    <Select placeholder="Select Contract Code">
+                                        {contracts.map((contract) => (
+                                            <Option key={contract.id} value={contract.id}>
+                                                {contract.contractCode}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Form.Item>
+
+                                <Form.Item
+                                    label="Customer"
+                                    name="customerID"
+                                    rules={[{ required: true, message: 'Please select the Customer' }]}
+                                >
+                                    <Select placeholder="Select Customer">
+                                        {customers.map((customer) => (
+                                            <Option key={customer.id} value={customer.id}>
+                                                {customer.fullName}
+                                            </Option>
+                                        ))}
+                                    </Select>
                                 </Form.Item>
 
                                 <Form.Item
