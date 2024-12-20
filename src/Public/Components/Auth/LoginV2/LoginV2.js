@@ -51,6 +51,9 @@ export default function LoginV2(props) {
           toast.error("You do not have permission to access the website");
           return;
         }
+        if (res.data.role === ROLE_STAFF) {
+          sessionStorage.setItem("accountId", res.data.accountid);
+        }
         sessionStorage.setItem("accessToken", res.data.token);
         sessionStorage.setItem("userRole", res.data.role);
         toast.success("Đăng nhập thành công!");

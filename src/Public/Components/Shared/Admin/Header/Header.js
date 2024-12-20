@@ -1,13 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Css from "../Lib/StyleSheet";
 import Script from "../Lib/Script";
 import $ from "jquery";
 import { toast } from "react-toastify";
+import accountService from "../../../Service/AccountService";
 
 function Header() {
   const navigate = useNavigate();
   const tokenUser = sessionStorage.getItem("accessToken");
+  const userRole = sessionStorage.getItem("userRole");
+  const [idAccount, setIdAccount] = useState("");
+
+  const getIdAccount = async () => {
+    await accountService
+      .getIdAccount(tokenUser)
+      .then((res) => {
+        console.log(res.data);
+        setIdAccount(res.data?.accountID);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getIdAccount();
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -25,6 +44,38 @@ function Header() {
       navigate("/login");
     }
   }, [tokenUser]);
+
+  const [dataUser, setDataUser] = useState({
+    staffID: "",
+    name: "",
+    personalEmail: "",
+    dateOfBirth: "",
+    image: "",
+    identityCardNumber: "",
+    nationality: "",
+    placeOfOrigin: "",
+    placeOfResidence: "",
+    status: true,
+    accountID: "",
+    email: "",
+  });
+
+  const getProfileAccount = async () => {
+    await accountService
+      .getProfile(idAccount)
+      .then((res) => {
+        setDataUser(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    if (idAccount) {
+      getProfileAccount();
+    }
+  }, [idAccount]);
 
   return (
     <>
@@ -55,34 +106,25 @@ function Header() {
                 data-bs-toggle="dropdown"
               >
                 <img
-                  src="/assets/img/profile-img.jpg"
+                  src={dataUser.image || "/assets/img/profile-img.jpg"}
                   alt="Profile"
                   className="rounded-circle"
                 />
                 <div className="d-none d-md-block ps-4 pe-4 dropdown_action_">
-                  <p className="name_">Moni Roy</p>
+                  <p className="name_">{dataUser.name || "Admin"}</p>
                   <span className="position_">Staff</span>
                 </div>
               </a>
 
               <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                 <li className="dropdown-header">
-                  <h6>Moni Roy</h6>
-                  <span>Staff</span>
+                  <h6>{dataUser.name || "Admin"}</h6>
+                  <span>{userRole}</span>
                 </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
 
-                <li>
-                  <a
-                    className="dropdown-item d-flex align-items-center"
-                    href="/profile"
-                  >
-                    <i className="bi bi-person"></i>
-                    <span>Trang cá nhân</span>
-                  </a>
-                </li>
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
