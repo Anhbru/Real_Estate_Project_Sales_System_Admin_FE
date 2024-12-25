@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import bookingService from '../../../Service/BookingCheckinService';
 import Header from "../../../Shared/Admin/Header/Header";
 import Sidebar from "../../../Shared/Admin/Sidebar/Sidebar";
-import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
+import QrScanner from 'react-qr-scanner';
+
 function BookingList() {
     const { openingForSaleID } = useParams();
     const [data, setData] = useState([]);
@@ -14,6 +15,7 @@ function BookingList() {
     const [errorMessage, setErrorMessage] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [bookingIDInput, setBookingIDInput] = useState('');
+    const [showQRScanner, setShowQRScanner] = useState(false);
 
     const getListBookings = async () => {
         setLoading(true);
@@ -78,6 +80,57 @@ function BookingList() {
         }
     };
 
+    const handleScan = async (data) => {
+        if (data && data.text) {
+            try {
+                const qrData = JSON.parse(data.text); 
+                if (qrData.bookingID) {
+                    const bookingID = qrData.bookingID;
+    
+                    setLoading(true);
+                    setErrorMessage('');
+                    setSuccessMessage('');
+                    try {
+                        const resDetail = await bookingService.adminDetailBooking(bookingID); 
+                        if (resDetail.status === 200 && resDetail.data) {
+                            const booking = resDetail.data;
+                            if (booking.status === "Chưa thanh toán tiền giữ chỗ") {
+                                setErrorMessage("Booking chưa thanh toán tiền giữ chỗ.");
+                            } else {
+                                const resCheckIn = await bookingService.adminCheckInBooking(bookingID); 
+                                if (resCheckIn.status === 200) {
+                                    setSuccessMessage("Quét mã QR và check-in thành công!");
+                                    getListBookings(); // Refresh danh sách booking
+                                } else {
+                                    setErrorMessage("Lỗi khi check-in.");
+                                }
+                            }
+                        } else {
+                            setErrorMessage("Không tìm thấy thông tin booking.");
+                        }
+                    } catch (err) {
+                        setErrorMessage("Lỗi khi xử lý mã QR: " + err.message);
+                    } finally {
+                        setLoading(false);
+                    }
+                } else {
+                    setErrorMessage('Dữ liệu mã QR không hợp lệ.');
+                }
+            } catch (error) {
+                setErrorMessage('Lỗi phân tích mã QR. Vui lòng thử lại.');
+            }
+            setShowQRScanner(false); // Đóng scanner sau khi xử lý
+        }
+    };
+    
+    
+
+
+    const handleError = (err) => {
+        console.error(err);
+        setErrorMessage('Lỗi khi quét mã QR.');
+    };
+
     const navigate = useNavigate();
 
     const handleSelectProperty = (projectCategoryDetailID, customerID) => {
@@ -106,19 +159,21 @@ function BookingList() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
 
-                        <input
-                            type="text"
-                            className="input_search"
-                            placeholder="Nhập booking ID"
-                            value={bookingIDInput}
-                            onChange={(e) => setBookingIDInput(e.target.value)}
-
-                        />
-                        <a className="btn_go_" onClick={handleCheckIn}>
-                            Check IN <img src="/assets/icon/plus_icon.png" alt="" />
-                        </a>
+                        <button className="btn btn-secondary" onClick={() => setShowQRScanner(!showQRScanner)}>
+                            Quét mã QR
+                        </button>
                     </div>
 
+                    {showQRScanner && (
+                        <div className="qr-scanner">
+                            <QrScanner
+                                delay={300}
+                                onError={handleError}
+                                onScan={handleScan}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                    )}
 
                     {successMessage && <div className="alert alert-success">{successMessage}</div>}
                     {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
@@ -164,7 +219,6 @@ function BookingList() {
                                                             Chọn Căn
                                                         </button>
                                                     </td>
-
                                                 </tr>
                                             ))}
                                         </tbody>
