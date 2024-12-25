@@ -18,7 +18,7 @@ function ContractHistoryUpdate() {
     const [form] = Form.useForm();
     const [selectedContractCode, setSelectedContractCode] = useState('');
     const [selectedCustomerName, setSelectedCustomerName] = useState('');
-    
+
     // Fetch danh sách contracts
     const fetchContracts = async () => {
         try {
@@ -58,7 +58,8 @@ function ContractHistoryUpdate() {
         try {
             await contractHistoryService.adminUpdateContractHistory(id, values);
             message.success("Contract History updated successfully");
-            navigate("/contract-history/list");
+            navigate(-1); // Quay lại trang trước
+            
         } catch (err) {
             console.error(err);
             message.error("Failed to update Contract History");
@@ -66,16 +67,21 @@ function ContractHistoryUpdate() {
             setLoading(false);
         }
     };
+
     const handleContractChange = (contractID) => {
         const selectedContract = contracts.find(contract => contract.contractID === contractID);
         setSelectedContractCode(selectedContract ? selectedContract.contractCode : '');
     };
-    
+
     const handleCustomerChange = (customerID) => {
         const selectedCustomer = customers.find(customer => customer.customerID === customerID);
         setSelectedCustomerName(selectedCustomer ? selectedCustomer.fullName : '');
     };
-    
+    const goBackAndReload = () => {
+        navigate(-1); // Quay lại trang trước
+        
+    };
+
     useEffect(() => {
         fetchContracts();
         fetchCustomers();
@@ -162,7 +168,9 @@ function ContractHistoryUpdate() {
                             </div>
 
                             <div className="footer_form_">
-                                <Link to="/contract-history/list" className="btn_back">Back</Link>
+                                <Button onClick={goBackAndReload} className="btn_back">
+                                    Back
+                                </Button>
                                 <Button
                                     type="primary"
                                     htmlType="submit"
